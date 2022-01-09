@@ -6,6 +6,8 @@ Modul Pelatihan Docker
  - Dockerfile
 	 * <a href="#dockerfile-command">Command</a>
 	 * <a href="#dockerfile-example">Contoh</a>
+ - Docker Hub
+	 * <a href="#dockerhub-push-image">Push Image</a>
 
 ## Docker
 Modul Pelatihan Docker
@@ -45,3 +47,44 @@ Modul Pelatihan Docker
 
     EXPOSE 80
     ENTRYPOINT ["nginx", "-g", "daemon off;"]
+
+## Docker Hub
+<justify></justify>
+<p></p>
+<a id="dockerhub-push-image"></a>
+<p>Docker Hub merupakan registry yang berisi kumpulan image docker, kita juga dapat melakukan custom image docker menggunakan Dockerfile dan meletakkannya pada Docker Hub.</p>
+<p>Berikut merupakan langkah-langkah untuk meletakkan image docker pada Docker Hub :</p>
+
+<p>1. Melakukan login docker</p>
+
+    docker login
+
+![docker-login](images/dockerhub-1.png)
+
+<p>2. Melakukan build image (jika sudah terdapat docker image, maka langkah ini dapat dilewati)</p>
+
+    docker built -t <nama image>:<version image> .
+
+![docker-build-image](images/dockerhub-2.png)
+
+<p>3. Melihat image docker yang nantinya akan diletakan pada Docker Hub</p>
+
+    docker images
+
+![docker-image](images/dockerhub-3.png)
+
+<p>4. Membuat tag pada docker image</p>
+
+    docker tag <nama image>:<version image> <nama repository>/<nama image>:<version image>
+
+![docker-tag](images/dockerhub-4.png)
+
+<p>5. Melakukan 'docker push' agar image tersimpan dalam docker hub</p>
+
+     docker push <nama repository>/<nama image>:<version image>   
+
+![docker-push](images/dockerhub-5.png)
+
+<p>6. Melihat image yang telah di push pada Docker Hub</p>
+
+![docker-hub](images/dockerhub-6.png)
