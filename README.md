@@ -2,7 +2,7 @@
 Modul Pelatihan Docker
 
  - Docker
-	 * <a href="#"></a>
+	 * <a href="#docker-command">Command</a>
  - Dockerfile
 	 * <a href="#dockerfile-command">Command</a>
 	 * <a href="#dockerfile-example">Contoh</a>
@@ -10,7 +10,25 @@ Modul Pelatihan Docker
 	 * <a href="#dockerhub-push-image">Push Image</a>
 
 ## Docker
-Modul Pelatihan Docker
+Apa itu docker? (WIP)
+
+<p></p>
+<a id="docker-command"></a>
+<p>Berikut merupakan sintaks yang terdapat pada Docker :</p>
+
+| Sintaks                                     | Deskripsi                                                                                                                            |
+| ------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| docker run                           | Menjalankan command di container baru                                                                                       |
+| docker start | Menjalankan satu atau beberapa container                                                                                      |
+| docker stop  | Memberhentikan satu atau beberapa container                                                                                         |
+| docker build                               | Buat sebuah image dari dockerfile                                                                                   |
+| docker pull                          | Mengambil image atau repo dari registry                                                                                      |
+| docker push                   | Mengirim image atau repo ke registry                                                               |
+| docker export                           | Mengekspor filesystem container sebagai arsip tar                                                               |
+| docker exec                  | Menjalankan command di sebuah runtime container (container yang sedang berjalan)                                                                         |
+| docker search                              | Mencari image di docker hub |
+| docker attach                          | Menempelkan input output terminal pada suatu container, ini memungkinkaa kita melihat output atau mengontrol container secara interaktif                                                    |
+| docker commit             | Membuat image baru setelah dilakukan perubahan pada container   
 
 ## Dockerfile
 <justify></justify>
