@@ -11,7 +11,7 @@ Modul Pelatihan Docker
 
 ## Docker
 Apa itu docker? (WIP)
-
+<justify></justify>
 <p></p>
 <a id="docker-command"></a>
 <p>Berikut merupakan sintaks yang terdapat pada Docker :</p>
