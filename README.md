@@ -88,3 +88,9 @@ Modul Pelatihan Docker
 <p>6. Melihat image yang telah di push pada Docker Hub</p>
 
 ![docker-hub](images/dockerhub-6.png)
+
+## Docker Compose
+
+## Monitoring
+
+## Docker Swarm
