@@ -1,21 +1,16 @@
 ## **CONTENTS**
 * [**Introduction**](#introduction)
+	* <a href="#Instalasi">Instalasi</a>
+	* <a href="#pengenalan">Pengenalan</a>
+	* <a href="#docker-command">Command</a>
 * [**Docker Container**](#docker-container)
 * [**Dockerfile**](#dockerfile)
+	* <a href="#dockerfile-command">Command</a>
+	* <a href="#dockerfile-example">Contoh</a>
 * [**Docker Hub**](#docker-hub)
+	* <a href="#dockerhub-push-image">Push Image</a>
 
-# Pelatihan-Docker
-Modul Pelatihan Docker
-
- - Docker
-	 * <a href="#docker-command">Command</a>
- - Dockerfile
-	 * <a href="#dockerfile-command">Command</a>
-	 * <a href="#dockerfile-example">Contoh</a>
- - Docker Hub
-	 * <a href="#dockerhub-push-image">Push Image</a>
-
-## Docker
+## Introduction
 Apa itu docker? (WIP)
 <justify></justify>
 <p></p>
