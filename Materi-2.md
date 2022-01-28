@@ -61,12 +61,18 @@ Untuk lebih jelas pembahasannya langsung ke contoh kasus penggunaan database pos
 
 ![image](https://user-images.githubusercontent.com/49280352/151219030-25d6399f-a495-4cc5-93fc-f62f406248ab.png)
 
+Untuk contoh diatas, ketika penyimpanan data pada script docker compose tidak disertai dengan path source, maka docker compose otomatis akan membuat direktori dan mount sebagai volume pada folder docker area. Script diatas termasuk menggunakan metode **volume**.
+
 2. Source ada tetapi tidak path
 
 ![image](https://user-images.githubusercontent.com/49280352/151219344-37d2e541-c0cf-4501-bd55-e788c6afd771.png)
 
+Untuk contoh diatas, ketika penyimpanan data pada script docker compose menggunakan source tetapi bukan sebagai path melainkan nama volume, maka docker compose otomatis akan membuat direktori atas nama source yang ditulis pada script dan mount sebagai volume pada folder docker area. Script diatas termasuk menggunakan metode **volume**.
+
 3. Source menggunakan path
 
 ![image](https://user-images.githubusercontent.com/49280352/151219692-7789de70-ddb8-46c2-a9b0-625887b8c287.png)
+
+Untuk contoh diatas, ketika penyimpanan data pada script docker compose disertai dengan full path source, maka docker compose otomatis akan membuat bind mount folder source ke target. Script diatas termasuk menggunakan metode **bind mount**.
 
 ## Docker Network
