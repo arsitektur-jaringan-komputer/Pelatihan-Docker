@@ -17,9 +17,20 @@
 3. Docker sudah terinstall
 
 ### Pengenalan
+Salah satu tantangan bagi tim DevOps adalah mengatur dependensi dan stack teknologi sebuah aplikasi pada bermacam-macam environment cloud dan development. Sebagai bagian dari tugas mereka, mereka harus menjaga aplikasi tetap stabil dan operasional, terlepas dari platform tempatnya dijalankan.
+
+Tim development, di sisi lain, harus berfokus pada mengeluarkan update dan fitur baru. Sayangnya, hal ini dapat mengacaukan stabilitas aplikasi dengan mengenalkan bug yang tergantung pada environment. Untuk menghindari inefisiensi ini, perusahaan-perusahaan mulai mengadopsi container framework, contohnya yaitu Docker.
+
 Docker adalah sebuah produk PaaS (platform as a service) yang menggunakan virtualisasi level OS untuk mengirimkan software dalam paket-paket bernama container. Container terisolasi antara satu sama lain dan membundel software, library, dan file konfigurasi mereka sendiri, namun, mereka bisa berkomunikasi antara satu sama lain menggunakan saluran-saluran tertentu. Karena semua container berbagi service yang sama pada satu kernel OS, mereka menggunakan lebih sedikit sumber daya (misal RAM dan penyimpanan) daripada VM (virtual machine)
 
-meme yang menggambarkan docker:
+### Kenapa kita harus menggunakan docker?
+Dengan docker kita mendapatkan:
+- Astraksi OS level dengan penggunakan sumber daya optimal
+- Interoperabilitas antara berbagai macam sistem operasi
+- Proses build dan test yang lebih efisien
+- Eksekusi program lebih cepat
+
+meme docker:
 
 ![dockermeme](https://user-images.githubusercontent.com/11045113/151545292-42eb0377-297e-4cfc-a02b-00a44bee3316.jpg)
 
