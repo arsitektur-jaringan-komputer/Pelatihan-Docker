@@ -11,6 +11,11 @@
 	* <a href="#dockerhub-push-image">Push Image</a>
 
 ## Introduction
+### Instalasi
+1. Download installer docker desktop di https://www.docker.com/products/docker-desktop (ukuran 490 MB)
+2. Jalankan installernya, lalu pencet  ok/ install, lalu tunggu selama sekitar 2 menit
+3. Docker sudah terinstall
+
 Apa itu docker? (WIP)
 <justify></justify>
 <p></p>
