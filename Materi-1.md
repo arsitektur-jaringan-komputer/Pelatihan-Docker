@@ -16,6 +16,12 @@
 2. Jalankan installernya, lalu pencet  ok/ install, lalu tunggu selama sekitar 2 menit
 3. Docker sudah terinstall
 
+### Pengenalan
+Docker adalah sebuah produk PaaS (platform as a service) yang menggunakan virtualisasi level OS untuk mengirimkan software dalam paket-paket bernama container. Container terisolasi antara satu sama lain dan membundel software, library, dan file konfigurasi mereka sendiri, namun, mereka bisa berkomunikasi antara satu sama lain menggunakan saluran-saluran tertentu. Karena semua container berbagi service yang sama pada satu kernel OS, mereka menggunakan lebih sedikit sumber daya (misal RAM dan penyimpanan) daripada VM (virtual machine)
+
+meme yang menggambarkan docker:
+![dockermeme](https://user-images.githubusercontent.com/11045113/151545292-42eb0377-297e-4cfc-a02b-00a44bee3316.jpg)
+
 Apa itu docker? (WIP)
 <justify></justify>
 <p></p>
