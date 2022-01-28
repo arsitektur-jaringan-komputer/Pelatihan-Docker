@@ -23,7 +23,6 @@ meme yang menggambarkan docker:
 
 ![dockermeme](https://user-images.githubusercontent.com/11045113/151545292-42eb0377-297e-4cfc-a02b-00a44bee3316.jpg)
 
-Apa itu docker? (WIP)
 <justify></justify>
 <p></p>
 <a id="docker-command"></a>
