@@ -1,14 +1,13 @@
 ## **CONTENTS**
-* [**Introduction**](#introduction)
-	* <a href="#Instalasi">Instalasi</a>
-	* <a href="#pengenalan">Pengenalan</a>
-	* <a href="#docker-command">Command</a>
-* [**Docker Container**](#docker-container)
-* [**Dockerfile**](#dockerfile)
-	* <a href="#dockerfile-command">Command</a>
-	* <a href="#dockerfile-example">Contoh</a>
-* [**Docker Hub**](#docker-hub)
-	* <a href="#dockerhub-push-image">Push Image</a>
+- [**CONTENTS**](#contents)
+- [Introduction](#introduction)
+  - [Instalasi](#instalasi)
+    - [Windows](#windows)
+    - [Linux (berbasis Ubuntu)](#linux-berbasis-ubuntu)
+  - [Pengenalan](#pengenalan)
+  - [Kenapa kita harus menggunakan docker?](#kenapa-kita-harus-menggunakan-docker)
+- [Dockerfile](#dockerfile)
+- [Docker Hub](#docker-hub)
 
 ## Introduction
 ### Instalasi
@@ -126,32 +125,32 @@ meme docker:
 
     docker login
 
-![docker-login](images/dockerhub-1.png)
+![docker-login](img/dockerhub-1.png)
 
 <p>2. Melakukan build image (jika sudah terdapat docker image, maka langkah ini dapat dilewati)</p>
 
     docker built -t <nama image>:<version image> .
 
-![docker-build-image](images/dockerhub-2.png)
+![docker-build-image](img/dockerhub-2.png)
 
 <p>3. Melihat image docker yang nantinya akan diletakan pada Docker Hub</p>
 
     docker images
 
-![docker-image](images/dockerhub-3.png)
+![docker-image](img/dockerhub-3.png)
 
 <p>4. Membuat tag pada docker image</p>
 
     docker tag <nama image>:<version image> <nama repository>/<nama image>:<version image>
 
-![docker-tag](images/dockerhub-4.png)
+![docker-tag](img/dockerhub-4.png)
 
 <p>5. Melakukan 'docker push' agar image tersimpan dalam docker hub</p>
 
      docker push <nama repository>/<nama image>:<version image>   
 
-![docker-push](images/dockerhub-5.png)
+![docker-push](img/dockerhub-5.png)
 
 <p>6. Melihat image yang telah di push pada Docker Hub</p>
 
-![docker-hub](images/dockerhub-6.png)
+![docker-hub](img/dockerhub-6.png)
