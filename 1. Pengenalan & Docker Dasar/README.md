@@ -1,13 +1,13 @@
-## **CONTENTS**
-- [**CONTENTS**](#contents)
-- [Introduction](#introduction)
-  - [Instalasi](#instalasi)
-    - [Windows](#windows)
-    - [Linux (berbasis Ubuntu)](#linux-berbasis-ubuntu)
-  - [Pengenalan](#pengenalan)
-  - [Kenapa kita harus menggunakan docker?](#kenapa-kita-harus-menggunakan-docker)
-- [Dockerfile](#dockerfile)
-- [Docker Hub](#docker-hub)
+# **Pengenalan & Docker Dasar**
+- [**Pengenalan & Docker Dasar**](#pengenalan--docker-dasar)
+  - [Introduction](#introduction)
+    - [Instalasi](#instalasi)
+      - [Windows](#windows)
+      - [Linux (berbasis Ubuntu)](#linux-berbasis-ubuntu)
+    - [Pengenalan](#pengenalan)
+    - [Kenapa kita harus menggunakan docker?](#kenapa-kita-harus-menggunakan-docker)
+  - [Dockerfile](#dockerfile)
+  - [Docker Hub](#docker-hub)
 
 ## Introduction
 ### Instalasi

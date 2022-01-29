@@ -1,7 +1,8 @@
-## **CONTENTS**
-* [**Docker Compose**](#docker-compose)
-* [**Monitoring**](#monitoring)
-* [**Docker Swarm**](#docker-swarm)
+# **Docker Compose & Monitoring**
+- [**Docker Compose & Monitoring**](#docker-compose--monitoring)
+  - [Docker Compose](#docker-compose)
+  - [Monitoring](#monitoring)
+  - [Docker Swarm](#docker-swarm)
 
 ## Docker Compose
 ## Monitoring

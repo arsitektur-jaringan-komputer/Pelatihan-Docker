@@ -1,6 +1,16 @@
-## **CONTENTS**
-* [**📜 Mengelola Data Di Docker**](#-mengelola-data-di-docker)
-* [**Docker Network**](#docker-network)
+# **Mengelola Data di Docker & Networking dengan Docker**
+- [**Mengelola Data di Docker & Networking dengan Docker**](#mengelola-data-di-docker--networking-dengan-docker)
+  - [📜 Mengelola Data Di Docker](#-mengelola-data-di-docker)
+    - [📌 Bagaimana Cara Mengelola Data Pada Docker](#-bagaimana-cara-mengelola-data-pada-docker)
+    - [📌 Docker Volume](#-docker-volume)
+      - [🧷 Apa Itu Docker Volume?](#-apa-itu-docker-volume)
+      - [🧷 Command-Command Pada Docker Volume](#-command-command-pada-docker-volume)
+    - [📌 Docker Bind Mount](#-docker-bind-mount)
+      - [🧷 Apa Itu Docker Bind Mount?](#-apa-itu-docker-bind-mount)
+      - [🧷 Contoh Ilustrasi Penggunaan Docker Bind Mount](#-contoh-ilustrasi-penggunaan-docker-bind-mount)
+      - [🧷 Contoh Real Repo Penggunaan Docker Bind Mount](#-contoh-real-repo-penggunaan-docker-bind-mount)
+    - [📌 Perbedaan Antara Docker Volume dan Bind Mount](#-perbedaan-antara-docker-volume-dan-bind-mount)
+  - [Networking dengan Docker](#networking-dengan-docker)
 
 ## 📜 Mengelola Data Di Docker
 ![docker-data-management](https://user-images.githubusercontent.com/49280352/151213721-fc5711ca-112a-4205-86b0-7a009533d690.png)
@@ -75,4 +85,4 @@ Untuk contoh diatas, ketika penyimpanan data pada script docker compose mengguna
 
 Untuk contoh diatas, ketika penyimpanan data pada script docker compose disertai dengan full path source, maka docker compose otomatis akan membuat bind mount folder source ke target. Script diatas termasuk menggunakan metode **bind mount**.
 
-## Docker Network
+## Networking dengan Docker
