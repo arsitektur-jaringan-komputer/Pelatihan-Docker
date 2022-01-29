@@ -12,9 +12,10 @@
 ## Introduction
 ### Instalasi
 #### Windows
-1. Download installer docker desktop di https://www.docker.com/products/docker-desktop (ukuran 490 MB)
-2. Jalankan installernya, lalu pencet  ok/ install, lalu tunggu selama sekitar 2 menit
-3. Docker sudah terinstall
+1. Pastika bahwa WSL2 sudah terinstall
+2. Download installer docker desktop di https://www.docker.com/products/docker-desktop (ukuran 490 MB)
+3. Jalankan installernya, lalu pencet  ok/ install, lalu tunggu selama sekitar 2 menit
+4. Docker sudah terinstall
 
 #### Linux (berbasis Ubuntu)
 1. update package apt lalu install package berikut agar apt bisa menggunakan repository https
@@ -154,3 +155,8 @@ meme docker:
 <p>6. Melihat image yang telah di push pada Docker Hub</p>
 
 ![docker-hub](img/dockerhub-6.png)
+  
+## Sumber
+- https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository
+- https://www.bmc.com/blogs/docker-101-introduction/
+- https://en.wikipedia.org/wiki/Docker_(software)
