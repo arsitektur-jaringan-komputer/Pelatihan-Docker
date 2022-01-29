@@ -10,7 +10,11 @@
       - [🧷 Contoh Ilustrasi Penggunaan Docker Bind Mount](#-contoh-ilustrasi-penggunaan-docker-bind-mount)
       - [🧷 Contoh Real Repo Penggunaan Docker Bind Mount](#-contoh-real-repo-penggunaan-docker-bind-mount)
     - [📌 Perbedaan Antara Docker Volume dan Bind Mount](#-perbedaan-antara-docker-volume-dan-bind-mount)
-  - [Networking dengan Docker](#networking-dengan-docker)
+  - [🌐 Networking dengan Docker](#-networking-dengan-docker)
+    - [🚡 Port](#-port)
+    - [🌉 Bridge](#-bridge)
+    - [🛰️ Docker Network](#️-docker-network)
+  - [Sumber](#sumber)
 
 ## 📜 Mengelola Data Di Docker
 ![docker-data-management](https://user-images.githubusercontent.com/49280352/151213721-fc5711ca-112a-4205-86b0-7a009533d690.png)
@@ -85,4 +89,37 @@ Untuk contoh diatas, ketika penyimpanan data pada script docker compose mengguna
 
 Untuk contoh diatas, ketika penyimpanan data pada script docker compose disertai dengan full path source, maka docker compose otomatis akan membuat bind mount folder source ke target. Script diatas termasuk menggunakan metode **bind mount**.
 
-## Networking dengan Docker
+## 🌐 Networking dengan Docker
+
+Salah satu alasan mengapa docker sangat populer adalah karena Anda bisa menghubungkan beberapa container secara bersamaan atau menghubungkan container dengan aplikasi di luar docker. Container dan service docker pun tidak perlu tau apakah dia dideploy di docker atau aplikasi yang terhubung dengan mereka juga menggunakan docker atau tidak.
+
+Di bagian ini kita akan belajar bagaimana membuat docker bisa terhubung dengan environment di luar docker. Di sini kita akan membahas beberapa cara yang sering dipakai oleh para pengguna docker seperti berikut:
+
+### 🚡 Port
+
+Dalam dunia networking, Port adalah endpoint komunikasi yang digunakan oleh suatu aplikasi untuk mengidentifikasi aplikasi tersebut dengan menggunakan angka, contohnya port untuk HTTP adalah 80 dan HTTPS adalah 443. Biasanya port digunakan bersamaan dengan IP seperti `127.0.0.1:80`. 
+
+Secara default, menjalankan suatu container docker tidak akan membuat port yang digunakan oleh aplikasi di dalam container tersebut bisa diakses dari luar container. Kita bisa membuat port dari aplikasi di dalam container bisa diakses dengan flag `-p` atau `--publish`. Untuk contoh cara penggunaannya adalah sebagai berikut:
+
+| Flag dan valuenya                                     | Deskripsi                                                                                                                            |
+| ------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| `-p 8080:80`                           | Membuat port 80 di dalam container bisa diakses dengan port 8080 di host                                                                                       |
+| `-p 192.168.1.100:8080:80` | Membuat port 80 di dalam container bisa diakses dengan port 8080 di host dengan IP 192.168.1.100                                                                                      |
+
+### 🌉 Bridge
+
+Di docker, bridge network bisa membuat container untuk terhubung dan menggunakan network dari host untuk berkomunikasi. Dengan ini docker juga bisa langsung membuat port yang ada di dalamnya bisa diakses langsung dengan network milik host.
+
+Untuk menggunakan bridge network pada docker, kita bisa menggunakan flag `--network bridge`.
+
+
+### 🛰️ Docker Network
+
+  
+
+## Sumber
+- https://docs.docker.com/network/
+- https://en.wikipedia.org/wiki/Port_(computer_networking)
+- https://docs.docker.com/config/containers/container-networking/- 
+- https://docs.docker.com/network/bridge/
+- https://docs.docker.com/network/overlay/
