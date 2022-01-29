@@ -130,7 +130,7 @@ meme docker:
 
 <p>2. Melakukan build image (jika sudah terdapat docker image, maka langkah ini dapat dilewati)</p>
 
-    docker built -t <nama image>:<version image> .
+    docker build -t <nama image>:<version image> .
 
 ![docker-build-image](img/dockerhub-2.png)
 
