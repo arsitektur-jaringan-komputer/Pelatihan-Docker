@@ -12,9 +12,35 @@
 
 ## Introduction
 ### Instalasi
+#### Windows
 1. Download installer docker desktop di https://www.docker.com/products/docker-desktop (ukuran 490 MB)
 2. Jalankan installernya, lalu pencet  ok/ install, lalu tunggu selama sekitar 2 menit
 3. Docker sudah terinstall
+
+#### Linux (berbasis Ubuntu)
+1. update package apt lalu install package berikut agar apt bisa menggunakan repository https
+```
+sudo apt-get update
+
+ sudo apt-get install \
+    ca-certificates \
+    curl \
+    gnupg \
+    lsb-release
+```
+2. tambahkan kunci GPG docker
+``` curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg```
+3. gunakan command berikut untuk memilih repo stabil
+``` echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
+  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+ ```
+4. install docker engine
+``` sudo apt-get update
+sudo apt-get install docker-ce docker-ce-cli containerd.io 
+```
+5. pastikan docker sudah terinstall dengan benar
+```sudo docker run hello-world```
 
 ### Pengenalan
 Salah satu tantangan bagi tim DevOps adalah mengatur dependensi dan stack teknologi sebuah aplikasi pada bermacam-macam environment cloud dan development. Sebagai bagian dari tugas mereka, mereka harus menjaga aplikasi tetap stabil dan operasional, terlepas dari platform tempatnya dijalankan.
