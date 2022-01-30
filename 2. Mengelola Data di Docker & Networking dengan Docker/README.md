@@ -12,7 +12,7 @@
     - [📌 Perbedaan Antara Docker Volume dan Bind Mount](#-perbedaan-antara-docker-volume-dan-bind-mount)
   - [🌐 Networking dengan Docker](#-networking-dengan-docker)
     - [🚡 Port](#-port)
-    - [🌉 Bridge](#-bridge)
+    - [🌉 Host](#-host)
     - [🛰️ Docker Network](#️-docker-network)
   - [Sumber](#sumber)
 
@@ -106,16 +106,72 @@ Secara default, menjalankan suatu container docker tidak akan membuat port yang 
 | `-p 8080:80`                           | Membuat port 80 di dalam container bisa diakses dengan port 8080 di host                                                                                       |
 | `-p 192.168.1.100:8080:80` | Membuat port 80 di dalam container bisa diakses dengan port 8080 di host dengan IP 192.168.1.100                                                                                      |
 
-### 🌉 Bridge
+Lalu mari kita coba jalankan image yang kita build sebelumnya dengan membuat port nya bisa diakses dengan command berikut:
 
-Di docker, bridge network bisa membuat container untuk terhubung dan menggunakan network dari host untuk berkomunikasi. Dengan ini docker juga bisa langsung membuat port yang ada di dalamnya bisa diakses langsung dengan network milik host.
+```bash
+docker run -d -p 8080:80 <nama image>:<version image>
+```
 
-Untuk menggunakan bridge network pada docker, kita bisa menggunakan flag `--network bridge`.
+Kita menggunakan port 80 yang ada di dalam container agar bisa terhubung dengan nginx yang ada di dalam container. Lalu kita sambungkan dengan port 8080 di host. Jika sudah berhasil di run, kita bisa membuka hasilnya di browser seperti berikut.
 
+![network-port](img/network-port-1.png)
+
+Webnya sendiri memang menunjukan pesan not found karena tidak menggunakan web apapun di dalamnya. Tetapi kita bisa tersambung dengan aplikasi nginx yang ada di dalam container tersebut dengan port.
+
+### 🌉 Host
+
+Di docker, host network bisa membuat container untuk terhubung dan menggunakan network dari host untuk berkomunikasi. Dengan ini docker juga bisa langsung membuat port yang ada di dalamnya bisa diakses langsung dengan network milik host.
+
+Untuk menggunakan host network pada docker, kita bisa menggunakan flag `--net=host`. Mari kita coba dengan menjalankan command berikut:
+
+```bash
+docker run -d --net=host <nama image>:<version image>
+```
+
+Lalu kita cek:
+
+![network-host-1](img/network-host-1.png)
+![network-host-2](img/network-host-2.png)
+
+Di sini terlihat bahwa port yang dipakai di docker bisa terbuka di network dari host dan juga kita bisa mengakses langsung ke ip host tersebut tanpa harus melakukan penggunaan port lain.
 
 ### 🛰️ Docker Network
 
+Kita juga bisa membuat network untuk docker kita sesuai keinginan kita. Kita bisa mengakses network untuk docker dengan command `docker network <command>`. Untuk command-command ini ada beberapa jenis yaitu:
+
+| Command                                     | Deskripsi                                                                                                                            |
+| ------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| `docker network create`                           | Membuat sebuah network                                                                                       |
+| `docker network connect` | Menyambungkan container dengan network                                                                                      |
+| `docker network disconnect` | Memutuskan sambungan container dengan network                                                                                      |
+| `docker network inspect` | Melihat informasi detail dari suatu network                                                                                      |
+| `docker network ls` | Melihat daftar network                                                                                      |
+| `docker network rm` | Menghapus suatu network                                                                                      |
+| `docker network prune` | Menghapus network-network yang tidak terpakai                                                                                      |
+
+Di tiap commandnya sendiri, ada banyak variasi penggunaan serta parameter yang bisa dipakai. Untuk sesi ini kita akan belajar menggunakan command `docker network create` dan menggunakan network yang  telah dibuat untuk container kita.
+
+1. Mari kita buat dulu network kita dengan command berikut.
+
+```bash
+docker network create --subnet=192.168.56.0/24 test
+```
+
+![network-1](img/network-1.png)
+
+Ini artinya kita akan menggunakan subnet `192.168.56.0/24` untuk network kita, lalu kita menamai network tersebut dengan nama `test`.
+
+2. Lalu kita coba jalankan image yang tadi dengan network yang telah kita buat dengan command:
   
+```bash
+docker run -d --net=test <nama image>
+```
+
+![network-2](img/network-2.png)
+
+Di sini kita bisa melihat bahwa container sudah berjalan dan menggunakan network `test` yang sudah kita buat. Kita bisa mengetest apakah kita bisa mengakses aplikasi di dalam contaiiner dengan network yang sudah terpasang dengan command `curl http://<ip container>` dan akan mengeluarkan hasil sebagai berikut.
+
+![network-3](img/network-3.png)
 
 ## Sumber
 - https://docs.docker.com/network/
