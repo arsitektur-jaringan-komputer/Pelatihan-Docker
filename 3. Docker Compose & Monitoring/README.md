@@ -1,20 +1,20 @@
 # **Docker Compose & Monitoring**
 - [**Docker Compose & Monitoring**](#docker-compose--monitoring)
-  - [Docker Compose](##docker-compose)
-    - [Apa itu Docker Compose](###apa-itu-docker-compose)
-    - [File Compose](###file-compose)
-    - [Version](###version)
-    - [Services](###services)
-    - [Volumes](###volumes)
-    - [Network](###network)
-    - [Secrets](###secrets)
-    - [Commands](###commands)
-      - [Options](####options)
-      - [Commands](####commands)
-  - [Monitoring](#monitoring)
+  - [🧬 Docker Compose](#-docker-compose)
+    - [🔭 Apa itu Docker Compose?](#-apa-itu-docker-compose)
+    - [🧪 File Compose](#-file-compose)
+    - [🗓️ Version](#️-version)
+    - [🛂 Services](#-services)
+    - [☢️ Volumes](#️-volumes)
+    - [📳 Network](#-network)
+    - [‼️ Secrets](#️-secrets)
+    - [🔱 Commands](#-commands)
+      - [🔠 Options](#-options)
+      - [▶️ Commands](#️-commands)
+  - [⚠️ Monitoring](#️-monitoring)
 
-## Docker Compose
-### Apa itu Docker Compose
+## 🧬 Docker Compose
+### 🔭 Apa itu Docker Compose?
 Docker Compose adalah tools untuk mendefinisikan dan menjalankan aplikasi Docker multi-kontainer. Dengan Docker Compose, kita menggunakan file YAML untuk mengonfigurasi layanan aplikasi kita. Kemudian, dengan satu perintah, kita bisa membuat dan memulai semua layanan dari konfigurasi yang ada.
 
 ![diagram-services](images/diagram-services.jpg)
@@ -24,7 +24,7 @@ Contoh kasus penggunaan Docker Compose adalah semisal ketika kita memiliki banya
 Layanan-layanan tersebut yang saling terhubung satu sama lain bisa saja kita jalankan satu per satu. Namun hal ini tentu sangat menguras tenaga.
 
 Dengan Docker Compose kita dapat menjalankan seluruh layanan diatas hanya dengan satu file YAML dan satu command yaitu `docker-compose up`.
-### File Compose
+### 🧪 File Compose
 ```yaml
 version: '3'
 services:
@@ -71,11 +71,11 @@ Spesifikasi atau syntax yang digunakan pada file Compose selengkapnya bisa dilih
 
 Pada subbab selanjutnya akan dijelaskan setiap top-level element pada contoh file compose diatas. Untuk resource lengkap yang digunakan, dapat dilihat pada folder `docker-compose`.
 
-### Version
+### 🗓️ Version
 Pada baris pertama di file Compose, terdapat `version` yang berfungsi untuk menentukan versi Compose yang ingin digunakan. Pada umumnya properti ini bersifat backward compatible, jadi tidak ada salahnya untuk selalu menggunakan versi yang paling terbaru. Untuk penjelasan lebih detail tentang file Compose dapat dilihat di sini https://docs.docker.com/compose/compose-file.
 
 Versi yang digunakan pada contoh file compose diatas adalah versi `3`.
-### Services
+### 🛂 Services
 Element service merupakan tempat kita mendefinisikan computing resources dari aplikasi yang kita jalankan. Setiap komponen yang ada dalam elemen ini dapat di scale secara independen dari komponen lainnya.
 
 Pembuatan service dimulai dengan mendefinisikan nama servicenya. Kita bisa membuat nama yang sesuai dengan service yang dijalankan. Contohnya pada file Compose diatas kita membuat service `db`, `backend`, dan `web`.
@@ -106,18 +106,18 @@ Pada contoh diatas, kita menggunakan `networks` yang dibuat secara otomatis oleh
 
 yang menandakan bahwa telah dibuat network baru oleh docker-compose dan secara default seluruh service yang dideklarasikan pada file compose akan menggunakan network tersebut.
 
-### Volumes
+### ☢️ Volumes
 Elemen ini berisi dengan docker volume yang akan dibuat. Elemen ini bersifat opsional. Pembuatan docker volume pada file Compose ini bertujuan untuk pengaturan volume yang lebih mudah. Dengan command yang terdapat pada `docker-compose` kita bisa menjalankan seluruh service sekaligus membuat docker volume yang telah dideklarasikan. Banyak hal lain yang kita lakukan terhadap volume yang dibuat dengan file Compose dengan command `docker-compose`. Volume yang kita deklarasikan pada file compose ini adalah `db-data` dengan perintah ini.
 ```yaml
 volumes:
   db-data:
 ```
-### Network
+### 📳 Network
 Elemen network berisi network yang ingin kita buat ketika menjalankan layanan. Elemen ini bersifat opsional karena kalau kita tidak menspesifikasikan elemen ini, maka docker akan secara otomatis membuat satu network yang dapat digunakan. Kalau pada service tidak ditentukan network mana yang akan digunakan, maka akan digunakan network yang secara otomatis dibuat tadi.
 
-### Secrets
+### ‼️ Secrets
 Elemen secret adalah elemen yang berisi data sensitif. Data yang dimasukkan pada elemen ini dapat berasal dari 3 sumber, `external`, atau `file`. Kita juga dapat memberikan nama tertentu ke secret. Dengan menggunakan `file`, maka value dari secret akan diisi dengan isi dari file yang dituju. Dengan mengganti value dari `external` menjadi true, maka docker compose tidak akan mencoba membuat secret, namun akan mencoba mencari value dari secret tersebut. Pada contoh yang digunakan, kita mendeklarasikan `db-password` dengan sumber data `file` yang berlokasi di `db/password.txt`.
-### Commands
+### 🔱 Commands
 Terdapat beberapa command yang biasanya sering digunakan. Contohnya `docker-compose up` untuk menjalankan docker compose, `docker-compose down` untuk menghentikan seluruh service docker compose, dan `docker-compose up -d` untuk menjalankan service dalam background.
 
 Ketika kita melakukan perubahan terhadap image yang digunakan, kita bisa menambahkan `--build`untuk membangun ulang image agar image yang digunakan adalah image yang telah kita perbarui. Misalnya pada contoh awal yang kita gunakan, jkita bisa mengganti versi dari php pada Dockerfile di directory `web` menjadi versi 8.0, setelah itu untuk menjalankannya bisa digunakan command `docker-compose up --build`.
@@ -135,7 +135,7 @@ docker-compose -h|--help
 
 Command help diatas akan mengeluarkan hasil berupa usage, options, dan commands.
 
-#### Options
+#### 🔠 Options
 | Options                    | Description                                                                                   |
 |----------------------------|-----------------------------------------------------------------------------------------------|
 | -f, --file FILE            | Specify an alternate compose file (default: docker-compose.yml)                               |
@@ -154,7 +154,7 @@ Command help diatas akan mengeluarkan hasil berupa usage, options, dan commands.
 | --skip-hostname-check      | Don't check the daemon's hostname against the name specified in the client certificate        |
 | --project-directory PATH   | Specify an alternate working directory (default: the path of the Compose file)                |
 | --compatibility            | If set, Compose will attempt to convert deploy keys in v3 files to their non-Swarm equivalent |
-#### Commands
+#### ▶️ Commands
 | Command | Description                                               |
 |---------|-----------------------------------------------------------|
 | build   | Build or rebuild services                                 |
@@ -183,7 +183,7 @@ Command help diatas akan mengeluarkan hasil berupa usage, options, dan commands.
 | unpause | Unpause services                                          |
 | up      | Create and start containers                               |
 | version | Show the Docker-Compose version information               |
-## Monitoring
+## ⚠️ Monitoring
 Dalam penggunaan docker, kita dapat memonitor/memantau resource yang digunakan oleh docker. Docker memberikan beberapa command untuk melakukan hal tersebut. Monitoring resource sangatlah penting agar anda dapat mengetahui batasan perangkat anda dan dengan demikian anda dapat menghindar dari crash. Hal-hal yang perlu dimonitor disebut `metrics` pada modul ini. Metrics yang perlu diperhatikan secara umum adalah storage, memory, CPU Utilization, dan I/O Speed baik network maupun disk.
 
 Anda dapat memonitor resource memory, CPU Util dan IO yang digunakan oleh docker dengan `docker stats`. Berikut adalah beberapa command:

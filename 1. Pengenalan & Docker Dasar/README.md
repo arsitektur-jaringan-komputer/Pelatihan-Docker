@@ -1,23 +1,24 @@
 # **Pengenalan & Docker Dasar**
 - [**Pengenalan & Docker Dasar**](#pengenalan--docker-dasar)
-  - [Introduction](#introduction)
-    - [Instalasi](#instalasi)
-      - [Windows](#windows)
-      - [Linux (berbasis Ubuntu)](#linux-berbasis-ubuntu)
-    - [Pengenalan](#pengenalan)
-    - [Kenapa kita harus menggunakan docker?](#kenapa-kita-harus-menggunakan-docker)
-  - [Dockerfile](#dockerfile)
-  - [Docker Hub](#docker-hub)
+  - [🔰 Introduction](#-introduction)
+    - [🏗️ Instalasi](#️-instalasi)
+      - [🚪 Windows](#-windows)
+      - [🗿 Linux (berbasis Ubuntu)](#-linux-berbasis-ubuntu)
+    - [❇️ Pengenalan](#️-pengenalan)
+    - [❓ Kenapa kita harus menggunakan docker?](#-kenapa-kita-harus-menggunakan-docker)
+  - [🎦 Dockerfile](#-dockerfile)
+  - [📶 Docker Hub](#-docker-hub)
+  - [🔚 Sumber](#-sumber)
 
-## Introduction
-### Instalasi
-#### Windows
+## 🔰 Introduction
+### 🏗️ Instalasi
+#### 🚪 Windows
 1. Pastika bahwa WSL2 sudah terinstall, jika belum, ikuti langkah-langkah di https://pureinfotech.com/install-windows-subsystem-linux-2-windows-10/ (cek versi win10 anda terlebih dahulu, jika versi 2004 ke atas (termasuk win11), langkah-langkahnya di atas, jika versi 1909 ke bawah, scroll ke bawah)
 2. Download installer docker desktop di https://www.docker.com/products/docker-desktop (ukuran 490 MB)
 3. Jalankan installernya, lalu pencet  ok/ install, lalu tunggu selama sekitar 2 menit
 4. Docker sudah terinstall
 
-#### Linux (berbasis Ubuntu)
+#### 🗿 Linux (berbasis Ubuntu)
 1. update package apt lalu install package berikut agar apt bisa menggunakan repository https
 ```
 sudo apt-get update
@@ -42,14 +43,14 @@ sudo apt-get install docker-ce docker-ce-cli containerd.io
 5. pastikan docker sudah terinstall dengan benar
 ```sudo docker run hello-world```
 
-### Pengenalan
+### ❇️ Pengenalan
 Salah satu tantangan bagi tim DevOps adalah mengatur dependensi dan stack teknologi sebuah aplikasi pada bermacam-macam environment cloud dan development. Sebagai bagian dari tugas mereka, mereka harus menjaga aplikasi tetap stabil dan operasional, terlepas dari platform tempatnya dijalankan.
 
 Tim development, di sisi lain, harus berfokus pada mengeluarkan update dan fitur baru. Sayangnya, hal ini dapat mengacaukan stabilitas aplikasi dengan mengenalkan bug yang tergantung pada environment. Untuk menghindari inefisiensi ini, perusahaan-perusahaan mulai mengadopsi container framework, contohnya yaitu Docker.
 
 Docker adalah sebuah produk PaaS (platform as a service) yang menggunakan virtualisasi level OS untuk mengirimkan software dalam paket-paket bernama container. Container terisolasi antara satu sama lain dan membundel software, library, dan file konfigurasi mereka sendiri, namun, mereka bisa berkomunikasi antara satu sama lain menggunakan saluran-saluran tertentu. Karena semua container berbagi service yang sama pada satu kernel OS, mereka menggunakan lebih sedikit sumber daya (misal RAM dan penyimpanan) daripada VM (virtual machine)
 
-### Kenapa kita harus menggunakan docker?
+### ❓ Kenapa kita harus menggunakan docker?
 Dengan docker kita mendapatkan:
 - Astraksi OS level dengan penggunakan sumber daya optimal
 - Interoperabilitas antara berbagai macam sistem operasi
@@ -79,7 +80,7 @@ meme docker:
 | docker attach                          | Menempelkan input output terminal pada suatu container, ini memungkinkaa kita melihat output atau mengontrol container secara interaktif                                                    |
 | docker commit             | Membuat image baru setelah dilakukan perubahan pada container   
 
-## Dockerfile
+## 🎦 Dockerfile
 <justify></justify>
 <p></p>
 <a id="dockerfile-command"></a>
@@ -115,7 +116,7 @@ meme docker:
     EXPOSE 80
     ENTRYPOINT ["nginx", "-g", "daemon off;"]
 
-## Docker Hub
+## 📶 Docker Hub
 <justify></justify>
 <p></p>
 <a id="dockerhub-push-image"></a>
@@ -156,7 +157,7 @@ meme docker:
 
 ![docker-hub](img/dockerhub-6.png)
   
-## Sumber
+##  🔚 Sumber
 - https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository
 - https://www.bmc.com/blogs/docker-101-introduction/
 - https://en.wikipedia.org/wiki/Docker_(software)
