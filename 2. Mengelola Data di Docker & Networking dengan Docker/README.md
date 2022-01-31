@@ -174,6 +174,9 @@ Di sini kita bisa melihat bahwa container sudah berjalan dan menggunakan network
 ![network-3](img/network-3.png)
 
 ## 🔚 Sumber
+- https://docs.docker.com/storage/
+- https://digitalvarys.com/docker-volume-vs-bind-mounts-vs-tmpfs-mount/
+- https://maximorlov.com/docker-compose-syntax-volume-or-bind-mount/
 - https://docs.docker.com/network/
 - https://en.wikipedia.org/wiki/Port_(computer_networking)
 - https://docs.docker.com/config/containers/container-networking/- 
