@@ -1,7 +1,7 @@
 # **Pengenalan & Docker Dasar**
 - [**Pengenalan & Docker Dasar**](#pengenalan--docker-dasar)
   - [🔰 Introduction](#-introduction)
-    - [❇️ Pengenalan](#️-pengenalan)
+    - [❇️ Apa itu docker?](#️-apa-itu-docker)
     - [🏗️ Instalasi](#️-instalasi)
       - [🚪 Windows](#-windows)
       - [🗿 Linux (berbasis Ubuntu)](#-linux-berbasis-ubuntu)
@@ -11,7 +11,7 @@
   - [🔚 Sumber](#-sumber)
 
 ## 🔰 Introduction
-### ❇️ Pengenalan
+### ❇️ Apa itu docker?
 Salah satu tantangan bagi tim DevOps adalah mengatur dependensi dan stack teknologi sebuah aplikasi pada bermacam-macam environment cloud dan development. Sebagai bagian dari tugas mereka, mereka harus menjaga aplikasi tetap stabil dan operasional, terlepas dari platform tempatnya dijalankan.
 
 Tim development, di sisi lain, harus berfokus pada mengeluarkan update dan fitur baru. Sayangnya, hal ini dapat mengacaukan stabilitas aplikasi dengan mengenalkan bug yang tergantung pada environment. Untuk menghindari inefisiensi ini, perusahaan-perusahaan mulai mengadopsi container framework, contohnya yaitu Docker.
