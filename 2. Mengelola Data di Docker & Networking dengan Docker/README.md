@@ -106,26 +106,26 @@ Secara default, menjalankan suatu container docker tidak akan membuat port yang 
 | `-p 8080:80`                           | Membuat port 80 di dalam container bisa diakses dengan port 8080 di host                                                                                       |
 | `-p 192.168.1.100:8080:80` | Membuat port 80 di dalam container bisa diakses dengan port 8080 di host dengan IP 192.168.1.100                                                                                      |
 
-Lalu mari kita coba jalankan image yang kita build sebelumnya dengan membuat port nya bisa diakses dengan command berikut:
+Untuk melakukan percobaan, mari kita pakai image `docker/example-voting-app-vote` dengan mengambil image tersebut menggunakan command `docker pull docker/example-voting-app-vote`.
+
+Lalu mari kita coba jalankan image yang kita ambil tersebut dengan membuat port nya bisa diakses dengan command berikut:
 
 ```bash
-docker run -d -p 8080:80 <nama image>:<version image>
+docker run -d -p 8080:80 docker/example-voting-app-vote
 ```
 
-Kita menggunakan port 80 yang ada di dalam container agar bisa terhubung dengan nginx yang ada di dalam container. Lalu kita sambungkan dengan port 8080 di host. Jika sudah berhasil di run, kita bisa membuka hasilnya di browser seperti berikut.
+Kita menggunakan port 80 yang ada di dalam container agar bisa terhubung dengan website yang ada di dalam container. Lalu kita sambungkan dengan port 8080 di host. Jika sudah berhasil di run, kita bisa membuka hasilnya di browser seperti berikut.
 
 ![network-port](img/network-port-1.png)
-
-Webnya sendiri memang menunjukan pesan not found karena tidak menggunakan web apapun di dalamnya. Tetapi kita bisa tersambung dengan aplikasi nginx yang ada di dalam container tersebut dengan port.
 
 ### 🌉 Host
 
 Di docker, host network bisa membuat container untuk terhubung dan menggunakan network dari host untuk berkomunikasi. Dengan ini docker juga bisa langsung membuat port yang ada di dalamnya bisa diakses langsung dengan network milik host.
 
-Untuk menggunakan host network pada docker, kita bisa menggunakan flag `--net=host`. Mari kita coba dengan menjalankan command berikut:
+Untuk menggunakan host network pada docker, kita bisa menggunakan flag `--net=host`. Mari kita coba dengan menjalankan command berikut untuk menjalankan image yang kita dapat sebelumnya:
 
 ```bash
-docker run -d --net=host <nama image>:<version image>
+docker run -d --net=host docker/example-voting-app-vote
 ```
 
 Lalu kita cek:
@@ -164,7 +164,7 @@ Ini artinya kita akan menggunakan subnet `192.168.56.0/24` untuk network kita, l
 2. Lalu kita coba jalankan image yang tadi dengan network yang telah kita buat dengan command:
   
 ```bash
-docker run -d --net=test <nama image>
+docker run -d --net=test docker/example-voting-app-vote
 ```
 
 ![network-2](img/network-2.png)
