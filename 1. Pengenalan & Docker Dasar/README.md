@@ -61,6 +61,21 @@ sudo apt-get install docker-ce docker-ce-cli containerd.io
 5. pastikan docker sudah terinstall dengan benar
 ```sudo docker run hello-world```
 
+#### 🗿 Linux (berbasis Ubuntu) - Docker Compose
+1. Download package docker compose
+```
+sudo curl -L "https://github.com/docker/compose/releases/download/1.27.4/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+```
+2. Ubah permission file agar command docker-compose executable
+```
+sudo chmod +x /usr/local/bin/docker-compose
+```
+5. Memastikan docker compose telah terinstal dengan melakukan pengecekan versi docker compose
+```
+docker-compose --version
+```
+
+
 <justify></justify>
 <p></p>
 <a id="docker-command"></a>
