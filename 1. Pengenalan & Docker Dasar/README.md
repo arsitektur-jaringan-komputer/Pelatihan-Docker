@@ -20,7 +20,7 @@ Docker adalah sebuah produk PaaS (platform as a service) yang menggunakan virtua
 
 ### ❓ Kenapa kita harus menggunakan docker?
 Dengan docker kita mendapatkan:
-- Astraksi OS level dengan penggunakan sumber daya optimal
+- Abstraksi OS level dengan penggunakan sumber daya optimal
 - Interoperabilitas antara berbagai macam sistem operasi
 - Proses build dan test yang lebih efisien
 - Eksekusi program lebih cepat
@@ -92,7 +92,7 @@ docker-compose --version
 | docker export                           | Mengekspor filesystem container sebagai arsip tar                                                               |
 | docker exec                  | Menjalankan command di sebuah runtime container (container yang sedang berjalan)                                                                         |
 | docker search                              | Mencari image di docker hub |
-| docker attach                          | Menempelkan input output terminal pada suatu container, ini memungkinkaa kita melihat output atau mengontrol container secara interaktif                                                    |
+| docker attach                          | Menempelkan input output terminal pada suatu container, ini memungkinkan kita melihat output atau mengontrol container secara interaktif                                                    |
 | docker commit             | Membuat image baru setelah dilakukan perubahan pada container   
 
 ## 🎦 Dockerfile
