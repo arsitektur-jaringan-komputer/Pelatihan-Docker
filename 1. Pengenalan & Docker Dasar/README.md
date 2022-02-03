@@ -32,7 +32,7 @@ meme docker:
 ### 🏗️ Instalasi
 #### 🚪 Windows
 1. Pastika bahwa WSL2 sudah terinstall, jika belum, ikuti langkah-langkah di https://pureinfotech.com/install-windows-subsystem-linux-2-windows-10/ (cek versi win10 anda terlebih dahulu, jika versi 2004 ke atas (termasuk win11), langkah-langkahnya di atas, jika versi 1909 ke bawah, scroll ke bawah)
-2. Download installer docker desktop di https://www.docker.com/products/docker-desktop (ukuran 490 MB)
+2. Download installer docker desktop di https://www.docker.com/products/docker-desktop (ukuran 490 MB) (docker desktop sudah include docker engine dan docker compose)
 3. Jalankan installernya, lalu pencet  ok/ install, lalu tunggu selama sekitar 2 menit
 4. Docker sudah terinstall
 
