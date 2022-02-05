@@ -12,6 +12,8 @@
 
 ## 🔰 Introduction
 ### ❇️ Apa itu docker?
+Mari kita ambil contoh dunia nyata, misalkan anda memiliki sebuah tempat reparasi mobil. Untuk mengubah ban mobil, mekanik anda membutuhkan alat-alat tertentu, dan alat-alat itu tentu saja berbeda dengan alat yang digunakan untuk mengganti jendela yang pecah. Selain itu, alat-alat yang dibutuhkan antar mobil juga bisa berbeda-beda. Maka, anda memutuskan untuk memiliki garasi untuk tiap-tiap tugas dan mobil yang dibutuhkan, hal ini akan membuat mekanik anda lebih mudah dan cepat menemukan alat-alat yang dibutuhkan untuk suatu tugas. Mekanik anda juga tidak akan memiliki akses ke alat yang tidak diperlukan (mengurangi risiko cedera). Selain itu, jika ada seseorang yang berhasil memaksa masuk ke salah satu garasi, mereka hanya bisa mengambil alat-alat yang ada di garasi itu. Lalu, jika saat sedang digunakan, terjadi kebakaran di salah satau garasi, garasi lain dan alat-alatnya akan tetap aman. Terakhir, jika anda memutuskan untuk membuka cabang di kota lain, atau bahkan luar negeri, pelanggan anda akan mendapatkan kepastian bahwa hasilnya akan sama dimanapun tempat garasi itu berada.
+
 Salah satu tantangan bagi tim DevOps adalah mengatur dependensi dan stack teknologi sebuah aplikasi pada bermacam-macam environment cloud dan development. Sebagai bagian dari tugas mereka, mereka harus menjaga aplikasi tetap stabil dan operasional, terlepas dari platform tempatnya dijalankan.
 
 Tim development, di sisi lain, harus berfokus pada mengeluarkan update dan fitur baru. Sayangnya, hal ini dapat mengacaukan stabilitas aplikasi dengan mengenalkan bug yang tergantung pada environment. Untuk menghindari inefisiensi ini, perusahaan-perusahaan mulai mengadopsi container framework, contohnya yaitu Docker.
