@@ -116,7 +116,8 @@ volumes:
 Elemen network berisi network yang ingin kita buat ketika menjalankan layanan. Elemen ini bersifat opsional karena kalau kita tidak menspesifikasikan elemen ini, maka docker akan secara otomatis membuat satu network yang dapat digunakan. Kalau pada service tidak ditentukan network mana yang akan digunakan, maka akan digunakan network yang secara otomatis dibuat tadi.
 
 ### ‼️ Secrets
-Elemen secret adalah elemen yang berisi data sensitif. Data yang dimasukkan pada elemen ini dapat berasal dari 3 sumber, `external`, atau `file`. Kita juga dapat memberikan nama tertentu ke secret. Dengan menggunakan `file`, maka value dari secret akan diisi dengan isi dari file yang dituju. Dengan mengganti value dari `external` menjadi true, maka docker compose tidak akan mencoba membuat secret, namun akan mencoba mencari value dari secret tersebut. Pada contoh yang digunakan, kita mendeklarasikan `db-password` dengan sumber data `file` yang berlokasi di `db/password.txt`.
+Elemen secret adalah elemen yang berisi data sensitif. Data yang dimasukkan pada elemen ini dapat berasal dari 2 sumber, `external`, atau `file`. Kita juga dapat memberikan nama tertentu ke secret. Dengan menggunakan `file`, maka value dari secret akan diisi dengan isi dari file yang dituju. Dengan mengganti value dari `external` menjadi true, maka docker compose tidak akan mencoba membuat secret, namun akan mencoba mencari value dari secret tersebut. Pada contoh yang digunakan, kita mendeklarasikan `db-password` dengan sumber data `file` yang berlokasi di `db/password.txt`.
+
 ### 🔱 Commands
 Terdapat beberapa command yang biasanya sering digunakan. Contohnya `docker-compose up` untuk menjalankan docker compose, `docker-compose down` untuk menghentikan seluruh service docker compose, dan `docker-compose up -d` untuk menjalankan service dalam background.
 
@@ -183,6 +184,17 @@ Command help diatas akan mengeluarkan hasil berupa usage, options, dan commands.
 | unpause | Unpause services                                          |
 | up      | Create and start containers                               |
 | version | Show the Docker-Compose version information               |
+
+Referensi : 
+- https://docs.docker.com/compose/compose-file/
+- https://docs.docker.com/compose/environment-variables/
+- https://vegibit.com/docker-compose-tutorial/
+- https://github.com/compose-spec/compose-spec/blob/master/spec.md
+- https://github.com/docker/awesome-compose/tree/master/nginx-golang-mysql
+- https://www.youtube.com/watch?v=qH4ZKfwbO8w
+- https://www.youtube.com/watch?v=Qw9zlE3t8Ko
+
+
 ## ⚠️ Monitoring
 Dalam penggunaan docker, kita dapat memonitor/memantau resource yang digunakan oleh docker. Docker memberikan beberapa command untuk melakukan hal tersebut. Monitoring resource sangatlah penting agar anda dapat mengetahui batasan perangkat anda dan dengan demikian anda dapat menghindar dari crash. Hal-hal yang perlu dimonitor disebut `metrics` pada modul ini. Metrics yang perlu diperhatikan secara umum adalah storage, memory, CPU Utilization, dan I/O Speed baik network maupun disk.
 
