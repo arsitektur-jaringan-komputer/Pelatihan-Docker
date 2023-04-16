@@ -1,17 +1,10 @@
-# **Docker Compose & Monitoring**
-- [**Docker Compose & Monitoring**](#docker-compose--monitoring)
-  - [🧬 Docker Compose](#-docker-compose)
-    - [🔭 Apa itu Docker Compose?](#-apa-itu-docker-compose)
-    - [🧪 File Compose](#-file-compose)
-    - [🗓️ Version](#️-version)
-    - [🛂 Services](#-services)
-    - [☢️ Volumes](#️-volumes)
-    - [📳 Network](#-network)
-    - [‼️ Secrets](#️-secrets)
-    - [🔱 Commands](#-commands)
-      - [🔠 Options](#-options)
-      - [▶️ Commands](#️-commands)
-  - [⚠️ Monitoring](#️-monitoring)
+# **Docker Service Lanjutan**
+- [**Glosarium**](#glosarium)
+- [**Materi**](#materi)
+  - [Mengolah data di Docker](#mengolah-data-di-docker)
+  - [Networking di Docker](#networking-di-docker)
+  - [Docker Compose](#-docker-compose)
+- [**Sumber**](#-sumber)
 
 ## 🧬 Docker Compose
 ### 🔭 Apa itu Docker Compose?

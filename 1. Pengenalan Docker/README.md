@@ -1,13 +1,13 @@
-# **Pengenalan & Docker Dasar**
+# **Pengenalan Docker**
 - [**Glosarium**](#glosarium)
-- [**Pengenalan & Docker Dasar**](#pengenalan-docker-dasar)
-  - [Host Filesystem Pollution Problem](#️-apa-itu-docker)
-  - [Containerization vs Virtualization](#-containerization-vs-virtualization)
-  - [Apa itu Docker?](#-apa-itu-docker?)
-  - [Arsitektur Docker](#-arsitektur-docker)
-  - [Kelebihan dan Kekurangan Docker](#-kelebihan-dan-kekurangan-docker)
-  - [Tantangan Penggunaan Docker](#-tantangan-penggunaan-docker)
-- [**Sumber**](#-sumber)
+- [**Materi**](#materi)
+  - [Host Filesystem Pollution Problem](#️host-filesystem-pollution-problem)
+  - [Containerization vs Virtualization](#containerization-vs-virtualization)
+  - [Apa itu Docker?](#apa-itu-docker?)
+  - [Arsitektur Docker](#arsitektur-docker)
+  - [Kelebihan dan Kekurangan Docker](#kelebihan-dan-kekurangan-docker)
+  - [Tantangan Penggunaan Docker](#tantangan-penggunaan-docker)
+- [**Sumber**](#sumber)
 
 ## Glosarium
 | Kata | Pengertian |
@@ -15,7 +15,7 @@
 | Guest operating system  | sistem operasi yang berjalan di virtual mesin  |
 | Host operating system  | sistem operasi yang berjalan di workstation  |
 
-## Introduction
+## Materi
 
 ### Host Filesystem Pollution Problem
 Pernahkan kalian over time karena banyaknya software yang diinstall di laptop padahal tidak semuanya digunakan ? Atau pernahkah menggunakan software yang sama tapi digunakan ke berbeda versi sehingga harus switching ke versi tertentu ? Itulah contoh beberapa kasus dari Host Filesystem Pollution Problem merujuk pada akumulasi file, folder, atau perubahan konfigurasi yang terjadi dalam sistem operasi host akibat instalasi perangkat lunak yang berlebihan atau tidak teratur. Dalam lingkungan pengembangan perangkat lunak, sering kali diperlukan pengujian atau penggunaan banyak perangkat lunak dan dependensi yang berbeda. Akibatnya, sistem operasi host dapat menjadi tidak teratur, berantakan, atau tidak stabil, karena instalasi yang berlebihan atau saling bertentangan dari perangkat lunak yang digunakan.
@@ -25,7 +25,7 @@ A. Virtualization
 B. Containerization 
 
 
-### Apa itu Docker ?
+### Apa itu Docker?
 
 ### Arsitektur Docker
 
