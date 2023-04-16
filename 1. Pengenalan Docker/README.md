@@ -5,8 +5,8 @@
   - [Virtualization vs Containerization](#virtualization-vs-containerization)
   - [Apa itu Docker?](#apa-itu-docker)
   - [Arsitektur Docker](#arsitektur-docker)
-    - [Docker Client](#docker-client)
     - [Docker Daemon](#docker-daemon)
+    - [Docker Client](#docker-client)
     - [Docker Objects](#docker-objects)
     - [Docker Registry](#docker-registry)
   - [Kelebihan dan Kekurangan Docker](#kelebihan-dan-kekurangan-docker)
@@ -28,14 +28,14 @@ _Host Filesystem Pollution Problem_ merujuk pada akumulasi file, folder, atau pe
 
 Salah satu contoh kasus Host Filesystem Pollution Problem adalah akumulasi software yang diinstal di laptop atau komputer host tanpa pengelolaan yang baik. Pengguna sering kali menginstal banyak software untuk keperluan pengembangan perangkat lunak, tetapi tidak semuanya digunakan secara aktif. Akibatnya, file, folder, dan konfigurasi yang terkait dengan software yang tidak digunakan dapat terakumulasi di _host operating system_, menghasilkan tumpukan file yang tidak perlu dan memenuhi ruang penyimpanan, serta mengganggu kinerja sistem operasi.
 
-Selain itu, Host Filesystem Pollution Problem juga dapat terjadi ketika pengguna menggunakan beberapa versi perangkat lunak yang sama secara bersamaan pada _host operating system_. Misalnya, dalam pengembangan perangkat lunak, terkadang diperlukan untuk menguji aplikasi pada beberapa versi perangkat lunak atau dependensi yang berbeda. Namun, jika pengelolaan versi tidak diatur dengan baik, hal ini dapat mengakibatkan banyak versi perangkat lunak yang terinstal pada _host operating system_, sehingga membingungkan dan mempersulit pengelolaan dan penggunaan software tersebut.
+Selain itu, _Host Filesystem Pollution Problem_ juga dapat terjadi ketika pengguna menggunakan beberapa versi perangkat lunak yang sama secara bersamaan pada _host operating system_. Misalnya, dalam pengembangan perangkat lunak, terkadang diperlukan untuk menguji aplikasi pada beberapa versi perangkat lunak atau dependensi yang berbeda. Namun, jika pengelolaan versi tidak diatur dengan baik, hal ini dapat mengakibatkan banyak versi perangkat lunak yang terinstal pada _host operating system_, sehingga membingungkan dan mempersulit pengelolaan dan penggunaan software tersebut.
 
 Nah, permasalahan diataslah yang sering kita temui sebagai developer. Masih banyak lagi contoh kasus _Host Filesystem Pollution Problem_. Lantas bagaimana cara mengatasi permasalahan tersebut? Yuk, simak kenalan dengan _virtualization_ dan _containerization_.
 
 ### Virtualization vs Containerization
-##### A. **Virtualization**
+#### **Virtualization**
 
-##### B. **Containerization**
+#### **Containerization**
 
 
 ### Apa itu Docker?
@@ -50,35 +50,30 @@ Dengan Docker, pengembang dapat membuat wadah yang konsisten dan portabel, yang 
 
 ![Arsitektur Docker](img/architecture.png)
 
-##### Docker Client
-##### Docker Daemon
-##### Docker Objects
-##### Docker Registry  
+#### Docker Daemon
+_Docker Daemon_ adalah komponen yang berjalan di latar belakang (background) pada host dan bertanggung jawab untuk menjalankan dan mengelola _Docker Object_ seperti _images_, _container_, _network_, dan lain-lain. Docker Daemon adalah proses yang berjalan di dalam sistem operasi host dan menerima perintah dari _Docker Client_ untuk membuat, menjalankan, menghentikan, dan mengelola _Docker Object_. _Docker Daemon_ juga bertanggung jawab untuk mengelola sumber daya host seperti CPU, memori, dan jaringan yang digunakan oleh _Docker Object_.
+
+#### Docker Client
+_Docker Client_ adalah antarmuka pengguna berbasis command-line atau GUI yang digunakan untuk berinteraksi dengan Docker. _Docker Client_ memungkinkan pengguna untuk menjalankan perintah-perintah Docker untuk membuat, mengelola, dan mengontrol layanan pada Docker. _Docker Client_ berkomunikasi dengan _Docker Daemon_ untuk mengirimkan perintah-perintah Docker dan menerima output layanan Docker yang sedang berjalan.
+
+#### Docker Objects
+Docker Objects adalah komponen dasar yang terdapat di Docker. Beberapa contoh _Docker Objects_ meliputi _image_, _container_, _volume_, dan _network_ yang akan dijelaskan pada modul selanjutnya. 
+
+#### Docker Registry 
+_Docker Registry_ adalah repositori yang digunakan untuk menyimpan dan berbagi _Docker Image_. _Docker Registry_ berfungsi sebagai tempat penyimpanan untuk _Docker Image_ yang dapat diakses oleh pengguna Docker dari berbagai lokasi. _Docker Hub_, yang merupakan Docker's public registry, adalah salah satu contoh _Docker Registry_ yang sering digunakan untuk menyimpan dan berbagi _Docker Image_ secara publik. Selain _Docker Hub_, pengguna juga dapat membuat Docker Registry pribadi untuk menyimpan _Docker Image_. 
 
 ### Kelebihan dan Kekurangan Docker
-#### Kelebihan Docker
-1. Portabilitas: Kontainer Docker dapat dijalankan di berbagai lingkungan, termasuk lingkungan pengembangan, uji coba, dan produksi, tanpa perlu khawatir tentang perbedaan konfigurasi atau dependensi.
 
-2. Isolasi: Kontainer Docker menyediakan isolasi yang kuat antara aplikasi yang berjalan di dalamnya, sehingga mengurangi potensi konflik atau gangguan antara aplikasi yang berbeda.
+Docker adalah platform open-source yang memungkinkan pengguna untuk membuat, mengelola, dan menjalankan aplikasi dalam kontainer. Berikut adalah beberapa kelebihan dan kekurangan Docker:
 
-3. Skalabilitas: Docker memungkinkan aplikasi untuk dijalankan secara horizontal, dengan kemampuan untuk mengelola dan mengatur jumlah kontainer yang berjalan sesuai dengan kebutuhan aplikasi.
+| Kelebihan | Kekurangan |
+|------------|------------|
+| **Isolasi**: Kontainer Docker memungkinkan aplikasi dan dependensinya diisolasi dalam lingkungan yang terpisah, sehingga tidak saling mempengaruhi. | **Kompleksitas Konfigurasi**: Konfigurasi Docker dapat menjadi kompleks, terutama untuk aplikasi yang lebih kompleks dengan banyak komponen atau dependensi. |
+| **Portabilitas**: Docker memungkinkan aplikasi untuk dikemas dalam kontainer yang dapat dijalankan di berbagai lingkungan, termasuk mesin lokal, cloud, atau lingkungan produksi. | **Keamanan**: Docker kontainer berbagi kernel sistem operasi host, sehingga menghadirkan potensi kerentanan keamanan jika tidak dikonfigurasi dengan benar. |
+| **Efisiensi**: Kontainer Docker memungkinkan penggunaan sumber daya yang efisien, dengan pengurangan overhead sistem operasi dan penggunaan sumber daya yang lebih ringan daripada virtualisasi tradisional. | **Pengelolaan Jaringan**: Pengaturan jaringan untuk kontainer Docker bisa rumit, terutama ketika harus mengatur jaringan lintas host. |
+| **Skalabilitas**: Docker memungkinkan aplikasi untuk dikemas sebagai layanan yang dapat dengan mudah diatur untuk berjalan pada beberapa kontainer, memfasilitasi skalabilitas horizontal dan pengelolaan aplikasi yang mudah. | **Pemantauan**: Pemantauan kontainer Docker dapat lebih rumit dibandingkan dengan lingkungan tradisional, memerlukan perhatian ekstra dalam mengelola kesehatan dan kinerja kontainer. |
+| **Komunitas**: Docker memiliki komunitas yang luas yang membantu dalam perkembangan Docker itu sendiri. | **Pembelajaran Awal**: Docker memerlukan pemahaman konsep yang cukup untuk dapat menggunakannya secara efektif, yang mungkin memerlukan waktu untuk belajar bagi pengguna yang belum terbiasa dengan teknologi kontainer. |
 
-4. Efisiensi Sumber Daya: Docker memungkinkan penggunaan sumber daya yang efisien, karena kontainer dapat berbagi kernel sistem operasi yang sama, mengurangi overhead sistem operasi yang diperlukan untuk setiap kontainer.
-
-5. Pengelolaan Konfigurasi: Docker menyediakan alat untuk mengelola konfigurasi aplikasi sebagai kode, memungkinkan pengelolaan konfigurasi yang konsisten dan terdokumentasi dalam kode sumber aplikasi.
-
-6. Ekosistem Luas: Docker memiliki ekosistem yang luas dan aktif, dengan banyak perangkat tambahan dan integrasi dengan alat-alat lain yang umum digunakan dalam pengembangan dan manajemen aplikasi.
-
-#### Kekurangan Docker
-1. Kompleksitas Konfigurasi: Docker memiliki konfigurasi yang kompleks, terutama untuk aplikasi yang lebih kompleks atau dengan kebutuhan jaringan yang rumit.
-
-2. Keamanan: Pengaturan keamanan Docker yang salah atau tidak benar dapat memperkenalkan risiko keamanan, seperti kerentanan terhadap akses yang tidak sah atau perpindahan data antar kontainer.
-
-3. Kompatibilitas Aplikasi: Aplikasi yang dijalankan dalam kontainer Docker harus kompatibel dengan lingkungan Docker, dan tidak semua aplikasi dapat dijalankan tanpa modifikasi dalam kontainer Docker.
-
-4. Pengelolaan Data: Pengelolaan data dalam kontainer Docker dapat menjadi tantangan, termasuk pengelolaan penyimpanan data dalam kontainer yang berjalan dan pengelolaan data persisten di luar kontainer.
-
-5. Monitoring dan Manajemen: Monitoring dan manajemen kontainer Docker dalam skala besar dapat kompleks, termasuk pengelolaan banyak kontainer, pengelolaan jaringan, dan pemantauan kinerja aplikasi yang berjalan dalam kontainer.
 
 ### Tantangan Penggunaan Docker
 
