@@ -2,12 +2,17 @@
 - [**Glosarium**](#glosarium)
 - [**Materi**](#materi)
   - [Host Filesystem Pollution Problem](#️host-filesystem-pollution-problem)
-  - [Containerization vs Virtualization](#containerization-vs-virtualization)
-  - [Apa itu Docker?](#apa-itu-docker?)
+  - [Virtualization vs Containerization](#virtualization-vs-containerization)
+  - [Apa itu Docker?](#apa-itu-docker)
   - [Arsitektur Docker](#arsitektur-docker)
+    - [Docker Client](#docker-client)
+    - [Docker Daemon](#docker-daemon)
+    - [Docker Objects](#docker-objects)
+    - [Docker Registry](#docker-registry)
   - [Kelebihan dan Kekurangan Docker](#kelebihan-dan-kekurangan-docker)
   - [Tantangan Penggunaan Docker](#tantangan-penggunaan-docker)
-- [**Sumber**](#sumber)
+- [**Sumber Referensi**](#sumber-referensi)
+
 
 ## Glosarium
 | Kata | Pengertian |
@@ -18,18 +23,37 @@
 ## Materi
 
 ### Host Filesystem Pollution Problem
-Pernahkan kalian over time karena banyaknya software yang diinstall di laptop padahal tidak semuanya digunakan ? Atau pernahkah menggunakan software yang sama tapi digunakan ke berbeda versi sehingga harus switching ke versi tertentu ? Itulah contoh beberapa kasus dari Host Filesystem Pollution Problem merujuk pada akumulasi file, folder, atau perubahan konfigurasi yang terjadi dalam sistem operasi host akibat instalasi perangkat lunak yang berlebihan atau tidak teratur. Dalam lingkungan pengembangan perangkat lunak, sering kali diperlukan pengujian atau penggunaan banyak perangkat lunak dan dependensi yang berbeda. Akibatnya, sistem operasi host dapat menjadi tidak teratur, berantakan, atau tidak stabil, karena instalasi yang berlebihan atau saling bertentangan dari perangkat lunak yang digunakan.
+
+_Host Filesystem Pollution Problem_ merujuk pada akumulasi file, folder, atau perubahan konfigurasi yang terjadi dalam _host operating system_ akibat instalasi perangkat lunak yang berlebihan atau tidak teratur. Dalam lingkungan pengembangan perangkat lunak, seringkali diperlukan pengujian atau penggunaan banyak perangkat lunak dan dependensi yang berbeda. Namun, jika tidak dikelola dengan baik, hal ini dapat menyebabkan _host operating system_ menjadi tidak teratur, berantakan, atau tidak stabil.
+
+Salah satu contoh kasus Host Filesystem Pollution Problem adalah akumulasi software yang diinstal di laptop atau komputer host tanpa pengelolaan yang baik. Pengguna sering kali menginstal banyak software untuk keperluan pengembangan perangkat lunak, tetapi tidak semuanya digunakan secara aktif. Akibatnya, file, folder, dan konfigurasi yang terkait dengan software yang tidak digunakan dapat terakumulasi di _host operating system_, menghasilkan tumpukan file yang tidak perlu dan memenuhi ruang penyimpanan, serta mengganggu kinerja sistem operasi.
+
+Selain itu, Host Filesystem Pollution Problem juga dapat terjadi ketika pengguna menggunakan beberapa versi perangkat lunak yang sama secara bersamaan pada _host operating system_. Misalnya, dalam pengembangan perangkat lunak, terkadang diperlukan untuk menguji aplikasi pada beberapa versi perangkat lunak atau dependensi yang berbeda. Namun, jika pengelolaan versi tidak diatur dengan baik, hal ini dapat mengakibatkan banyak versi perangkat lunak yang terinstal pada _host operating system_, sehingga membingungkan dan mempersulit pengelolaan dan penggunaan software tersebut.
+
+Nah, permasalahan diataslah yang sering kita temui sebagai developer. Masih banyak lagi contoh kasus _Host Filesystem Pollution Problem_. Lantas bagaimana cara mengatasi permasalahan tersebut? Yuk, simak kenalan dengan _virtualization_ dan _containerization_.
 
 ### Virtualization vs Containerization
-A. Virtualization
-B. Containerization 
+##### A. **Virtualization**
+
+##### B. **Containerization**
 
 
 ### Apa itu Docker?
 
+![Logo Docker](img/docker.png)
+
+Docker adalah sebuah platform yang memungkinkan pengembang perangkat lunak untuk membuat, mengemas, dan menjalankan aplikasi dalam wadah yang dapat diisolasi secara mandiri, disebut _container_. _Container_ dalam Docker berfungsi seperti lingkungan eksekusi yang terisolasi untuk menjalankan aplikasi, termasuk kode sumber, runtime, dan dependensi yang diperlukan.
+
+Dengan Docker, pengembang dapat membuat wadah yang konsisten dan portabel, yang dapat dijalankan di berbagai lingkungan komputasi, termasuk mesin lokal, server cloud, atau lingkungan pengembangan dan produksi yang berbeda. Docker memungkinkan aplikasi dan dependensinya diisolasi, sehingga aplikasi dapat dijalankan secara konsisten di berbagai lingkungan tanpa mengganggu _host operating system_ atau aplikasi lainnya.
+
 ### Arsitektur Docker
 
-![dockermeme](https://user-images.githubusercontent.com/11045113/151545292-42eb0377-297e-4cfc-a02b-00a44bee3316.jpg)
+![Arsitektur Docker](img/architecture.png)
+
+##### Docker Client
+##### Docker Daemon
+##### Docker Objects
+##### Docker Registry  
 
 ### Kelebihan dan Kekurangan Docker
 #### Kelebihan Docker
@@ -59,5 +83,9 @@ B. Containerization
 ### Tantangan Penggunaan Docker
 
 
-## Sumber
+## Sumber Referensi
+
+- https://docs.docker.com.xy2401.com/engine/docker-overview/
+- Bullington-McGuire, R., Dennis, A. K., & Schwartz, M. (2020). Docker For Developers. Packt.
+
 
