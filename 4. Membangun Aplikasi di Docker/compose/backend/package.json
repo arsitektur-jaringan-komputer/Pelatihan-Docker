@@ -1,0 +1,40 @@
+{
+  "name": "open-music-api",
+  "description": "API for CRUD song and album using Hapi framework and PostgreSQL",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start-prod": "NODE_ENV=production node ./src/server.js",
+    "start-dev": "nodemon ./src/server.js",
+    "lint": "eslint ./src",
+    "migrate": "node-pg-migrate",
+    "db-reset": "node-pg-migrate down 0 && node-pg-migrate up"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mohammadtauchid/open-music-api.git"
+  },
+  "author": "Mohammad Tauchid",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mohammadtauchid/open-music-api/issues"
+  },
+  "homepage": "https://github.com/mohammadtauchid/open-music-api#readme",
+  "dependencies": {
+    "@hapi/hapi": "^20.3.0",
+    "@hapi/jwt": "^2.2.0",
+    "auto-bind": "^4.0.0",
+    "bcrypt": "^5.1.0",
+    "dotenv": "^16.0.3",
+    "joi": "^17.8.4",
+    "nanoid": "^3.3.4",
+    "node-pg-migrate": "^6.2.2",
+    "pg": "^8.10.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.36.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.27.5",
+    "nodemon": "^2.0.21"
+  }
+}

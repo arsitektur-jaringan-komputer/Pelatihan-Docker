@@ -1,0 +1,39 @@
+version: '3.8'
+services:
+  db:
+    image: postgres:latest
+    container_name: db
+    restart: always
+    environment:
+      POSTGRES_USER: docker
+      POSTGRES_PASSWORD: docker
+      POSTGRES_DB: musicapp
+    ports:
+      - '5431:5432'
+    volumes: 
+      - db:/var/lib/postgresql/data
+      - ./database/musicapp.sql:/docker-entrypoint-initdb.d/create_tables.sql
+    networks:
+      - app-network
+
+  backend:
+    container_name: backend
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    image: backend
+    depends_on:
+      - db
+    ports:
+      - '5000:5000'
+    volumes:
+      - './backend/:/usr/src/backend'
+    networks:
+      - app-network
+
+networks:
+ app-network:
+  driver: bridge
+
+volumes:
+  db:
