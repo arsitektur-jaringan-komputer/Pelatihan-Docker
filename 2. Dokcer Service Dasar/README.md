@@ -6,7 +6,11 @@
     - [Perintah Docker Container](#perintah-docker-container)
     - [Shell di Docker Container](#shell-di-docker-container)
   - [Docker Images](#docker-images)
+    - [Pengertian Docker Image](#pengertian-docker-image)
+    - [Perintah Docker Image](#perintah-docker-image)
+    - [Hello-World Docker Image](#hello-world-docker-image)
   - [Dockerfile](#dockerfile)
+    - [Pengertian Dockerfile](#pengertian-dockerfile)
     - [Contoh Dockerfile](#contoh-dockerfile)
   - [Docker Hub](#docker-hub)
     - [Docker Repositories](#docker-repositories)
@@ -15,8 +19,8 @@
 
 ## Glosarium
 ## Materi
-### Docker Container
 
+### Docker Container
 #### Pengertian Docker Container
 Docker container adalah sebuah unit terisolasi yang berisi perangkat lunak dan semua dependensinya, yang dijalankan pada lingkungan yang terpisah dari host dan container lainnya. Dalam container, aplikasi dapat berjalan dengan konsisten di berbagai lingkungan meskipun terdapat perbedaan dalam konfigurasi dan infrastruktur.
 
@@ -59,7 +63,7 @@ Untuk menggunakan shell di Docker Container bisa dengan menggunakan perintah **`
 
 - **`docker exec`** digunakan untuk mengeksekusi perintah pada container yang sudah berjalan.
 - **`-it`** digunakan agar perintah dijalankan dalam mode interaktif dengan terminal.
-- **`<nama_container>`** adalah nama atau ID dari container yang ingin kamu akses.
+- **`<nama_container>`** adalah nama atau ID dari container yang ingin diakses.
 - **`/bin/sh`** digunakan untuk menjalankan shell di dalam container.
 
 Contoh penggunaan:
@@ -69,8 +73,14 @@ docker exec -it my_container /bin/sh
 Perintah di atas akan membuka shell di dalam container dengan nama **`my_container`**. Dengan ini, kita bisa melakukan perintah-perintah shell seperti biasa setelah masuk ke dalam shell tersebut. Untuk keluar dari shell gunakan perintah **`exit`**.
 
 ### Docker Images
-#### Perintah Docker Image
+#### Pengertian Docker Image
+Docker images adalah template atau blueprints yang digunakan untuk membuat Docker containers. Image ini berisi sistem operasi dan aplikasi yang sudah dikonfigurasi dengan baik serta siap digunakan. Image dapat dibangun secara manual dengan membuat Dockerfile atau dapat diunduh dari Docker Hub, yaitu repositori publik yang menyediakan banyak image yang sudah siap digunakan.
 
+Docker images bersifat immutables, artinya setelah dibuat, image tidak bisa diubah secara langsung. Namun, image dapat dibuat baru dengan melakukan modifikasi pada image sebelumnya dan memberikan nama yang berbeda. Setiap image memiliki nama dan tag untuk mengidentifikasinya secara unik. Dalam Docker Hub, nama image biasanya terdiri dari beberapa bagian, seperti nama pengguna (username), nama image, dan tag, seperti contoh **`username/nama_image:tag`**.
+
+Setelah image dibuat, bisa menggunakan perintah docker run untuk membuat instance dari image tersebut dalam bentuk container.
+
+#### Perintah Docker Image
 Berikut adalah beberapa perintah penting yang tersedia pada `docker images COMMNAD`. Setiap perintah dijelaskan dengan singkat dan jelas.
 
 | Perintah | Deskripsi |
@@ -89,8 +99,25 @@ Berikut adalah beberapa perintah penting yang tersedia pada `docker images COMMN
 | `save` | Menyimpan sebuah image ke dalam sebuah arsip yang dapat diunduh. |
 | `tag` | Memberikan sebuah tag pada sebuah image. |
 
+#### Hello-World Docker Image
+![Docker image hello-world](img/hello-world.png)
 
-## Dockerfile
+"Hello World" Docker Image adalah contoh sederhana dari sebuah image yang berisi aplikasi yang sangat sederhana, yaitu hanya mencetak kata "Hello World" pada layar. Image ini digunakan untuk menjelaskan secara singkat tentang bagaimana cara membuat Docker Image, membagikan image ke Docker Hub, serta cara menjalankan Docker Image dalam bentuk container. Image ini juga sering digunakan sebagai langkah awal ketika pertama kali belajar Docker.
+
+Berikut adalah langkah-langkah menggunakan Hello-World docker image.
+1. Buka terminal atau command prompt dan ketikkan perintah **`docker run hello-world`**. Perintah ini akan mengunduh image "Hello World" dari Docker Hub jika image belum ada di dalam host lokal. Setelah itu, Docker akan menjalankan image tersebut dalam bentuk container dan aplikasi "Hello World" akan berjalan, mencetak kata "Hello from Docker!" pada layar, kemudian menampilkan informasi tambahan tentang Docker.
+![Menjalankan docker image hello-world](img/run-hello-world.png)
+<br>
+
+2. Setelah container selesai berjalan, untuk melihat log dari container tersebut dengan menjalankan perintah **`docker container logs [container ID]`**. Untuk mendapatkan container ID bisa dengan menjalankan perintah **`docker ps -a`**.
+![Menjalankan log docker image hello-world](img/hello-world-logs.png)
+<br>
+
+3. Setelah selesai, container yang tidak diperlukan dapat dihapus dengan menjalankan perintah **`docker rm [container ID]`**. Selain container, image "Hello World" dapat dihapus dari host lokal dengan menjalankan perintah **`docker rmi hello-world`**.
+
+
+### Dockerfile
+#### Pengertian Dockerfile
 <justify></justify>
 <p></p>
 <a id="dockerfile-command"></a>
