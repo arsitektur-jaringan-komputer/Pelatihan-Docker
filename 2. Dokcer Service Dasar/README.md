@@ -1,32 +1,94 @@
 # **Docker Service Dasar**
 - [**Glosarium**](#glosarium)
 - [**Materi**](#materi)
-  - [Docker Container](#️-docker-container)
-    - [Shell didalam Container](#-shell-didalam-container)
-  - [Docker Images](#-docker-images)
-  - [Dockerfile](#-dockerfile)
-  - [Docker Hub](#-docker-hub)
-    - [Docker Repositories](#-docker-repositories)
-- [**Sumber**](#-sumber)
+  - [Docker Container](#️docker-container)
+    - [Pengertian Docker Container](#pengertian-docker-container)
+    - [Perintah Docker Container](#perintah-docker-container)
+    - [Shell di Docker Container](#shell-di-docker-container)
+  - [Docker Images](#docker-images)
+  - [Dockerfile](#dockerfile)
+    - [Contoh Dockerfile](#contoh-dockerfile)
+  - [Docker Hub](#docker-hub)
+    - [Docker Repositories](#docker-repositories)
+- [**Sumber Referensi**](#sumber-referensi)
 
-<justify></justify>
-<p></p>
-<a id="docker-command"></a>
-<p>Berikut merupakan sintaks yang terdapat pada Docker :</p>
 
-| Sintaks                                     | Deskripsi                                                                                                                            |
-| ------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
-| docker run                           | Menjalankan command di container baru                                                                                       |
-| docker start | Menjalankan satu atau beberapa container                                                                                      |
-| docker stop  | Memberhentikan satu atau beberapa container                                                                                         |
-| docker build                               | Buat sebuah image dari dockerfile                                                                                   |
-| docker pull                          | Mengambil image atau repo dari registry                                                                                      |
-| docker push                   | Mengirim image atau repo ke registry                                                               |
-| docker export                           | Mengekspor filesystem container sebagai arsip tar                                                               |
-| docker exec                  | Menjalankan command di sebuah runtime container (container yang sedang berjalan)                                                                         |
-| docker search                              | Mencari image di docker hub |
-| docker attach                          | Menempelkan input output terminal pada suatu container, ini memungkinkan kita melihat output atau mengontrol container secara interaktif                                                    |
-| docker commit             | Membuat image baru setelah dilakukan perubahan pada container  
+## Glosarium
+## Materi
+### Docker Container
+
+#### Pengertian Docker Container
+Docker container adalah sebuah unit terisolasi yang berisi perangkat lunak dan semua dependensinya, yang dijalankan pada lingkungan yang terpisah dari host dan container lainnya. Dalam container, aplikasi dapat berjalan dengan konsisten di berbagai lingkungan meskipun terdapat perbedaan dalam konfigurasi dan infrastruktur.
+
+Docker container bisa diibaratkan seperti kotak berisi program dan semua bahan yang dibutuhkan agar program tersebut bisa berjalan dengan baik. Kotak ini dijalankan secara terpisah dari komputer aslinya, sehingga program dalam kotak ini dapat berjalan dengan konsisten pada berbagai lingkungan tanpa terpengaruh oleh konfigurasi dan infrastruktur yang ada pada komputer aslinya. Dengan Docker container, kita bisa dengan mudah mengelola dan menjalankan aplikasi di berbagai lingkungan tanpa harus khawatir dengan masalah konfigurasi dan dependensi.
+
+#### Perintah Docker Container
+Berikut adalah beberapa perintah penting yang tersedia pada **`docker container COMMAND`**. Setiap perintah dijelaskan dengan singkat dan jelas.
+
+| Perintah | Deskripsi |
+| --- | --- |
+| `attach` | Menjalankan perintah pada kontainer yang sedang berjalan. Perintah ini akan memasukkan pengguna ke dalam sesi terminal kontainer. |
+| `commit` | Membuat sebuah image baru dari perubahan yang dilakukan pada kontainer yang sedang berjalan. |
+| `cp` | Menyalin file atau direktori antara file sistem host dan file sistem dalam kontainer. |
+| `create` | Membuat sebuah kontainer baru, tetapi tidak menjalankannya. |
+| `diff` | Menunjukkan perubahan pada file sistem kontainer yang sedang berjalan. |
+| `exec` | Menjalankan sebuah perintah pada kontainer yang sedang berjalan. |
+| `export` | Mengekspor sebuah kontainer ke dalam file tar. |
+| `inspect` | Melihat detail dari sebuah kontainer. |
+| `kill` | Menghentikan sebuah kontainer yang sedang berjalan secara paksa. |
+| `logs` | Melihat log dari sebuah kontainer. |
+| `ls` | Menampilkan daftar kontainer yang sedang berjalan. |
+| `pause` | Menjeda sebuah kontainer yang sedang berjalan. |
+| `port` | Menampilkan port yang dibuka oleh sebuah kontainer. |
+| `prune` | Menghapus kontainer yang tidak sedang berjalan. |
+| `rename` | Mengubah nama dari sebuah kontainer yang sedang berjalan. |
+| `restart` | Menghidupkan kembali sebuah kontainer yang sedang berjalan. |
+| `rm` | Menghapus sebuah kontainer yang sedang berjalan. |
+| `run` | Membuat sebuah kontainer baru dan menjalankannya. |
+| `start` | Menjalankan sebuah kontainer yang telah dibuat. |
+| `stats` | Menampilkan informasi CPU, memori, dan jaringan dari sebuah kontainer yang sedang berjalan. |
+| `stop` | Menghentikan sebuah kontainer yang sedang berjalan. |
+| `top` | Menampilkan proses yang sedang berjalan di dalam sebuah kontainer. |
+| `unpause` | Meneruskan sebuah kontainer yang telah dijeda. |
+| `update` | Memperbarui sebuah kontainer dengan konfigurasi baru. |
+| `wait` | Menunggu kontainer selesai menjalankan sebuah perintah sebelum melanjutkan. |
+
+#### Shell di Docker Container
+
+Untuk menggunakan shell di Docker Container bisa dengan menggunakan perintah **`docker exec -it <nama_container> /bin/sh`**. Di mana:
+
+- **`docker exec`** digunakan untuk mengeksekusi perintah pada container yang sudah berjalan.
+- **`-it`** digunakan agar perintah dijalankan dalam mode interaktif dengan terminal.
+- **`<nama_container>`** adalah nama atau ID dari container yang ingin kamu akses.
+- **`/bin/sh`** digunakan untuk menjalankan shell di dalam container.
+
+Contoh penggunaan:
+**`
+docker exec -it my_container /bin/sh
+`**
+Perintah di atas akan membuka shell di dalam container dengan nama **`my_container`**. Dengan ini, kita bisa melakukan perintah-perintah shell seperti biasa setelah masuk ke dalam shell tersebut. Untuk keluar dari shell gunakan perintah **`exit`**.
+
+### Docker Images
+#### Perintah Docker Image
+
+Berikut adalah beberapa perintah penting yang tersedia pada `docker images COMMNAD`. Setiap perintah dijelaskan dengan singkat dan jelas.
+
+| Perintah | Deskripsi |
+| --- | --- |
+| `build` | Membuat sebuah image dari Dockerfile. |
+| `history` | Menampilkan riwayat perubahan pada sebuah image. |
+| `import` | Mengimpor sebuah image dari sebuah file. |
+| `inspect` | Melihat detail dari sebuah image. |
+| `load` | Memuat sebuah image dari sebuah arsip yang telah disimpan. |
+| `ls` | Menampilkan daftar image yang telah terunduh. |
+| `prune` | Menghapus image yang tidak terpakai. |
+| `pull` | Mengunduh sebuah image dari Docker Hub atau registry lainnya. |
+| `push` | Mengunggah sebuah image ke Docker Hub atau registry lainnya. |
+| `rename` | Mengubah nama dari sebuah image yang telah terunduh. |
+| `rm` | Menghapus sebuah image yang telah terunduh. |
+| `save` | Menyimpan sebuah image ke dalam sebuah arsip yang dapat diunduh. |
+| `tag` | Memberikan sebuah tag pada sebuah image. |
+
 
 ## Dockerfile
 <justify></justify>
@@ -110,3 +172,8 @@
 <p>6. Melihat image yang telah di push pada Docker Hub</p>
 
 ![docker-hub](img/dockerhub-6.png)
+
+
+## Sumber Referensi
+- https://docs.docker.com/engine/reference/commandline/container/
+- https://docs.docker.com/engine/reference/commandline/image/
