@@ -11,9 +11,12 @@
     - [Hello-World Docker Image](#hello-world-docker-image)
   - [Dockerfile](#dockerfile)
     - [Pengertian Dockerfile](#pengertian-dockerfile)
-    - [Contoh Dockerfile](#contoh-dockerfile)
+    - [Perintah Dockerfile](#perintah-dockerfile)
+    - [Contoh Implementasi Dockerfilee](#contoh-implementasi-dockerfile)
   - [Docker Hub](#docker-hub)
-    - [Docker Repositories](#docker-repositories)
+    - [Pengertian Docker Hub](#pengertian-docker-hub)
+    - [Docker Repository](#docker-repository)
+    - [Langkah-Langkah Penggunaan Docker Hub](#langkah-langkah-penggunaan-docker-hub)
 - [**Sumber Referensi**](#sumber-referensi)
 
 
@@ -27,7 +30,7 @@ Docker container adalah sebuah unit terisolasi yang berisi perangkat lunak dan s
 Docker container bisa diibaratkan seperti kotak berisi program dan semua bahan yang dibutuhkan agar program tersebut bisa berjalan dengan baik. Kotak ini dijalankan secara terpisah dari komputer aslinya, sehingga program dalam kotak ini dapat berjalan dengan konsisten pada berbagai lingkungan tanpa terpengaruh oleh konfigurasi dan infrastruktur yang ada pada komputer aslinya. Dengan Docker container, kita bisa dengan mudah mengelola dan menjalankan aplikasi di berbagai lingkungan tanpa harus khawatir dengan masalah konfigurasi dan dependensi.
 
 #### Perintah Docker Container
-Berikut adalah beberapa perintah penting yang tersedia pada **`docker container COMMAND`**. Setiap perintah dijelaskan dengan singkat dan jelas.
+Berikut adalah beberapa perintah penting beserta penjelasannya yang tersedia pada **`docker container COMMAND`**.
 
 | Perintah | Deskripsi |
 | --- | --- |
@@ -81,7 +84,7 @@ Docker images bersifat immutables, artinya setelah dibuat, image tidak bisa diub
 Setelah image dibuat, bisa menggunakan perintah docker run untuk membuat instance dari image tersebut dalam bentuk container.
 
 #### Perintah Docker Image
-Berikut adalah beberapa perintah penting yang tersedia pada `docker images COMMNAD`. Setiap perintah dijelaskan dengan singkat dan jelas.
+Berikut adalah beberapa perintah penting beserta penjelasannya yang tersedia pada `docker images COMMNAD`.
 
 | Perintah | Deskripsi |
 | --- | --- |
@@ -118,89 +121,93 @@ Berikut adalah langkah-langkah menggunakan Hello-World docker image.
 
 ### Dockerfile
 #### Pengertian Dockerfile
-<justify></justify>
-<p></p>
-<a id="dockerfile-command"></a>
-<p>Berikut merupakan sintaks yang terdapat pada Dockerfile :</p>
+Dockerfile adalah file teks yang berisi instruksi untuk membangun sebuah Docker image. Dalam Dockerfile, dapat menentukan berbagai komponen dan konfigurasi yang diperlukan untuk membuat sebuah image, seperti base image yang digunakan, perintah-perintah yang harus dijalankan, file yang harus di-copy, serta variabel lingkungan yang perlu di-set.
 
-| Sintaks                                     | Deskripsi                                                                                                                            |
-| ------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
-| FROM \<base image>                           | Mendefinisikan image yang menjadi dasar kontainer.                                                                                   |
-| COPY \[--chown=\<user>:\<group>\] \<src> \<dst> | Melakukan copy file atau folder ke dalam image.                                                                                      |
-| ADD \[--chown=\<user><group>\] \<src> \<dst>  | Menambahkan file atau folder ke dalam image.                                                                                         |
-| RUN \<command>                               | Menjalankan perintah shell pada saat proses build.                                                                                   |
-| ENV \<key>=\<value>                           | Mendefinisikan variabel di dalam image.                                                                                              |
-| WORKDIR \<path to folder>                    | Melakukan pindah folder dan menetapkannya sebagai direktori saat ini.                                                                |
-| USER \<nama user>                            | Melakukan ganti user untuk mengeksekusi perintah-perintah setelahnya.                                                                |
-| ENTRYPOINT \<command>                        | Menjalankan perintah shell pada saat kontainer dijalankan.                                                                           |
-| CMD \<command>                               | Menjalankan perintah shell pada saat kontainer dijalankan, tetapi dapat digantikan dengan paramater lain saat menjalankan kontainer. |
-| ARGS \<key>=\<value>                          | Mengirimkan variabel dari perintah docker untuk dijalankan pada saat proses build                                                    |
-| EXPOSE \<portNumber>/\[tcp/udp\]             | Membuka port image yang berada di dalam kontainer.                                                                                   |
+Dockerfile sangat penting dalam membangun sebuah image karena memungkinkan pengguna untuk membuat image dengan cara yang konsisten dan terdokumentasi dengan baik. Dengan Dockerfile, seorang developer dapat mereplikasi pengaturan dan konfigurasi yang sama setiap kali membangun sebuah image, bahkan pada lingkungan yang berbeda-beda.
 
-<p></p>
-<a id="dockerfile-example"></a>
-<p>Berikut merupakan contoh Dockerfile :</p>
+Selain itu, Dockerfile juga memungkinkan seorang developer untuk menggunakan konsep modularitas dalam membangun image dengan memisahkan komponen-komponen image menjadi layer-layer yang berbeda dalam Dockerfile. Sehingga memungkinkan untuk memperbarui atau mengganti komponen tertentu tanpa harus membangun ulang seluruh image.
 
-    FROM alpine:3.13.2
+Sebagai studi kasus, bayangkan ada seorang web developer yang sedang mengembangkan sebuah aplikasi web dengan menggunakan bahasa pemrograman Python. Aplikasi tersebut memerlukan beberapa library tambahan seperti Flask dan SQLAlchemy, serta database PostgreSQL sebagai back-end.
 
-    ENV nginx_version 1.18.0-r15
+Jika tidak menggunakan Dockerfile untuk membangun Docker image untuk aplikasi tersebut, maka developer tersebut harus melakukan instalasi semua library dan dependensi secara manual pada setiap mesin atau lingkungan di mana aplikasi tersebut di-deploy. Hal ini dapat menjadi sangat merepotkan, terutama jika aplikasi memiliki banyak dependensi atau memerlukan konfigurasi yang kompleks.
 
-    RUN apk update \
-        && apk add --no-cache nginx=${nginx_version} \
-        && adduser -D -g 'www' www \
-        && mkdir -p /run/nginx \
-        && mkdir -p /www \
-        && chown -R www:www /var/lib/nginx \
-        && chown -R www:www /run/nginx
+Dengan menggunakan Dockerfile, developer tersebut dapat menentukan semua dependensi dan konfigurasi yang diperlukan dalam satu file yang dapat di-replikasi pada semua mesin atau lingkungan. Hal ini memudahkan pengembangan dan deployment aplikasi, karena tidak perlu melakukan instalasi manual pada setiap mesin atau lingkungan yang berbeda.
 
-    ADD nginx.conf /etc/nginx/nginx.conf 
-    ADD index.html /www/index.html
+#### Perintah Dockerfile
+Berikut adalah beberapa perintah penting beserta penjelasannya yang bisa diimplementasikan pada **`Dockefile`**. 
 
-    EXPOSE 80
-    ENTRYPOINT ["nginx", "-g", "daemon off;"]
+| Perintah | Deskripsi |
+| --- | --- |
+| `FROM` | Menentukan base image yang akan digunakan untuk build. |
+| `COPY` | Menyalin file atau folder dari host ke dalam image. |
+| `ADD` | Menyalin file atau folder dari host ke dalam image, bisa juga digunakan untuk men-download file dari URL dan mengekstraknya ke dalam image. |
+| `RUN` | Menjalankan perintah pada layer yang sedang dibangun dan membuat image baru. |
+| `CMD` | Menentukan perintah default yang akan dijalankan saat container di-start. |
+| `ENTRYPOINT` | Menentukan perintah yang akan dijalankan saat container di-start, dapat juga di-overwrite oleh perintah saat container di-run. |
+| `ENV` | Menentukan environment variable di dalam container. |
+| `EXPOSE` | Menentukan port yang akan di-expose dari container ke host. |
+| `VOLUME` | Menentukan direktori yang akan di-mount sebagai volume di dalam container. |
 
-## Docker Hub
-<justify></justify>
-<p></p>
-<a id="dockerhub-push-image"></a>
-<p>Docker Hub merupakan registry yang berisi kumpulan image docker, kita juga dapat melakukan custom image docker menggunakan Dockerfile dan meletakkannya pada Docker Hub.</p>
-<p>Berikut merupakan langkah-langkah untuk meletakkan image docker pada Docker Hub :</p>
+#### Contoh Implementasi Dockerfile
+Berikut adalah contoh penggunaan Dockerfile untuk untuk membuat sebuah image untuk mengdeploy aplikasi **`index.html`** dengan menggunakan Nginx sebagai reverse proxy
+```
+FROM alpine:3.13.2
 
-<p>1. Melakukan login docker</p>
+ENV nginx_version 1.18.0-r15
 
+RUN apk update \
+    && apk add --no-cache nginx=${nginx_version} \
+    && adduser -D -g 'www' www \
+    && mkdir -p /run/nginx \
+    && mkdir -p /www \
+    && chown -R www:www /var/lib/nginx \
+    && chown -R www:www /run/nginx
+
+ADD nginx.conf /etc/nginx/nginx.conf 
+ADD index.html /www/index.html
+EXPOSE 80
+ENTRYPOINT ["nginx", "-g", "daemon off;"]
+```
+
+### Docker Hub
+#### Pengertian Docker Hub
+Docker Hub adalah sebuah platform cloud yang menyediakan repository untuk image Docker. Docker Hub memungkinkan pengguna untuk mengambil, menyimpan, dan mendistribusikan image Docker dengan mudah. Di Docker Hub, pengguna dapat mencari image Docker yang dibuat oleh komunitas atau membuat image mereka sendiri dan membagikannya ke orang lain. Docker Hub juga memungkinkan pengguna untuk melakukan otomatisasi build dan testing image dengan menggunakan Dockerfile. Dengan Docker Hub, pengguna dapat dengan mudah mengelola image Docker yang mereka gunakan dalam aplikasi mereka dan mengurangi waktu dan upaya dalam pengembangan, distribusi, dan deployment aplikasi. 
+
+#### Docker Repository
+Docker Repository pada Docker Hub adalah tempat penyimpanan untuk Docker Images yang dibuat oleh pengguna Docker. Pengguna Docker dapat membuat repository pada Docker Hub untuk menyimpan Docker Images yang telah mereka buat dan ingin berbagi ke publik atau hanya untuk pengguna yang mereka izinkan. Repository pada Docker Hub dapat berisi satu atau beberapa Docker Images dan dapat diberi nama dan deskripsi yang jelas agar mudah dikenali oleh pengguna lainnya. Selain itu, Docker Repository pada Docker Hub juga dapat digunakan sebagai tempat penyimpanan untuk Docker Images yang dibangun oleh organisasi atau perusahaan, sehingga memudahkan pengguna Docker lainnya untuk menemukan dan mengunduh Images tersebut.
+
+#### Langkah-Langkah Penggunaan Docker Hub
+Berikut merupakan langkah-langkah untuk meletakkan image docker pada Docker Hub:
+
+1. Melakukan login docker
+```
     docker login
+```
 
-![docker-login](img/dockerhub-1.png)
-
-<p>2. Melakukan build image (jika sudah terdapat docker image, maka langkah ini dapat dilewati)</p>
-
+2. Melakukan build image (jika sudah terdapat docker image, maka langkah ini dapat dilewati)
+```
     docker build -t <nama image>:<version image> .
+```
 
-![docker-build-image](img/dockerhub-2.png)
-
-<p>3. Melihat image docker yang nantinya akan diletakan pada Docker Hub</p>
-
+3. Melihat image docker yang nantinya akan diletakan pada Docker Hub
+```
     docker images
+```
 
-![docker-image](img/dockerhub-3.png)
-
-<p>4. Membuat tag pada docker image</p>
-
+4. Membuat tag pada docker image
+```
     docker tag <nama image>:<version image> <nama repository>/<nama image>:<version image>
+```
 
-![docker-tag](img/dockerhub-4.png)
+5. Melakukan **`docker push`** agar image tersimpan dalam docker hub
+```
+    docker push <nama repository>/<nama image>:<version image>   
+```
 
-<p>5. Melakukan 'docker push' agar image tersimpan dalam docker hub</p>
-
-     docker push <nama repository>/<nama image>:<version image>   
-
-![docker-push](img/dockerhub-5.png)
-
-<p>6. Melihat image yang telah di push pada Docker Hub</p>
-
-![docker-hub](img/dockerhub-6.png)
-
+6. Melihat image yang telah di push pada Docker Hub
 
 ## Sumber Referensi
 - https://docs.docker.com/engine/reference/commandline/container/
 - https://docs.docker.com/engine/reference/commandline/image/
+- https://docs.docker.com/docker-hub/
+- Bullington-McGuire, R., Dennis, A. K., & Schwartz, M. (2020). Docker For Developers. Packt.
