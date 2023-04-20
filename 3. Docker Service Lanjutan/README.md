@@ -1,10 +1,67 @@
 # **Docker Service Lanjutan**
 - [**Glosarium**](#glosarium)
 - [**Materi**](#materi)
-  - [Mengolah data di Docker](#mengolah-data-di-docker)
-  - [Networking di Docker](#networking-di-docker)
-  - [Docker Compose](#-docker-compose)
-- [**Sumber**](#-sumber)
+  - [Docker Data Management](#docker-data-management)
+    - [Pengenalan Docker Data Management](#pengenalan-docker-data-management)
+    - [Jenis-Jenis Docker Mount](#jenis-jenis-docker-mount)
+      - [Volume](#volume)
+      - [Bind Mount](#bind-mount)
+      - [tmpfs Mount](#tmpfs-mount)
+    - [Volume di Docker](#volume-di-docker)
+    - [Mengelola Data pada Docker Volume](#mengelola-data-pada-docker-container)
+  - [Docker Networking](#docker-networking)
+    - [Pengenalan Docker Networking](#pengenalan-docker-networking)
+    - [Konsep Dasar Docker Networking](#konsep-dasar-docker-networking)
+      - [Docker network driver](#docker-network-driver)
+      - [IP Address Management](#ip-address-management)
+      - [DNS Name Resolution](#dns-name-resolution)
+      - [Port mapping](#port-mapping)
+    - [Jenis-Jenis Docker Network Driver](#jenis-jenis-docker-network-driver)
+      - [bridge Network](#bridge-network)
+      - [host Network](#host-network)
+      - [overlay Network](#overlay-network)
+      - [ipvlan](#ipvlan)
+      - [macvlan Network](#macvlan-network)
+      - [Network plugins](#network-plugins)
+    - [Mengelola Docker Networking](#mengelola-docker-networking)
+  - [Docker Compose](#docker-compose)
+    - [Pengertian Docker Compose](#pengertian-docker-compose)
+    - [depend_on](#depend_on)
+    - [Implementasi Docker Compose](#implementasi-docker-compose)
+- [**Sumber Referensi**](#sumber-referensi)
+
+
+## Glosarium
+## Materi
+### Docker Data Management
+#### Pengenalan Docker Data Management 
+Docker Data Management adalah sebuah konsep untuk mengelola data atau file yang ada di Docker. Ketika menjalankan sebuah aplikasi atau layanan di dalam Docker container, data yang dihasilkan oleh aplikasi tersebut dapat disimpan dalam container itu sendiri atau dalam sebuah volume yang terpisah dari container.
+
+Dalam Docker, terdapat beberapa jenis volume yang dapat digunakan untuk menyimpan data, seperti volume yang terhubung dengan container, atau bind mount yang menghubungkan direktori host dengan direktori di dalam container.
+
+Docker Data Management juga meliputi backup dan restore data container, serta pengelolaan volume seperti menampilkan informasi volume, menghapus volume, dan mengatur volume driver options.
+
+Pemahaman tentang Docker Data Management sangat penting untuk memastikan data yang dihasilkan oleh aplikasi yang dijalankan di dalam container tetap terjaga dan tidak hilang saat container dihapus atau dimatikan.
+
+#### Jenis-Jenis Docker Mount
+
+#### Volume di Docker
+Volume di Docker adalah fitur untuk menyimpan data atau file di luar container yang dapat diakses oleh satu atau beberapa container Docker. Volume ini digunakan untuk menyimpan data yang dibutuhkan oleh aplikasi di dalam container, seperti data database, file konfigurasi, atau file log.
+
+Dalam Docker, terdapat beberapa jenis volume yang dapat digunakan, antara lain:
+
+1. Host-mounted volumes: volume ini menghubungkan direktori di host dengan direktori di dalam container, sehingga data yang disimpan di dalam volume akan sama-sama tersedia di host dan di dalam container.
+
+2. Anonymous volumes: volume ini dibuat secara otomatis oleh Docker ketika container dibuat, dan digunakan untuk menyimpan data yang dihasilkan oleh container, seperti file log atau data cache. Volume ini biasanya dihapus secara otomatis ketika container dihapus.
+
+3. Named volumes: volume ini dibuat secara manual oleh pengguna, dan dapat digunakan oleh satu atau lebih container. Named volume ini dapat digunakan untuk menyimpan data yang dihasilkan oleh aplikasi di dalam container, dan tetap ada bahkan setelah container dihapus.
+
+Dalam penggunaannya, volume dapat dibuat menggunakan perintah "docker volume create", kemudian dihubungkan ke dalam container dengan menggunakan opsi "--mount" atau "-v" pada perintah "docker run". Dengan menggunakan volume, data di dalam container dapat disimpan secara terpisah dari container itu sendiri, sehingga data tetap terjaga bahkan jika container dihapus atau dimulai ulang.
+
+#### Mengelola Data pada Docker Container
+
+## Sumber Referensi
+- https://docs.docker.com/storage/
 
 ## 🧬 Docker Compose
 ### 🔭 Apa itu Docker Compose?
