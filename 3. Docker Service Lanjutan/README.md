@@ -4,15 +4,16 @@
   - [Docker Compose](#docker-compose)
     - [Pengertian Docker Compose](#pengertian-docker-compose)
     - [Contoh Implementasi Docker Compose](#contoh-implementasi-docker-compose)
-    - [Inheritance di Docker Compose](#inheritance-di-docker-compose)
     - [Depend On Docker Compose](#depend-on-docker-compose)
+    - [Inheritance di Docker Compose](#inheritance-di-docker-compose)
+    - [Mengelola Docker Compose](#mengelola-docker-compose)
   - [Docker Data Management](#docker-data-management)
     - [Pengenalan Docker Data Management](#pengenalan-docker-data-management)
     - [Jenis-Jenis Docker Mount](#jenis-jenis-docker-mount)
       - [Volume](#volume)
       - [Bind Mount](#bind-mount)
       - [tmpfs Mount](#tmpfs-mount)
-    - [Mengelola Volume di Docker Compose](#mengelola-volume-di-docker-compose)
+    - [Mengelola Docker Volume](#mengelola-docker-volume)
   - [Docker Networking](#docker-networking)
     - [Pengenalan Docker Networking](#pengenalan-docker-networking)
     - [Konsep Dasar Docker Networking](#konsep-dasar-docker-networking)
@@ -33,8 +34,8 @@
 
 
 ## Glosarium
-## Materi
 
+## Materi
 ### Docker Compose
 #### Pengertian Docker Compose
 ![Docker compose](img/docker-compose.jpg)
@@ -53,8 +54,6 @@ services:
     build: ./backend
     ports:
       - "8080:8080"
-    <!-- depends_on:
-      - database -->
     environment:
       DB_HOST: database
   frontend:
@@ -65,15 +64,28 @@ services:
       REACT_APP_BACKEND_URL: http://backend:8080
   database:
     image: postgres
-    <!-- volumes:
-      - ./data:/var/lib/postgresql/data -->
     environment:
       POSTGRES_USER: myuser
       POSTGRES_PASSWORD: mypassword
       POSTGRES_DB: mydb
 ```
 
-Konfigurasi docker compose di atas mendefinisikan tiga layanan yaitu backend, frontend, dan database. Layanan backend dan frontend masing-masing dikonfigurasi untuk membangun image Docker dari direktori yang diberikan dan meneruskan port 8080 dan 3000 ke host, sehingga dapat diakses melalui browser pada alamat http://localhost:8080 dan http://localhost:3000.
+Konfigurasi docker compose di atas mendefinisikan tiga layanan yaitu backend, frontend, dan database. Berikut adalah penjelasan tentang konfigurasi diatas:
+
+- **`version: '3'`**: Versi dari Docker Compose yang digunakan dalam konfigurasi tersebut.
+- **`services`**: Komponen utama yang mendefinisikan service yang akan dijalankan. Dalam konfigurasi diatas, terdapat 3 service yaitu frontend, backend, dan database.
+- **`backend`**: Nama service yang akan dijalankan.
+- **`build: ./backend`**: Menentukan direktori dimana Docker akan melakukan build image untuk service backend.
+- **`ports: - "8080:8080"`**: Mendefinisikan port mapping, dimana port 8080 pada container akan di-forward ke port 8080 pada host.
+- **`environment: DB_HOST: database`**: Mendefinisikan environment variable pada service backend, dimana DB_HOST akan di-set sebagai database.
+- **`frontend`**: Nama service yang akan dijalankan.
+- **`build: ./frontend`**: Menentukan direktori dimana Docker akan melakukan build image untuk service frontend.
+- **`ports: - "3000:3000"`**: Mendefinisikan port mapping, dimana port 3000 pada container akan di-forward ke port 3000 pada host.
+- **`environment: REACT_APP_BACKEND_URL: http://backend:8080`**: Mendefinisikan environment variable pada service frontend, dimana `REACT_APP_BACKEND_URL` akan di-set sebagai `http://backend:8080`.
+- **`database`**: Nama service yang akan dijalankan.
+- **`image: postgres`**: Mendefinisikan image yang akan digunakan untuk service database.
+- **`environment: POSTGRES_USER: myuser POSTGRES_PASSWORD: mypassword POSTGRES_DB: mydb`**: Mendefinisikan environment variable pada service database, dimana `POSTGRES_USER` akan di-set sebagai myuser, `POSTGRES_PASSWORD` akan di-set sebagai mypassword, dan `POSTGRES_DB` akan di-set sebagai mydb.
+
 
 Untuk praktiknya akan dicontohkah pada [Modul 4](https://github.com/arsitektur-jaringan-komputer/Pelatihan-Docker/tree/pd23/4.%20Membangun%20Aplikasi%20di%20Docker)
 
@@ -108,45 +120,34 @@ services:
 Dari konfigurasi diatas, ditambahkan fitur **`depends_on`** pada service backend untuk memastikan container tersebut tidak akan dijalankan sebelum container database siap digunakan.
 
 #### Inheritance di Docker Compose
-Inheritance (pewarisan) adalah fitur penting di Docker Compose untuk mengelola container Docker yang terkait. Inheritance memungkinkan pengguna untuk mewarisi konfigurasi dari file konfigurasi lain. Dalam Docker Compose, ini dilakukan dengan menggunakan opsi **`extends`** di dalam file konfigurasi YAML. Dengan opsi ini, pengguna dapat membuat file konfigurasi yang lebih spesifik untuk setiap lingkungan, seperti production, staging, atau development, sementara masih mewarisi konfigurasi yang sama dari file konfigurasi yang lebih umum.
+Inheritance (pewarisan) adalah fitur penting di Docker Compose untuk mengelola container Docker yang terkait. Inheritance memungkinkan untuk mewarisi konfigurasi dari file konfigurasi lain. Dalam Docker Compose, ini dilakukan dengan menggunakan opsi **`extends`** di dalam file konfigurasi YAML. Dengan opsi ini, developer dapat membuat file konfigurasi yang lebih spesifik untuk setiap lingkungan, seperti production, staging, atau development, sementara masih mewarisi konfigurasi yang sama dari file konfigurasi yang lebih umum.
+
 
 #### Mengelola Docker Compose
+Berikut adalah beberapa perintah penting untuk mengelola Docker compose beserta penjelasannya yang tersedia pada **`docker compose COMMAND`**. Perthatian, apabila installasi docker compose melalui standalone maka format perintahnya adalah **`docker-compose COMMAND`** 
+
 | Perintah | Deskripsi |
-|---|---|
-| build   | Build or rebuild services                                 |
-| bundle  | Generate a Docker bundle from the Compose file            |
-| config  | Validate and view the Compose file                        |
-| create  | Create services                                           |
-| down    | Stop and remove containers, networks, images, and volumes |
-| events  | Receive real time events from containers                  |
-| exec    | Execute a command in a running container                  |
-| help    | Get help on a command                                     |
-| images  | List images                                               |
-| kill    | Kill containers                                           |
-| logs    | View output from containers                               |
-| pause   | Pause services                                            |
-| port    | Print the public port for a port binding                  |
-| ps      | List containers                                           |
-| pull    | Pull service images                                       |
-| push    | Push service images                                       |
-| restart | Restart services                                          |
-| rm      | Remove stopped containers                                 |
-| run     | Run a one-off command                                     |
-| scale   | Set number of containers for a service                    |
-| start   | Start services                                            |
-| stop    | Stop services                                             |
-| top     | Display the running processes                             |
-| unpause | Unpause services                                          |
-| up      | Create and start containers                               |
-| version | Show the Docker-Compose version information               |
+| --- | --- |
+|`up` | Membuat dan memulai container sesuai dengan konfigurasi di dalam file docker-compose.yml. Jika file tersebut tidak ada, perintah ini akan gagal. |
+|`up -d` |	Sama seperti docker-compose up, tetapi menjalankan container di background (detached mode).
+|`down`	| Menghentikan dan menghapus container yang dihasilkan oleh docker-compose up. |
+|`build` |	Membuat image untuk service yang didefinisikan di dalam docker-compose.yml. |
+|`start` | Menjalankan container yang sudah dibuat. |
+|`stop` |	Menghentikan container yang sedang berjalan. |
+|`restart` |	Menghentikan dan menjalankan kembali container. |
+|`ps` |	Menampilkan status dari container yang dijalankan oleh Docker Compose. |
+|`logs` |	Menampilkan log dari service yang dijalankan oleh Docker Compose. |
+|`exec` |	Menjalankan perintah di dalam container. |
+|`config` |	Memvalidasi dan menampilkan konfigurasi dari docker-compose.yml. |
+|`kill` |	Memaksa menghentikan container yang sedang berjalan. |
 
 ### Docker Data Management
 #### Pengenalan Docker Data Management 
 Docker Data Management adalah sebuah konsep untuk mengelola data atau file yang ada di Docker. Ketika menjalankan sebuah aplikasi atau layanan di dalam Docker container, data yang dihasilkan oleh aplikasi tersebut dapat disimpan dalam container itu sendiri atau dalam sebuah volume yang terpisah dari container.
 
-Dalam Docker, terdapat beberapa jenis mount atau penghubung yang digunakan untuk mengelola data, seperti volume, bind mount, dan tmpfs mount. Pengguna dapat memilih jenis mount yang tepat sesuai dengan kebutuhan aplikasi yang dijalankan di dalam container.
+Dalam Docker, terdapat beberapa jenis mount atau penghubung yang digunakan untuk mengelola data, seperti volume, bind mount, dan tmpfs mount. Seorang developer dapat memilih jenis mount yang tepat sesuai dengan kebutuhan aplikasi yang dijalankan di dalam container.
 
-Selain itu, Docker juga menyediakan beberapa perintah untuk mengelola data pada Docker volume, seperti menampilkan informasi volume, menghapus volume, dan mengatur volume driver options. Dengan menggunakan perintah-perintah ini, pengguna Docker dapat mengelola data dengan mudah dan efisien.
+Selain itu, Docker juga menyediakan beberapa perintah untuk mengelola data pada Docker volume, seperti menampilkan informasi volume, menghapus volume, dan mengatur volume driver options. Dengan menggunakan perintah-perintah ini, developer dapat mengelola data di Docker dengan mudah dan efisien.
 
 Pemahaman tentang Docker Data Management sangat penting untuk memastikan data yang dihasilkan oleh aplikasi yang dijalankan di dalam container tetap terjaga dan tidak hilang saat container dihapus atau dimatikan.
 
@@ -154,6 +155,39 @@ Pemahaman tentang Docker Data Management sangat penting untuk memastikan data ya
 <img src="img/docker-mounts.png" alt="Docker Mount" style="width:100%;">
 
 - ##### Volume
+Docker Volume adalah fitur pada Docker yang memungkinkan developer untuk mengelola data yang dibutuhkan oleh container secara terpisah dari container itu sendiri. Volume Docker memungkinkan container untuk berbagi data dengan host, container lain, atau dengan layanan penyimpanan data yang disediakan oleh penyedia layanan cloud.
+
+Dalam Docker, setiap container memiliki file system sendiri yang terisolasi dari host dan container lainnya. Dalam beberapa kasus, data yang diperlukan oleh container perlu disimpan secara persisten, sehingga tidak hilang saat container dihapus atau dihentikan. Docker Volume memungkinkan untuk membuat penyimpanan data persisten untuk container tersebut, dan memungkinkan container lain atau host untuk mengakses data tersebut.
+
+
+Berikut adalah contoh menerapkan Docker volume pada konfigurasi Docker compose sebelumnya.
+
+```
+version: '3'
+services:
+  backend:
+    build: ./backend
+    ports:
+      - "8080:8080"
+    environment:
+      DB_HOST: database
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:3000"
+    environment:
+      REACT_APP_BACKEND_URL: http://backend:8080
+  database:
+    image: postgres
+    volumes:
+      - ./data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword
+      POSTGRES_DB: mydb
+```
+
+Dengan menambahkan konfigurasi volumes pada Docker compose, maka data dari database akan tersimpan dan tidak hilang meskipun container dimatikan.
 
 - ##### Bind Mount
 Bind mount adalah tipe mount di Docker yang memungkinkan suatu file atau direktori di host machine digunakan oleh container Docker. Dalam bind mount, container dan host machine menggunakan file system yang sama, sehingga jika suatu file diubah dalam container, perubahannya juga akan terlihat di host machine, dan sebaliknya.
@@ -216,123 +250,43 @@ Untuk memastikan proses tmpfs mount berjalan dengan baik dapat menggunakan perin
 
 ![Hasil implementasi dari tmpfs mount](img/hasil-tmpfs-mount.png)
 
-#### Mengelola Data pada Docker Container
+#### Mengelola Docker Volume
+- ##### Membuat Docker Volume
+  Untuk membuat Docker Volume dapat menggunakan perintah docker volume create. Contoh sintaks perintahnya adalah sebagai berikut: **`docker volume create <nama_volume>`**
+  ![Membuat docker volume](img/docker-create-volume.png)
+
+
+- ##### Melihat Daftar Docker Volume
+  Untuk melihat daftar Docker Volume yang sudah dibuat, gunakan perintah `docker volume ls`. Contoh sintaks perintahnya adalah sebagai berikut: **`docker volume ls`**
+  ![Melihat daftar docker volume](img/docker-ls-volume.png)
+
+- ##### Menggunakan Docker Volume pada Container
+  Untuk menggunakan Docker Volume pada container dengan menggunakan opsi -v pada perintah `docker run`. Contoh sintaks perintahnya adalah sebagai berikut: **`docker run -v <nama_volume>:<lokasi_mount_container> <image_name>`**
+  ![Menggunakan docker volume pada container](img/docker-start-container-volume.png)
+
+
+- ##### Meng-Inspect Docker Volume
+  Untuk melihat detail dari Docker Volume yang sudah dibuat, gunakan perintah docker volume inspect. Contoh sintaks perintahnya adalah sebagai berikut: `docker volume inspect <nama_volume>`
+  ![Inspect docker volume](img/docker-inspect-volume.png)
+
+- ##### Meng-Copy Data ke dalam Docker Volume
+  Untuk dapat meng-copy data ke dalam Docker Volume dengan menggunakan perintah `docker cp`. Contoh sintaks perintahnya adalah sebagai berikut: **`docker cp <nama_file> <nama_container>:<lokasi_mount_container>`**
+  Dimana `<nama_file>` adalah nama file yang akan di-copy, `<nama_container>` adalah nama dari container yang akan di-copy file tersebut, dan `<lokasi_mount_container>` adalah lokasi di dalam container dimana file tersebut akan di-copy.
+  ![Copy data ke dalam docker volume](img/docker-copy-volume.png)
+
+- ##### Menghapus Data dalam Docker Volume
+  Untuk menghapus data dalam Docker Volume, cukup hapus file yang berada di dalam volume tersebut dapat menggunakan perintah `docker exec` untuk menjalankan perintah di dalam container. Contoh sintaks perintahnya adalah sebagai berikut: **`docker exec <nama_container> rm <lokasi_file_di_volume>`** Dimana `<nama_container>` adalah nama dari container yang akan dihapus file tersebut, dan `<lokasi_file_di_volume>` adalah lokasi file yang akan dihapus dalam volume tersebut.
+  ![Menghapus data dalam docker volume](img/docker-remove-data-volume.png)
+
+- ##### Menghapus Docker Volume
+  Untuk menghapus Docker Volume, gunakan perintah docker volume rm. Contoh sintaks perintahnya adalah sebagai berikut: **`docker volume rm <nama_volume>`**
+  ![Menghapus volume](img/docker-remove-volume.png)
+
+Itulah beberapa cara untuk mengelola Docker Volume seperti membuat, melihat daftar, menghapus, menggunakan, inspect, copy data ke dalam, dan menghapus data dalam Docker Volume. Dengan Docker Volume pengelolaan data pada container dengan lebih mudah dan efisien.
+
+### Docker Networking
 
 ## Sumber Referensi
-- https://docs.docker.com/storage/
-
-
-### 🗓️ Version
-Pada baris pertama di file Compose, terdapat `version` yang berfungsi untuk menentukan versi Compose yang ingin digunakan. Pada umumnya properti ini bersifat backward compatible, jadi tidak ada salahnya untuk selalu menggunakan versi yang paling terbaru. Untuk penjelasan lebih detail tentang file Compose dapat dilihat di sini https://docs.docker.com/compose/compose-file.
-
-Versi yang digunakan pada contoh file compose diatas adalah versi `3`.
-### 🛂 Services
-Element service merupakan tempat kita mendefinisikan computing resources dari aplikasi yang kita jalankan. Setiap komponen yang ada dalam elemen ini dapat di scale secara independen dari komponen lainnya.
-
-Pembuatan service dimulai dengan mendefinisikan nama servicenya. Kita bisa membuat nama yang sesuai dengan service yang dijalankan. Contohnya pada file Compose diatas kita membuat service `db`, `backend`, dan `web`.
-
-Pembuatan suatu kontainer pada service dapat dilakukan dengan membuat image dari Dockerfile atau mengambil image suatu docker. Apabila kita ingin membuat image dari Dockerfile maka kita harus menyertakan section `build`. Apabila kita ingin menggunakan image yang sudah ada, maka kita harus menggunakan section `image`. Pada contoh diatas, kita mengambil image `mariadb:10.6.5-focal` dan mem-build dua image dari Dockerfile pada `backend` dan `web`.
-
-Kita bisa melakukan override terhadap command default yang telah tersedia pada docker image yang akan digunakan. Dengan menggunakan section `command`, kita bisa mengganti perintah yang terdapat pada `CMD` di docker image. Contohnya pada service `db`, kita menambahkan command `--default-authentication-plugin=mysql_native_password` untuk mengganti autentikasi mysql.
-
-Untuk mengganti environment pada kontainer, kita bisa menggunakan section `environment`. Cara kerja section ini sama dengan seperti kita menggunakan flag `-e` pada perintah `docker run`. Contohnya pada service `db`, kita menambahkan dua environemnt.
-
-```yaml
-...
-environment:
-  - MYSQL_DATABASE=example
-  - MYSQL_ROOT_PASSWORD_FILE=/run/secrets/db-password
-...
-```
-
-Untuk mengekspose port seperti pada command `docker run` yang menggunakan flag `-p`, kita bisa menggunakan section `port`. Kita bisa menggunakan port HOST:CONTAINER atau hanya CONTAINER dan port akan dipilih secara acak pada host.
-
-Kita juga bisa menambahkan `secrets`. `secrets` adalah semacam value konstant yang bisa kita gunakan. Contohnya pada service `db` dan `backend` yang menggunakan secret `db-password` yang kita definisikan.
-
-Terakhir kita juga dapat menambahkan volume dan network pada kontainer yang akan dijalankan dengan menggunakan section `volumes` dan `networks`. Volume dan network bisa menggunakan volume atau network yang sudah ada atau dapat kita deklarasikan pada top level elemen `volumes` dan `networks` yang akan kita bahas selanjutnya.
-
-Pada contoh diatas, kita menggunakan `networks` yang dibuat secara otomatis oleh docker-compose. Ketika pertama kali menjalankan perintah `docker-compose up`, maka akan muncul line
-
-`Creating network "docker-compose_default" with the default driver`
-
-yang menandakan bahwa telah dibuat network baru oleh docker-compose dan secara default seluruh service yang dideklarasikan pada file compose akan menggunakan network tersebut.
-
-### ☢️ Volumes
-Elemen ini berisi dengan docker volume yang akan dibuat. Elemen ini bersifat opsional. Pembuatan docker volume pada file Compose ini bertujuan untuk pengaturan volume yang lebih mudah. Dengan command yang terdapat pada `docker-compose` kita bisa menjalankan seluruh service sekaligus membuat docker volume yang telah dideklarasikan. Banyak hal lain yang kita lakukan terhadap volume yang dibuat dengan file Compose dengan command `docker-compose`. Volume yang kita deklarasikan pada file compose ini adalah `db-data` dengan perintah ini.
-```yaml
-volumes:
-  db-data:
-```
-### 📳 Network
-Elemen network berisi network yang ingin kita buat ketika menjalankan layanan. Elemen ini bersifat opsional karena kalau kita tidak menspesifikasikan elemen ini, maka docker akan secara otomatis membuat satu network yang dapat digunakan. Kalau pada service tidak ditentukan network mana yang akan digunakan, maka akan digunakan network yang secara otomatis dibuat tadi.
-
-### ‼️ Secrets
-Elemen secret adalah elemen yang berisi data sensitif. Data yang dimasukkan pada elemen ini dapat berasal dari 2 sumber, `external`, atau `file`. Kita juga dapat memberikan nama tertentu ke secret. Dengan menggunakan `file`, maka value dari secret akan diisi dengan isi dari file yang dituju. Dengan mengganti value dari `external` menjadi true, maka docker compose tidak akan mencoba membuat secret, namun akan mencoba mencari value dari secret tersebut. Pada contoh yang digunakan, kita mendeklarasikan `db-password` dengan sumber data `file` yang berlokasi di `db/password.txt`.
-
-### 🔱 Commands
-Terdapat beberapa command yang biasanya sering digunakan. Contohnya `docker-compose up` untuk menjalankan docker compose, `docker-compose down` untuk menghentikan seluruh service docker compose, dan `docker-compose up -d` untuk menjalankan service dalam background.
-
-Ketika kita melakukan perubahan terhadap image yang digunakan, kita bisa menambahkan `--build`untuk membangun ulang image agar image yang digunakan adalah image yang telah kita perbarui. Misalnya pada contoh awal yang kita gunakan, jkita bisa mengganti versi dari php pada Dockerfile di directory `web` menjadi versi 8.0, setelah itu untuk menjalankannya bisa digunakan command `docker-compose up --build`.
-
-Berikut adalah penjelasan singkat mengenai command `docker-compose`.
-
-```
-docker-compose [-f <arg>...] [--profile <name>...] [options] [COMMAND] [ARGS...]
-```
-
-Untuk lebih jelasnya dapat digunakan command berikut.
-```
-docker-compose -h|--help
-```
-
-Command help diatas akan mengeluarkan hasil berupa usage, options, dan commands.
-
-#### 🔠 Options
-| Options                    | Description                                                                                   |
-|----------------------------|-----------------------------------------------------------------------------------------------|
-| -f, --file FILE            | Specify an alternate compose file (default: docker-compose.yml)                               |
-| -p, --project-name NAME    | Specify an alternate project name (default: directory name)                                   |
-| --profile NAME             | Specify a profile to enable                                                                   |
-| --verbose                  | Show more output                                                                              |
-| --log-level LEVEL          | Set log level (DEBUG, INFO, WARNING, ERROR, CRITICAL)                                         |
-| --no-ansi                  | Do not print ANSI control characters                                                          |
-| -v, --version              | Print version and exit                                                                        |
-| -H, --host HOST            | Daemon socket to connect to                                                                   |
-| --tls                      | Use TLS; implied by --tlsverify                                                               |
-| --tlscacert CA_PATH        | Trust certs signed only by this CA                                                            |
-| --tlscert CLIENT_CERT_PATH | Path to TLS certificate file                                                                  |
-| --tlskey TLS_KEY_PATH      | Path to TLS key file                                                                          |
-| --tlsverify                | Use TLS and verify the remote                                                                 |
-| --skip-hostname-check      | Don't check the daemon's hostname against the name specified in the client certificate        |
-| --project-directory PATH   | Specify an alternate working directory (default: the path of the Compose file)                |
-| --compatibility            | If set, Compose will attempt to convert deploy keys in v3 files to their non-Swarm equivalent |
-#### ▶️ Commands
-
-
-Referensi : 
 - https://docs.docker.com/compose/compose-file/
-- https://docs.docker.com/compose/environment-variables/
-- https://vegibit.com/docker-compose-tutorial/
-- https://github.com/compose-spec/compose-spec/blob/master/spec.md
-- https://github.com/docker/awesome-compose/tree/master/nginx-golang-mysql
-- https://www.youtube.com/watch?v=qH4ZKfwbO8w
-- https://www.youtube.com/watch?v=Qw9zlE3t8Ko
-
-
-## ⚠️ Monitoring
-Dalam penggunaan docker, kita dapat memonitor/memantau resource yang digunakan oleh docker. Docker memberikan beberapa command untuk melakukan hal tersebut. Monitoring resource sangatlah penting agar anda dapat mengetahui batasan perangkat anda dan dengan demikian anda dapat menghindar dari crash. Hal-hal yang perlu dimonitor disebut `metrics` pada modul ini. Metrics yang perlu diperhatikan secara umum adalah storage, memory, CPU Utilization, dan I/O Speed baik network maupun disk.
-
-Anda dapat memonitor resource memory, CPU Util dan IO yang digunakan oleh docker dengan `docker stats`. Berikut adalah beberapa command:
-- ```docker stats```<br>
-Mendapatkan informasi tentang penggunaan resource oleh tiap container secara realtime. Metrics yang didapatkan berupa CPU Usage (%), MEM Usage, Network Usage, Block Usage, dan PIDS.<br>
-- ```docker stats --no-stream```<br>
-Command diatas akan memberikan informasi resource pada saat ini (tidak realtime). Dengan option `no-stream` anda diberikan kebebasan untuk membuat scheduler anda sendiri.
-
-Anda dapat memonitor storage yang digunakan oleh Docker Image maupun Docker Container dengan `docker system`. Terdapat berbagai command untuk monitoring storage.
-- ```docker system df```<br>
-Menampilkan storage yang digunakan untuk masing-masing image dan container
-
-- ```docker system prune```<br>
-Command diatas menghapus image dan container yang sudah tidak berjalan. Image yang dihapus adalah image yang tidak digunakan di container manapun. Dengan `docker system prune` anda dapat mengklaim kembali storage. Hati-hati menggunakan docker system prune, karena mungkin saja karena kesalahan konfigurasi akan menghapus image yang masih anda perlukan.
-
-Referensi: https://docs.docker.com/engine/reference/commandline/system/
+- https://docs.docker.com/storage/
+- https://docs.docker.com/storage/volumes/
