@@ -18,6 +18,7 @@ services:
 
   backend:
     container_name: backend
+    restart: always
     build:
       context: ./backend
       dockerfile: Dockerfile
@@ -32,6 +33,23 @@ services:
     networks:
       - app-network
 
+  frontend:
+    container_name: frontend
+    restart: always
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    image: frontend
+    depends_on:
+      - backend
+    ports:
+      - '3000:3000'
+    volumes:
+      # - './frontend/:/usr/src/frontend'   # Development
+      - 'frontend:/usr/src/frontend'      # Production
+    networks:
+      - app-network
+
 networks:
  app-network:
   driver: bridge
@@ -40,4 +58,6 @@ volumes:
   db:
     driver: local
   backend:
+    driver: local
+  frontend:
     driver: local
