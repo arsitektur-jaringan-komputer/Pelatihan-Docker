@@ -27,7 +27,8 @@ services:
     ports:
       - '5000:5000'
     volumes:
-      - './backend/:/usr/src/backend'
+      # - './backend/:/usr/src/backend'   # Development
+      - 'backend:/usr/src/backend'      # Production
     networks:
       - app-network
 
