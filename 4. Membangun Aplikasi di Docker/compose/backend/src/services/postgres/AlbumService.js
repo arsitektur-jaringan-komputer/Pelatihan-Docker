@@ -25,6 +25,16 @@ class AlbumService {
     return result.rows[0].id;
   }
 
+  async getAllAlbums() {
+    const query = {
+      text: 'SELECT * FROM albums',
+    };
+
+    const result = await this._pool.query(query);
+
+    return result.rows;
+  }
+
   async getAlbumById(id) {
     const query = {
       text: `SELECT albums.id AS aid, albums.name, albums.year, songs.id, songs.title, songs.performer 
