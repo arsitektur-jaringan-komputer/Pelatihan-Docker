@@ -37,13 +37,77 @@
 #### Pengenalan Docker Data Management 
 Docker Data Management adalah sebuah konsep untuk mengelola data atau file yang ada di Docker. Ketika menjalankan sebuah aplikasi atau layanan di dalam Docker container, data yang dihasilkan oleh aplikasi tersebut dapat disimpan dalam container itu sendiri atau dalam sebuah volume yang terpisah dari container.
 
-Dalam Docker, terdapat beberapa jenis volume yang dapat digunakan untuk menyimpan data, seperti volume yang terhubung dengan container, atau bind mount yang menghubungkan direktori host dengan direktori di dalam container.
+Dalam Docker, terdapat beberapa jenis mount atau penghubung yang digunakan untuk mengelola data, seperti volume, bind mount, dan tmpfs mount. Pengguna dapat memilih jenis mount yang tepat sesuai dengan kebutuhan aplikasi yang dijalankan di dalam container.
 
-Docker Data Management juga meliputi backup dan restore data container, serta pengelolaan volume seperti menampilkan informasi volume, menghapus volume, dan mengatur volume driver options.
+Selain itu, Docker juga menyediakan beberapa perintah untuk mengelola data pada Docker volume, seperti menampilkan informasi volume, menghapus volume, dan mengatur volume driver options. Dengan menggunakan perintah-perintah ini, pengguna Docker dapat mengelola data dengan mudah dan efisien.
 
 Pemahaman tentang Docker Data Management sangat penting untuk memastikan data yang dihasilkan oleh aplikasi yang dijalankan di dalam container tetap terjaga dan tidak hilang saat container dihapus atau dimatikan.
 
 #### Jenis-Jenis Docker Mount
+<img src="img/docker-mounts.png" alt="Docker Mount" style="width:100%;">
+
+- ##### Volume
+
+- ##### Bind Mount
+Bind mount adalah tipe mount di Docker yang memungkinkan suatu file atau direktori di host machine digunakan oleh container Docker. Dalam bind mount, container dan host machine menggunakan file system yang sama, sehingga jika suatu file diubah dalam container, perubahannya juga akan terlihat di host machine, dan sebaliknya.
+
+Dalam penggunaannya, bind mount dapat digunakan untuk mengakses file-file atau direktori dari host machine dan menggunakan data tersebut dalam container. Misalnya, jika ingin menjalankan sebuah aplikasi web di dalam container, tetapi ingin menggunakan file konfigurasi yang ada di host machine, maka dapat dilakukan bind mount dari direktori yang berisi file konfigurasi tersebut ke dalam direktori di dalam container.
+
+Berikut adalah contoh implementasi dari Bind Mount.
+
+```
+docker run -d \
+-it \
+--name bind-container \
+--mount type=bind,source="$(pwd)"/target,target=/app \
+node:16-alpine
+``` 
+![Hasil implementasi bind mount](img/docker-bind-mount-cli.png)
+
+Kode di atas merupakan perintah untuk menjalankan sebuah container dari image `node:16-alpine`, dengan beberapa opsi seperti:
+
+- **`-d`** : menjalankan container di background (detach mode).
+- **`-it`** : mengalihkan interaksi ke terminal container (interactive mode dan attach to container).
+- **`--name`** : memberikan nama `bind-container` container.
+- **`--mount`** : menentukan opsi mount pada container. Pada kasus ini, menggunakan `opsi type=bind` untuk membuat bind mount, di mana direktori lokal pada host `$(pwd)/target` di-mount pada direktori `/app` pada container.
+- **`node:16-alpine`** : image yang akan digunakan untuk menjalankan container.
+
+Untuk memastikan proses bind mount berjalan dengan baik dapat menggunakan perintah **`docker inspect nama_container`** dan lihat outputnya pada bagian **`Mounts`**.
+```
+docker inspect bind-container
+```
+![Output dari bind mount di Docker container](img/hasil-bind-mount.png)
+
+Untuk memverifikasi kesesuaian antara isi file di directory host dengan directory target dapat dilakukan dengan masuk ke mode shell dari container itu sendiri.
+![Verifikasi hasil bind mount](img/verifikasi-bind-mount.png)
+
+Keuntungan dari bind mount adalah fleksibilitasnya yang tinggi, karena memungkinkan akses langsung ke file di host machine. Namun, kekurangannya adalah tidak dapat digunakan di seluruh platform, dan konfigurasi harus dilakukan secara manual setiap kali container dijalankan atau dihapus.
+
+- ##### tmpfs Mount
+tmpfs mount adalah salah satu jenis mount pada Docker yang memungkinkan kita untuk menyimpan data secara sementara di dalam memory RAM pada host. Dengan menggunakan tmpfs mount, data akan cepat diakses karena langsung disimpan di dalam memory RAM, namun data tersebut tidak akan persisten karena hanya disimpan di dalam memory dan tidak disimpan ke dalam disk fisik.
+
+Cara penggunaannya yaitu dengan menambahkan opsi --mount pada saat menjalankan container, lalu menentukan tipe mount tmpfs dan ukuran memory yang akan digunakan untuk menyimpan data. Berikut contoh perintah untuk menggunakan tmpfs mount dengan ukuran memory 100 MB pada container:
+
+```
+docker run -d \
+-it \
+--name tmpfs-container \
+--mount type=tmpfs,destination=/app,tmpfs-size=100M \
+node:16-alpine
+```
+
+![Implementasi tmpfs mount](img/docker-tmpfs-mount.png)
+
+- **`-d`** : menjalankan container di background (detach mode).
+- **`-it`** : mengalihkan interaksi ke terminal container (interactive mode dan attach to container).
+- **`--name`** : memberikan nama `bind-container` container.
+- **`--mount`** digunakan untuk memasang sebuah volume pada container. `type=tmpfs` menentukan jenis volume yang akan digunakan, yaitu tmpfs volume. `destination=/app` menunjukkan direktori tujuan dari volume ini, yaitu `/app`.
+- **`tmpfs-size=100M`** digunakan untuk menentukan ukuran maksimum volume tmpfs dalam container, dalam hal ini sebesar 100 megabyte.
+- **`node:16-alpine`** : image yang akan digunakan untuk menjalankan container.
+
+Untuk memastikan proses tmpfs mount berjalan dengan baik dapat menggunakan perintah
+
+![Hasil implementasi dari tmpfs mount](img/hasil-tmpfs-mount.png)
 
 #### Volume di Docker
 Volume di Docker adalah fitur untuk menyimpan data atau file di luar container yang dapat diakses oleh satu atau beberapa container Docker. Volume ini digunakan untuk menyimpan data yang dibutuhkan oleh aplikasi di dalam container, seperti data database, file konfigurasi, atau file log.
