@@ -1,14 +1,18 @@
 # **Docker Service Lanjutan**
 - [**Glosarium**](#glosarium)
 - [**Materi**](#materi)
+  - [Docker Compose](#docker-compose)
+    - [Pengertian Docker Compose](#pengertian-docker-compose)
+    - [Contoh Implementasi Docker Compose](#contoh-implementasi-docker-compose)
+    - [Inheritance di Docker Compose](#inheritance-di-docker-compose)
+    - [Depend On Docker Compose](#depend-on-docker-compose)
   - [Docker Data Management](#docker-data-management)
     - [Pengenalan Docker Data Management](#pengenalan-docker-data-management)
     - [Jenis-Jenis Docker Mount](#jenis-jenis-docker-mount)
       - [Volume](#volume)
       - [Bind Mount](#bind-mount)
       - [tmpfs Mount](#tmpfs-mount)
-    - [Volume di Docker](#volume-di-docker)
-    - [Mengelola Data pada Docker Volume](#mengelola-data-pada-docker-container)
+    - [Mengelola Volume di Docker Compose](#mengelola-volume-di-docker-compose)
   - [Docker Networking](#docker-networking)
     - [Pengenalan Docker Networking](#pengenalan-docker-networking)
     - [Konsep Dasar Docker Networking](#konsep-dasar-docker-networking)
@@ -23,16 +27,119 @@
       - [ipvlan](#ipvlan)
       - [macvlan Network](#macvlan-network)
       - [Network plugins](#network-plugins)
-    - [Mengelola Docker Networking](#mengelola-docker-networking)
-  - [Docker Compose](#docker-compose)
-    - [Pengertian Docker Compose](#pengertian-docker-compose)
-    - [depend_on](#depend_on)
-    - [Implementasi Docker Compose](#implementasi-docker-compose)
+    - [Mengelola Docker Networking di Docker Compose](#mengelola-docker-networking-di-docker-compose)
+  
 - [**Sumber Referensi**](#sumber-referensi)
 
 
 ## Glosarium
 ## Materi
+
+### Docker Compose
+#### Pengertian Docker Compose
+![Docker compose](img/docker-compose.jpg)
+Docker Compose adalah sebuah alat atau tool untuk mengelola dan menjalankan aplikasi yang terdiri dari satu atau beberapa container. Docker Compose memungkinkan untuk mendefinisikan, mengonfigurasi, dan menjalankan beberapa container Docker sekaligus dengan menggunakan file konfigurasi YAML yang sederhana.
+
+Dengan Docker Compose juga dapat menentukan image Docker untuk setiap container, mengatur pengaturan jaringan, menentukan volume yang dibutuhkan, dan melakukan konfigurasi lainnya dalam satu file konfigurasi. Selain itu, Docker Compose juga memudahkan proses pengaturan dan penyebaran aplikasi pada lingkungan produksi atau development yang berbeda dengan cara yang konsisten.
+
+Dalam pengembangan perangkat lunak modern, aplikasi terdiri dari banyak komponen yang dapat dijalankan secara terpisah dan berinteraksi satu sama lain melalui jaringan. Dalam hal ini, Docker Compose menjadi alat yang sangat berguna untuk mengatur aplikasi tersebut dengan menggunakan container Docker, sehingga memudahkan proses pengembangan, pengujian, dan penyebaran aplikasi yang kompleks.
+
+#### Contoh Implementasi Docker Compose
+
+```
+version: '3'
+services:
+  backend:
+    build: ./backend
+    ports:
+      - "8080:8080"
+    <!-- depends_on:
+      - database -->
+    environment:
+      DB_HOST: database
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:3000"
+    environment:
+      REACT_APP_BACKEND_URL: http://backend:8080
+  database:
+    image: postgres
+    <!-- volumes:
+      - ./data:/var/lib/postgresql/data -->
+    environment:
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword
+      POSTGRES_DB: mydb
+```
+
+Konfigurasi docker compose di atas mendefinisikan tiga layanan yaitu backend, frontend, dan database. Layanan backend dan frontend masing-masing dikonfigurasi untuk membangun image Docker dari direktori yang diberikan dan meneruskan port 8080 dan 3000 ke host, sehingga dapat diakses melalui browser pada alamat http://localhost:8080 dan http://localhost:3000.
+
+Untuk praktiknya akan dicontohkah pada [Modul 4](https://github.com/arsitektur-jaringan-komputer/Pelatihan-Docker/tree/pd23/4.%20Membangun%20Aplikasi%20di%20Docker)
+
+#### Depend On Docker Compose
+Pada konfigurasi Docker Compose, terdapat fitur **`depends_on`** yang berguna untuk menentukan urutan dalam membangun dan menjalankan container. Hal ini dibutuhkan ketika terdapat container yang membutuhkan layanan dari container lain yang harus sudah terlebih dahulu dibangun dan dijalankan. Contohnya pada konfigurasi Docekr compose sebelumnya, container backend membutuhkan layanan dari database untuk terkoneksi sehingga perlu menunggu container database terlebih dahulu dibangun dan dijalankan. 
+
+```
+version: '3'
+services:
+  backend:
+    build: ./backend
+    ports:
+      - "8080:8080"
+    depends_on:
+      - database
+    environment:
+      DB_HOST: database
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:3000"
+    environment:
+      REACT_APP_BACKEND_URL: http://backend:8080
+  database:
+    image: postgres
+    environment:
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword
+      POSTGRES_DB: mydb
+```
+
+Dari konfigurasi diatas, ditambahkan fitur **`depends_on`** pada service backend untuk memastikan container tersebut tidak akan dijalankan sebelum container database siap digunakan.
+
+#### Inheritance di Docker Compose
+Inheritance (pewarisan) adalah fitur penting di Docker Compose untuk mengelola container Docker yang terkait. Inheritance memungkinkan pengguna untuk mewarisi konfigurasi dari file konfigurasi lain. Dalam Docker Compose, ini dilakukan dengan menggunakan opsi **`extends`** di dalam file konfigurasi YAML. Dengan opsi ini, pengguna dapat membuat file konfigurasi yang lebih spesifik untuk setiap lingkungan, seperti production, staging, atau development, sementara masih mewarisi konfigurasi yang sama dari file konfigurasi yang lebih umum.
+
+#### Mengelola Docker Compose
+| Perintah | Deskripsi |
+|---|---|
+| build   | Build or rebuild services                                 |
+| bundle  | Generate a Docker bundle from the Compose file            |
+| config  | Validate and view the Compose file                        |
+| create  | Create services                                           |
+| down    | Stop and remove containers, networks, images, and volumes |
+| events  | Receive real time events from containers                  |
+| exec    | Execute a command in a running container                  |
+| help    | Get help on a command                                     |
+| images  | List images                                               |
+| kill    | Kill containers                                           |
+| logs    | View output from containers                               |
+| pause   | Pause services                                            |
+| port    | Print the public port for a port binding                  |
+| ps      | List containers                                           |
+| pull    | Pull service images                                       |
+| push    | Push service images                                       |
+| restart | Restart services                                          |
+| rm      | Remove stopped containers                                 |
+| run     | Run a one-off command                                     |
+| scale   | Set number of containers for a service                    |
+| start   | Start services                                            |
+| stop    | Stop services                                             |
+| top     | Display the running processes                             |
+| unpause | Unpause services                                          |
+| up      | Create and start containers                               |
+| version | Show the Docker-Compose version information               |
+
 ### Docker Data Management
 #### Pengenalan Docker Data Management 
 Docker Data Management adalah sebuah konsep untuk mengelola data atau file yang ada di Docker. Ketika menjalankan sebuah aplikasi atau layanan di dalam Docker container, data yang dihasilkan oleh aplikasi tersebut dapat disimpan dalam container itu sendiri atau dalam sebuah volume yang terpisah dari container.
@@ -109,81 +216,11 @@ Untuk memastikan proses tmpfs mount berjalan dengan baik dapat menggunakan perin
 
 ![Hasil implementasi dari tmpfs mount](img/hasil-tmpfs-mount.png)
 
-#### Volume di Docker
-Volume di Docker adalah fitur untuk menyimpan data atau file di luar container yang dapat diakses oleh satu atau beberapa container Docker. Volume ini digunakan untuk menyimpan data yang dibutuhkan oleh aplikasi di dalam container, seperti data database, file konfigurasi, atau file log.
-
-Dalam Docker, terdapat beberapa jenis volume yang dapat digunakan, antara lain:
-
-1. Host-mounted volumes: volume ini menghubungkan direktori di host dengan direktori di dalam container, sehingga data yang disimpan di dalam volume akan sama-sama tersedia di host dan di dalam container.
-
-2. Anonymous volumes: volume ini dibuat secara otomatis oleh Docker ketika container dibuat, dan digunakan untuk menyimpan data yang dihasilkan oleh container, seperti file log atau data cache. Volume ini biasanya dihapus secara otomatis ketika container dihapus.
-
-3. Named volumes: volume ini dibuat secara manual oleh pengguna, dan dapat digunakan oleh satu atau lebih container. Named volume ini dapat digunakan untuk menyimpan data yang dihasilkan oleh aplikasi di dalam container, dan tetap ada bahkan setelah container dihapus.
-
-Dalam penggunaannya, volume dapat dibuat menggunakan perintah "docker volume create", kemudian dihubungkan ke dalam container dengan menggunakan opsi "--mount" atau "-v" pada perintah "docker run". Dengan menggunakan volume, data di dalam container dapat disimpan secara terpisah dari container itu sendiri, sehingga data tetap terjaga bahkan jika container dihapus atau dimulai ulang.
-
 #### Mengelola Data pada Docker Container
 
 ## Sumber Referensi
 - https://docs.docker.com/storage/
 
-## 🧬 Docker Compose
-### 🔭 Apa itu Docker Compose?
-Docker Compose adalah tools untuk mendefinisikan dan menjalankan aplikasi Docker multi-kontainer. Dengan Docker Compose, kita menggunakan file YAML untuk mengonfigurasi layanan aplikasi kita. Kemudian, dengan satu perintah, kita bisa membuat dan memulai semua layanan dari konfigurasi yang ada.
-
-![diagram-services](images/diagram-services.jpg)
-
-Contoh kasus penggunaan Docker Compose adalah semisal ketika kita memiliki banyak layanan yang terdapat di beberapa Dockerfile. 
-
-Layanan-layanan tersebut yang saling terhubung satu sama lain bisa saja kita jalankan satu per satu. Namun hal ini tentu sangat menguras tenaga.
-
-Dengan Docker Compose kita dapat menjalankan seluruh layanan diatas hanya dengan satu file YAML dan satu command yaitu `docker-compose up`.
-### 🧪 File Compose
-```yaml
-version: '3'
-services:
-  db:
-    image: mariadb:10.6.5-focal
-    command: '--default-authentication-plugin=mysql_native_password'
-    restart: always
-    secrets:
-      - db-password
-    volumes:
-      - db-data:/var/lib/mysql
-    environment:
-      - MYSQL_DATABASE=example
-      - MYSQL_ROOT_PASSWORD_FILE=/run/secrets/db-password
-    expose:
-      - 3306
-  backend:
-    build: back
-    ports: 
-      - 3334:8000
-    secrets:
-      - db-password
-    depends_on:
-      - db
-  web:
-    build: web
-    ports:
-      - 3335:80
-    depends_on:
-      - backend
-    volumes:
-      - ./web/src:/var/www/html
-volumes:
-  db-data:
-secrets:
-  db-password:
-    file: db/password.txt
-```
-File Compose adalah file berekstensi yaml atau yml yang biasanya berisi `version`, `services`, `networks`, `volumes`, `configs`, `secrets` dan konfigurasi lain yang dibutuhkan untuk menjalankan layanan-layanan yang kita miliki.
-
-YAML sendiri merupakan singkatan dari Yet Another Markup Language atau YAML ain't markup language. YAML biasanya digunakan untuk melakukan serialisasi data yang digunakan untuk menulis file konfigurasi.
-
-Spesifikasi atau syntax yang digunakan pada file Compose selengkapnya bisa dilihat di sini https://github.com/compose-spec/compose-spec/blob/master/spec.md. 
-
-Pada subbab selanjutnya akan dijelaskan setiap top-level element pada contoh file compose diatas. Untuk resource lengkap yang digunakan, dapat dilihat pada folder `docker-compose`.
 
 ### 🗓️ Version
 Pada baris pertama di file Compose, terdapat `version` yang berfungsi untuk menentukan versi Compose yang ingin digunakan. Pada umumnya properti ini bersifat backward compatible, jadi tidak ada salahnya untuk selalu menggunakan versi yang paling terbaru. Untuk penjelasan lebih detail tentang file Compose dapat dilihat di sini https://docs.docker.com/compose/compose-file.
@@ -270,34 +307,7 @@ Command help diatas akan mengeluarkan hasil berupa usage, options, dan commands.
 | --project-directory PATH   | Specify an alternate working directory (default: the path of the Compose file)                |
 | --compatibility            | If set, Compose will attempt to convert deploy keys in v3 files to their non-Swarm equivalent |
 #### ▶️ Commands
-| Command | Description                                               |
-|---------|-----------------------------------------------------------|
-| build   | Build or rebuild services                                 |
-| bundle  | Generate a Docker bundle from the Compose file            |
-| config  | Validate and view the Compose file                        |
-| create  | Create services                                           |
-| down    | Stop and remove containers, networks, images, and volumes |
-| events  | Receive real time events from containers                  |
-| exec    | Execute a command in a running container                  |
-| help    | Get help on a command                                     |
-| images  | List images                                               |
-| kill    | Kill containers                                           |
-| logs    | View output from containers                               |
-| pause   | Pause services                                            |
-| port    | Print the public port for a port binding                  |
-| ps      | List containers                                           |
-| pull    | Pull service images                                       |
-| push    | Push service images                                       |
-| restart | Restart services                                          |
-| rm      | Remove stopped containers                                 |
-| run     | Run a one-off command                                     |
-| scale   | Set number of containers for a service                    |
-| start   | Start services                                            |
-| stop    | Stop services                                             |
-| top     | Display the running processes                             |
-| unpause | Unpause services                                          |
-| up      | Create and start containers                               |
-| version | Show the Docker-Compose version information               |
+
 
 Referensi : 
 - https://docs.docker.com/compose/compose-file/
