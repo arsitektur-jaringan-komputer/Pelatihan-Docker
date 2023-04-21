@@ -38,3 +38,6 @@ networks:
 
 volumes:
   db:
+    driver: local
+  backend:
+    driver: local
