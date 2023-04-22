@@ -328,10 +328,28 @@ Dalam Docker, IPAM menawarkan beberapa mode pengaturan IP address, antara lain:
 Pengaturan IPAM pada Docker memungkinkan pengguna untuk lebih mudah mengelola alamat IP pada jaringan Docker dan mencegah masalah komunikasi dan konflik alamat IP. Dalam lingkungan yang lebih kompleks, IPAM dapat membantu meningkatkan efisiensi dan skalabilitas jaringan Docker.
 
 ##### DNS Name Resolution
-##### Port mapping
+DNS name resolution adalah proses mengubah nama domain menjadi alamat IP yang terkait dengannya. Ketika seseorang mengakses sebuah website, misalnya, browser harus mengetahui alamat IP dari server tempat website tersebut dihosting. Namun, manusia tentunya lebih mudah mengingat nama domain daripada alamat IP yang panjang dan sulit diingat.
 
+![Cara DNS name resolution bekerja](img/dns-name-resolution.png)
+
+Dalam DNS name resolution, nama domain akan dicocokkan dengan alamat IP yang terkait dengannya dalam database DNS (Domain Name System). Database DNS adalah sistem terdistribusi yang memungkinkan pengguna untuk mencari informasi tentang nama domain dan mengembalikan alamat IP yang terkait dengan domain tersebut. Dalam praktiknya, server DNS biasanya memegang informasi tentang beberapa domain dan mungkin perlu meminta informasi dari server DNS lain jika informasi yang diminta tidak tersedia pada server tersebut. Pembahasan lebih lanjut tentang DNS name resolution dapat dilihat di [Jarkom Modul DNS](#https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/tree/master/Modul-2/DNS)
+
+DNS name resolution sangat penting dalam internet, karena tanpa itu, pengguna akan kesulitan mengakses situs web dan layanan online. Dalam Docker, DNS name resolution memungkinkan container untuk berkomunikasi dengan menggunakan nama yang mudah diingat daripada alamat IP yang sulit diingat.
+
+##### Port mapping
+Port mapping adalah proses untuk menghubungkan antara port yang digunakan oleh sebuah aplikasi atau layanan dalam container dengan port yang tersedia pada host atau mesin tempat container dijalankan. Dalam Docker, port mapping memungkinkan container untuk menerima permintaan dari luar melalui port yang terbuka pada host atau mesin tempat container berjalan.
+
+Misalnya, jika sebuah container menjalankan sebuah layanan web pada port 8080, namun port 8080 tidak terbuka pada host, maka layanan tersebut tidak dapat diakses dari luar. Namun, dengan melakukan port mapping, Anda dapat menghubungkan port 8080 pada container dengan port yang tersedia pada host, seperti port 8000. Dengan demikian, layanan web pada container dapat diakses melalui port 8000 pada host.
+
+Port mapping dapat dilakukan pada saat menjalankan container dengan menggunakan perintah `docker run`. Untuk melakukan port mapping dapat menentukan port pada host dengan opsi `-p` dan port pada container dengan format `port_container`. Contohnya, jika ingin menghubungkan port 8080 pada container dengan port 8000 pada host dapat menjalankan perintah berikut:
+
+```
+docker run -p <port_host>:<port_container> <nama_container>
+```
+atau dengan menambahkan konfigurasi port mapping di Docker compose pada contohkan sebelumnya.
 
 ## Sumber Referensi
 - https://docs.docker.com/compose/compose-file/
 - https://docs.docker.com/storage/
 - https://docs.docker.com/storage/volumes/
+- https://raidboxes.io/en/blog/webdesign-development/domain-name-system-dns/
