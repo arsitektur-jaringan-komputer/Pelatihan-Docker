@@ -213,7 +213,7 @@ Kode di atas merupakan perintah untuk menjalankan sebuah container dari image `n
 - **`--mount`** : menentukan opsi mount pada container. Pada kasus ini, menggunakan `opsi type=bind` untuk membuat bind mount, di mana direktori lokal pada host `$(pwd)/target` di-mount pada direktori `/app` pada container.
 - **`node:16-alpine`** : image yang akan digunakan untuk menjalankan container.
 
-Untuk memastikan proses bind mount berjalan dengan baik dapat menggunakan perintah **`docker inspect nama_container`** dan lihat outputnya pada bagian **`Mounts`**.
+Untuk memastikan proses bind mount berjalan dengan baik dapat menggunakan perintah `docker inspect nama_container` dan lihat outputnya pada bagian `Mounts`.
 ```
 docker inspect bind-container
 ```
@@ -252,16 +252,16 @@ Untuk memastikan proses tmpfs mount berjalan dengan baik dapat menggunakan perin
 
 #### Mengelola Docker Volume
 - ##### Membuat Docker Volume
-  Untuk membuat Docker Volume dapat menggunakan perintah docker volume create. Contoh sintaks perintahnya adalah sebagai berikut: **`docker volume create <nama_volume>`**
+  Untuk membuat Docker Volume dapat menggunakan perintah docker volume create. Contoh sintaks perintahnya adalah sebagai berikut: `docker volume create <nama_volume>`
   ![Membuat docker volume](img/docker-create-volume.png)
 
 
 - ##### Melihat Daftar Docker Volume
-  Untuk melihat daftar Docker Volume yang sudah dibuat, gunakan perintah `docker volume ls`. Contoh sintaks perintahnya adalah sebagai berikut: **`docker volume ls`**
+  Untuk melihat daftar Docker Volume yang sudah dibuat, gunakan perintah `docker volume ls`. Contoh sintaks perintahnya adalah sebagai berikut: `docker volume ls`
   ![Melihat daftar docker volume](img/docker-ls-volume.png)
 
 - ##### Menggunakan Docker Volume pada Container
-  Untuk menggunakan Docker Volume pada container dengan menggunakan opsi -v pada perintah `docker run`. Contoh sintaks perintahnya adalah sebagai berikut: **`docker run -v <nama_volume>:<lokasi_mount_container> <image_name>`**
+  Untuk menggunakan Docker Volume pada container dengan menggunakan opsi -v pada perintah `docker run`. Contoh sintaks perintahnya adalah sebagai berikut: `docker run -v <nama_volume>:<lokasi_mount_container> <image_name>`
   ![Menggunakan docker volume pada container](img/docker-start-container-volume.png)
 
 
@@ -270,16 +270,16 @@ Untuk memastikan proses tmpfs mount berjalan dengan baik dapat menggunakan perin
   ![Inspect docker volume](img/docker-inspect-volume.png)
 
 - ##### Meng-Copy Data ke dalam Docker Volume
-  Untuk dapat meng-copy data ke dalam Docker Volume dengan menggunakan perintah `docker cp`. Contoh sintaks perintahnya adalah sebagai berikut: **`docker cp <nama_file> <nama_container>:<lokasi_mount_container>`**
+  Untuk dapat meng-copy data ke dalam Docker Volume dengan menggunakan perintah `docker cp`. Contoh sintaks perintahnya adalah sebagai berikut: `docker cp <nama_file> <nama_container>:<lokasi_mount_container>`
   Dimana `<nama_file>` adalah nama file yang akan di-copy, `<nama_container>` adalah nama dari container yang akan di-copy file tersebut, dan `<lokasi_mount_container>` adalah lokasi di dalam container dimana file tersebut akan di-copy.
   ![Copy data ke dalam docker volume](img/docker-copy-volume.png)
 
 - ##### Menghapus Data dalam Docker Volume
-  Untuk menghapus data dalam Docker Volume, cukup hapus file yang berada di dalam volume tersebut dapat menggunakan perintah `docker exec` untuk menjalankan perintah di dalam container. Contoh sintaks perintahnya adalah sebagai berikut: **`docker exec <nama_container> rm <lokasi_file_di_volume>`** Dimana `<nama_container>` adalah nama dari container yang akan dihapus file tersebut, dan `<lokasi_file_di_volume>` adalah lokasi file yang akan dihapus dalam volume tersebut.
+  Untuk menghapus data dalam Docker Volume, cukup hapus file yang berada di dalam volume tersebut dapat menggunakan perintah `docker exec` untuk menjalankan perintah di dalam container. Contoh sintaks perintahnya adalah sebagai berikut: `docker exec <nama_container> rm <lokasi_file_di_volume>` Dimana `<nama_container>` adalah nama dari container yang akan dihapus file tersebut, dan `<lokasi_file_di_volume>` adalah lokasi file yang akan dihapus dalam volume tersebut.
   ![Menghapus data dalam docker volume](img/docker-remove-data-volume.png)
 
 - ##### Menghapus Docker Volume
-  Untuk menghapus Docker Volume, gunakan perintah docker volume rm. Contoh sintaks perintahnya adalah sebagai berikut: **`docker volume rm <nama_volume>`**
+  Untuk menghapus Docker Volume, gunakan perintah docker volume rm. Contoh sintaks perintahnya adalah sebagai berikut: `docker volume rm <nama_volume>`
   ![Menghapus volume](img/docker-remove-volume.png)
 
 Itulah beberapa cara untuk mengelola Docker Volume seperti membuat, melihat daftar, menghapus, menggunakan, inspect, copy data ke dalam, dan menghapus data dalam Docker Volume. Dengan Docker Volume pengelolaan data pada container dengan lebih mudah dan efisien.
@@ -312,7 +312,7 @@ IP Address Management (IPAM) adalah proses manajemen alamat IP di dalam jaringan
 
 Dalam Docker, setiap container dapat memiliki alamat IP unik pada jaringan tertentu. IPAM memastikan bahwa alamat IP yang diberikan pada container tidak bertabrakan dengan alamat IP yang sudah ada di jaringan, sehingga mencegah masalah komunikasi dan konflik alamat IP.
 
-Untuk melihat ip address yang digunakan oleh sebuah Docker container dapat menggunakan perintah **`docker container inspect <container_id>`**. Informasi seputar IP Address biasanya terdapat di **`NetworkSettings`**.
+Untuk melihat ip address yang digunakan oleh sebuah Docker container dapat menggunakan perintah `docker container inspect <container_id>`. Informasi seputar IP Address biasanya terdapat di `NetworkSettings`.
 
 ![Network setting di docker container](img/docker-network-setting.png)
 
@@ -356,11 +356,11 @@ Bridge network pada Docker merupakan default network yang dibuat oleh Docker ket
 
 Dalam bridge network pada Docker, container dapat diakses menggunakan alamat IP dari jaringan yang sama, atau menggunakan nama container yang diberikan pada saat pembuatan container. Container juga dapat dihubungkan dengan network lainnya melalui fitur bridge network yang disediakan oleh Docker. Dalam hal ini, sebuah container dapat terhubung dengan beberapa network secara bersamaan untuk memungkinkan interaksi dengan container lain yang berada pada jaringan yang berbeda.
 
-Bridge network pada Docker dapat diatur secara manual dengan cara membuat jaringan baru atau mengatur konfigurasi dari jaringan yang sudah ada. Untuk membuat bridge network di Docker dapat menggunakan perintah: **`docker network create <nama_network>`**  atau dengan menulis driver network secara eksplisit **`docker network create --driver bridge <nama_network>`**.
+Bridge network pada Docker dapat diatur secara manual dengan cara membuat jaringan baru atau mengatur konfigurasi dari jaringan yang sudah ada. Untuk membuat bridge network di Docker dapat menggunakan perintah: `docker network create <nama_network>`  atau dengan menulis driver network secara eksplisit `docker network create --driver bridge <nama_network>`.
 
 ![Membuat docker bridge network](img/docker-bridge-network.png)
 
-Untuk memasang bridge network ke Docker container baru dapat menggunakan perintah **`docker run --name <nama_container> --network <nama_network>`** atau ke container yang sudah ada dengan perintah **`docker network connect <nama_network> <nama_container>`**
+Untuk memasang bridge network ke Docker container baru dapat menggunakan perintah `docker run --name <nama_container> --network <nama_network>` atau ke container yang sudah ada dengan perintah `docker network connect <nama_network> <nama_container>`.
 
 ![Memasang docker bridge network ke Docker container](img/docker-bridge-network-setting.png)
 
@@ -375,9 +375,7 @@ Keuntungan menggunakan host network adalah performa yang lebih baik karena conta
 
 Untuk membuat host network di Docker dapat dilakukan dengan perintah `docker network create --driver=host <nama-network>` dengan memberikan jenis driver secara eksplisit. Akan tetapi perlu diperhatikan kalau host network hanya diperbolehkan satu karena host network memberikan akses langsung ke semua port dan service pada host, sehingga dapat menimbulkan masalah keamanan jika lebih dari satu container menggunakan host network pada saat yang bersamaan. Selain itu, karena host network tidak memiliki isolasi seperti yang dimiliki oleh bridge network, maka ketika dua container menggunakan host network yang sama, mereka akan saling bersaing untuk menggunakan port yang sama, yang dapat menyebabkan konflik dan kegagalan dalam menjalankan container. Oleh karena itu, disarankan untuk menggunakan host network dengan hati-hati dan hanya jika memang benar-benar diperlukan.
 
-Host network paling tepat digunakan ketika performa jaringan menjadi faktor kritis dan isolasi network tidak diperlukan. Contohnya adalah ketika menjalankan aplikasi yang memerlukan koneksi jaringan yang sangat cepat dan membutuhkan akses ke port host yang spesifik, seperti aplikasi game online atau streaming media.
-
-Selain itu, host network juga cocok digunakan untuk aplikasi yang sudah teroptimasi untuk dijalankan pada lingkungan host dan tidak memerlukan isolasi network. Misalnya, aplikasi yang hanya digunakan untuk pengujian atau aplikasi yang sifatnya sementara.
+Host network paling tepat digunakan ketika performa jaringan menjadi faktor kritis dan isolasi network tidak diperlukan. Contohnya adalah ketika menjalankan aplikasi yang memerlukan koneksi jaringan yang sangat cepat dan membutuhkan akses ke port host yang spesifik, seperti aplikasi game online atau streaming media. Selain itu, host network juga cocok digunakan untuk aplikasi yang sudah teroptimasi untuk dijalankan pada lingkungan host dan tidak memerlukan isolasi network. Misalnya, aplikasi yang hanya digunakan untuk pengujian atau aplikasi yang sifatnya sementara.
 
 ##### overlay Network
 Overlay network di Docker adalah jenis jaringan yang memungkinkan beberapa host Docker terhubung dan berkomunikasi satu sama lain melalui jaringan yang sama. Overlay network menggunakan teknologi Virtual Extensible LAN (VXLAN) untuk memungkinkan container di mesin Docker yang berbeda untuk berkomunikasi satu sama lain seakan-akan mereka berada dalam satu jaringan lokal.
@@ -418,9 +416,51 @@ Kekurangan dari menggunakan Docker Network Plugin adalah:
 
 - Ketergantungan: Penggunaan plugin memerlukan ketergantungan pada plugin yang diinstal, sehingga jika plugin tidak tersedia atau mengalami masalah, maka jaringan Docker tidak dapat digunakan dengan efektif.
 
+#### Mengelola Docker Networking di Docker Compose
+Masih ingatkah dengan konfigurasi Docker compose sebelumnya? Pada konfigurasi sebelumnya masih belum mengimplementasikan docker networking. Pada sub materi ini, akan ditambahkan konfigurasi untuk mengatur docker networking menggunakan network driver `bridge`.
+
+```
+version: '3'
+services:
+  backend:
+    build: ./backend
+    ports:
+      - "8080:8080"
+    depends_on:
+      - database
+    environment:
+      DB_HOST: database
+    networks:
+      - mynetwork
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:3000"
+    environment:
+      REACT_APP_BACKEND_URL: http://backend:8080
+  database:
+    image: postgres
+    volumes:
+      - ./data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword
+      POSTGRES_DB: mydb
+    networks:
+      - mynetwork
+  networks:
+    mynetwork:
+      driver: bridge
+```
+Pada konfigurasi Docker Compose di atas, ditambahkan sebuah network dengan nama `mynetwork` dengan driver `bridge`. Selain itu, setiap service (backend, frontend, dan database) juga ditambahkan ke dalam network tersebut.
+
+Penambahan network ini dilakukan agar ketiga service yang ada di dalam Docker Compose dapat saling berkomunikasi melalui network yang sama. Dengan adanya network ini, antar service dapat berkomunikasi dengan menggunakan nama service sebagai host name, misalnya `database` untuk menghubungi service database dari service backend.
+
+Alasan penambahan network ini adalah untuk mempermudah pengaturan komunikasi antar service dan menghindari masalah yang dapat timbul akibat penggunaan IP address yang berubah-ubah setiap kali melakukan start ulang terhadap container. Selain itu, dengan menggunakan network ini juga dapat dengan mudah menambahkan service baru ke dalam komposisi yang sudah ada tanpa harus memodifikasi ulang konfigurasi setiap service
 
 ## Sumber Referensi
 - https://docs.docker.com/compose/compose-file/
 - https://docs.docker.com/storage/
 - https://docs.docker.com/storage/volumes/
+- https://docs.docker.com/network/network-tutorial-overlay/
 - https://raidboxes.io/en/blog/webdesign-development/domain-name-system-dns/
