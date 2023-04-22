@@ -16,11 +16,11 @@
     - [Mengelola Docker Volume](#mengelola-docker-volume)
   - [Docker Networking](#docker-networking)
     - [Pengenalan Docker Networking](#pengenalan-docker-networking)
-    - [Konsep Dasar Docker Networking](#konsep-dasar-docker-networking)
-      - [Docker network driver](#docker-network-driver)
+    - [Konsep Dasar di Docker Networking](#konsep-dasar-di-docker-networking)
+      - [Docker Network Driver](#docker-network-driver)
       - [IP Address Management](#ip-address-management)
       - [DNS Name Resolution](#dns-name-resolution)
-      - [Port mapping](#port-mapping)
+      - [Port Mapping](#port-mapping)
     - [Jenis-Jenis Docker Network Driver](#jenis-jenis-docker-network-driver)
       - [bridge Network](#bridge-network)
       - [host Network](#host-network)
@@ -285,6 +285,51 @@ Untuk memastikan proses tmpfs mount berjalan dengan baik dapat menggunakan perin
 Itulah beberapa cara untuk mengelola Docker Volume seperti membuat, melihat daftar, menghapus, menggunakan, inspect, copy data ke dalam, dan menghapus data dalam Docker Volume. Dengan Docker Volume pengelolaan data pada container dengan lebih mudah dan efisien.
 
 ### Docker Networking
+#### Pengertian Docker Networking
+Dalam pengembangan dan implementasi aplikasi modern yang kompleks, penggunaan teknologi kontainer seperti Docker telah menjadi semakin umum. Docker memungkinkan para pengembang untuk memisahkan aplikasi dari lingkungan host dan infrastruktur di mana mereka dijalankan, sehingga memungkinkan lebih banyak fleksibilitas dan portabilitas.
+
+Namun, ketika menjalankan beberapa container pada satu host, perlu untuk memungkinkan container untuk berkomunikasi satu sama lain, dan juga terhubung ke sumber daya di luar container seperti jaringan host atau jaringan eksternal. Disinilah Docker Networking berperan.
+
+Docker Networking adalah cara untuk menghubungkan antara container Docker yang berbeda sehingga mereka dapat berkomunikasi satu sama lain. Saat menjalankan beberapa container di Docker, setiap container memiliki alamat IP yang berbeda dan terisolasi satu sama lain. Oleh karena itu, Docker Networking memungkinkan container Docker untuk terhubung ke jaringan yang sama atau subnet dan berkomunikasi satu sama lain, serta dapat terhubung dengan host mesin fisik atau jaringan eksternal.
+
+Tanpa Docker Networking, setiap container berjalan pada subnet yang terisolasi, yang berarti mereka tidak dapat berkomunikasi satu sama lain atau dengan sumber daya di luar subnet tersebut. Dengan menggunakan Docker Networking, container Docker dapat terhubung ke jaringan yang sama atau subnet, dan dapat berkomunikasi dengan container lain dan sumber daya di luar container, seperti basis data atau layanan web yang terpisah.
+
+Selain itu, Docker Networking memungkinkan pengguna untuk membuat lingkungan jaringan yang aman dan terisolasi di mana setiap container dapat berinteraksi satu sama lain, tetapi tetap terpisah dari lingkungan jaringan host. Ini memungkinkan para pengembang untuk menciptakan aplikasi yang lebih aman dan lebih mudah untuk dikelola, serta memfasilitasi pengembangan dan implementasi skala besar.
+
+Oleh karena itu, Docker Networking adalah komponen kunci dalam penggunaan Docker Container. Dengan memungkinkan container untuk berkomunikasi satu sama lain dan terhubung ke sumber daya di luar container, Docker Networking memungkinkan para pengembang untuk menciptakan aplikasi yang lebih fleksibel, portabel, aman, dan mudah dielola.
+
+#### Konsep Dasar di Docker Networking
+##### Docker Network Driver
+Docker Network Driver adalah komponen utama yang memungkinkan container Docker terhubung ke jaringan. Network Driver adalah plug-in yang diinstal pada host Docker dan mengatur bagaimana container terhubung ke jaringan.
+
+Docker menyediakan beberapa jenis Network Driver yang berbeda, masing-masing dengan karakteristik yang unik, dan memungkinkan pengguna untuk memilih Network Driver yang tepat untuk kebutuhan aplikasi mereka. Berikut adalah beberapa jenis Network Driver yang tersedia di Docker: `bridge network`, `host network`, `overlay network`, `ipvlan`, `macvlan network`, `network plugins`. Detail pembahasan akan dijelaskan pada sub materi [Jenis-Jenis Docker Network Driver](#https://github.com/arsitektur-jaringan-komputer/Pelatihan-Docker/tree/pd23/3.%20Docker%20Service%20Lanjutan#jenis-jenis-docker-network-driver)
+
+Dengan pemilihan Network Driver yang tepat, pengguna dapat memaksimalkan fleksibilitas, portabilitas, dan keamanan aplikas di dalam container.
+
+##### IP Address Management
+
+IP Address Management (IPAM) adalah proses manajemen alamat IP di dalam jaringan Docker. Docker memungkinkan pengguna untuk mengontrol pengaturan IP pada setiap jaringan yang dibuat, termasuk pemberian alamat IP secara otomatis atau manual. Penjelasan detail mengenail IP Address dapat dilihat pada [Jarkom Modul 4](#https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/tree/master/Modul-4).
+
+Dalam Docker, setiap container dapat memiliki alamat IP unik pada jaringan tertentu. IPAM memastikan bahwa alamat IP yang diberikan pada container tidak bertabrakan dengan alamat IP yang sudah ada di jaringan, sehingga mencegah masalah komunikasi dan konflik alamat IP.
+
+Untuk melihat ip address yang digunakan oleh sebuah Docker container dapat menggunakan perintah **`docker container inspect <container_id>`**. Informasi seputar IP Address biasanya terdapat di **`NetworkSettings`**.
+
+![Network setting di docker container](img/docker-network-setting.png)
+
+
+Dalam Docker, IPAM menawarkan beberapa mode pengaturan IP address, antara lain:
+
+- **`Default`**: Mode ini memungkinkan Docker secara otomatis memberikan alamat IP untuk setiap container dalam jaringan. Docker akan membuat subnet baru untuk setiap jaringan dan mengalokasikan alamat IP dari subnet tersebut.
+
+- **`User-defined`**: Mode ini memungkinkan pengguna untuk secara manual menentukan subnet dan rentang alamat IP yang akan digunakan pada jaringan tertentu. Pengguna dapat menentukan rentang IP yang tersedia dan menentukan alamat IP yang akan digunakan pada setiap container.
+
+- **`External`**: Mode ini memungkinkan Docker untuk terhubung ke IPAM pihak ketiga seperti DHCP server atau sistem manajemen alamat IP lainnya untuk mengelola alamat IP pada jaringan.
+
+Pengaturan IPAM pada Docker memungkinkan pengguna untuk lebih mudah mengelola alamat IP pada jaringan Docker dan mencegah masalah komunikasi dan konflik alamat IP. Dalam lingkungan yang lebih kompleks, IPAM dapat membantu meningkatkan efisiensi dan skalabilitas jaringan Docker.
+
+##### DNS Name Resolution
+##### Port mapping
+
 
 ## Sumber Referensi
 - https://docs.docker.com/compose/compose-file/
