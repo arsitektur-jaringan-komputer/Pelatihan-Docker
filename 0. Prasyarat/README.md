@@ -1,13 +1,13 @@
 # **Prasyarat**
-- [**Prasyarat**](#pengenalan-docker-dasar)
-  - [Pelatihan Linux](#-pelatihan-linux)
-  - [Install Docker](#-install-docker)
+- [**Prasyarat**](#prasyarat)
+  - [Pelatihan Linux](#pelatihan-linux)
+  - [Install Docker](#install-docker)
     - [Windows](#Windows)
-    - [Linux](#️-linux)
-      - [Ubuntu](#️-ubuntu)
-      - [Centos](#️-centos)
-      - [Fendora](#️-fendora)
-    - [MacOS](#️-macos)
+    - [Linux](#linux)
+      - [Ubuntu](#ubuntu)
+      - [Centos](#centos)
+      - [Fedora](#fedora)
+    - [MacOS](#macos)
 
 ## Pelatihan Linux
 
