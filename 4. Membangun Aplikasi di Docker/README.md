@@ -4,7 +4,6 @@
   - [Mikroservice](#️arsitektur-mikroservice)
     - [Pengertian Mikroservice](#pengertian-mikroservice)
     - [Karakteristik Mikroservice](#karakteristik-mikroservice)
-    - [Arsitektur Mikroservice](#arsitektur-mikroservice)
     - [Inter-container communication](#inter-container-communication)
       - [Sockets](#sockets)
       - [Filesystem](#filesystem)
@@ -30,7 +29,15 @@ Secara umum, arsitektur microservice menawarkan beberapa keuntungan, seperti mem
 Namun, di sisi lain, menggunakan arsitektur microservice juga memiliki beberapa tantangan, seperti pengelolaan service yang lebih kompleks dan koordinasi antar service yang harus dilakukan secara hati-hati. Oleh karena itu, pemilihan arsitektur yang tepat harus dipertimbangkan berdasarkan kebutuhan bisnis dan teknologi yang digunakan.
 
 #### Karakteristik Mikroservice
-#### Arsitektur Mikroservice
+
+- Autonomous
+Salah satu karakteristik penting dari aplikasi microservice adalah keberadaan setiap komponen atau layanan yang dapat beroperasi secara independen. Dengan arsitektur microservice, setiap komponen dapat dikembangkan, di-deploy, di-operasikan, dan diskalakan tanpa mempengaruhi komponen atau layanan lain. Dengan kata lain, setiap komponen dapat berjalan seperti sistem yang mandiri, dan jika terjadi masalah pada salah satu komponen, hanya layanan tersebut yang akan terpengaruh.
+
+- Service-oriented
+Aplikasi microservice dirancang dengan orientasi pada layanan. Setiap komponen aplikasi dirancang untuk melakukan satu tugas atau layanan khusus. Hal ini membuat aplikasi lebih modular dan memudahkan pengembangan dan pemeliharaannya.
+
+- Terdistribusi
+Aplikasi microservice terdiri dari beberapa komponen yang terdistribusi dan dapat berjalan di lingkungan yang berbeda-beda. Hal ini memungkinkan aplikasi untuk dapat dijalankan secara horizontal dan meningkatkan skalabilitasnya.
 
 #### Inter-container communication
 Inter-container communication di aplikasi microservice merujuk pada cara komunikasi antar service atau container yang berbeda dalam suatu aplikasi yang menggunakan arsitektur microservice. Karena setiap service dijalankan pada container yang terpisah dan terisolasi, maka inter-container communication harus dilakukan melalui mekanisme tertentu.
@@ -138,3 +145,4 @@ Pemilihan mekanisme inter-container communication yang tepat harus dipertimbangk
 ## Sumber Referensi
 - https://datacommcloud.co.id/microservices-adalah-perbedaan-monolithic-architecture/
 - https://medium.com/pujanggateknologi/berkenalan-dengan-teknologi-mqtt-7e63cab9d00d
+- https://aws.amazon.com/id/microservices/
