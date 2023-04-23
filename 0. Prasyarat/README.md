@@ -2,7 +2,7 @@
 - [**Prasyarat**](#pengenalan-docker-dasar)
   - [Pelatihan Linux](#-pelatihan-linux)
   - [Install Docker](#-install-docker)
-    - [Windows](#️-windows)
+    - [Windows](#Windows)
     - [Linux](#️-linux)
       - [Ubuntu](#️-ubuntu)
       - [Centos](#️-centos)
