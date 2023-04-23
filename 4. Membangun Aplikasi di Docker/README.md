@@ -11,6 +11,13 @@
       - [HTTP](#http)
       - [MQTT](#mqtt)
   - [Docker Swarm](#docker-swarm)
+    - [Konfigurasi Docker Swarm](#konfigurasi-docker-swarm)
+    - [Konsep-Konsep Dasar pada Docker Swarm](#konsep-konsep-dasar-pada-docker-swarm)
+      - [Node](#node)
+      - [Service](#service)
+      - [Task](#task)
+      - [Overlay Network](#overlay-network)
+    - [Contoh Implementasi Docker Swarm](#contoh-implementasi-docker-swarm)
   - [Membuat Aplikasi Mikroservice dengan Docker](#membuat-aplikasi-mikroservice-dengan-docker)
 - [**Sumber**](#-sumber)
 
@@ -139,10 +146,37 @@ Namun, penggunaan MQTT juga memiliki beberapa kelemahan, seperti:
 Pemilihan mekanisme inter-container communication yang tepat harus dipertimbangkan berdasarkan kebutuhan bisnis dan teknologi yang digunakan dalam aplikasi microservice. MQTT dapat menjadi pilihan yang baik terutama jika aplikasi microservice membutuhkan penggunaan bandwidth jaringan dan penggunaan daya yang efisien, serta dukungan terhadap kualitas layanan dan pengamanan.
 
 ### Docker Swarm
+Docker Swarm adalah fitur orkestrasi pada platform Docker yang memungkinkan untuk mengelola dan menyederhanakan proses deployment aplikasi yang terdistribusi ke dalam beberapa mesin atau host secara otomatis. Docker Swarm menyediakan fungsi clustering dan scheduling untuk membantu membagi dan menjalankan container Docker pada berbagai mesin secara terdistribusi dan memberikan kemampuan untuk meningkatkan ketersediaan aplikasi dengan menangani failover secara otomatis. Dengan Docker Swarm, pengguna dapat dengan mudah membangun, mengelola, dan merilis aplikasi yang dioptimalkan untuk lingkungan produksi yang besar dan terdistribusi.
 
+#### Konfigurasi Docker Swarm
+#### Konsep-Konsep Dasar pada Docker Swarm
+##### Node
+
+Node pada Docker Swarm adalah host atau mesin yang telah diaktifkan untuk bergabung dalam klaster Docker Swarm. Setiap node pada Docker Swarm menjalankan engine Docker dan dapat dianggap sebagai "unit dasar" yang membentuk infrastruktur Docker Swarm.
+
+![Node pada Docker Swarm](img/docker-swarm-node.png)
+
+Dalam Docker Swarm, terdapat dua jenis node, yaitu Manager Node dan Worker Node. Manager Node bertanggung jawab untuk mengatur dan mengelola swarm dan menjalankan tugas-tugas manajerial seperti mengelola layanan, mengatur jaringan, serta mengendalikan node dalam klaster. Sementara itu, Worker Node adalah node yang bertanggung jawab untuk menjalankan container Docker dan layanan aplikasi yang diatur oleh Manager Node.
+
+Setiap node memiliki status, status node pada Docker Swarm adalah kondisi dari sebuah node dalam klaster Docker Swarm. Terdapat 2 status node pada Docker Swarm, yaitu `Active` dan `Drain`.
+
+- `Active`: Node dalam status `Active` berarti node tersebut siap untuk menjalankan container dan layanan pada klaster Docker Swarm.
+- `Drain`: Node dalam status `Drain` berarti node tersebut tidak aktif atau tidak dapat diakses, dan tidak dapat menjalankan container atau layanan. Serta node dengan status `Drain` tidak akan menerima task baru.
+
+Selain status node, Docker Swarm juga memiliki konsep role atau peran pada setiap node, yaitu Manager Node dan Worker Node. Namun, setiap node hanya dapat memiliki satu peran pada suatu waktu. Peran node dapat diubah dengan menggunakan perintah `docker node promote` dan `docker node demote`. Perintah `docker node promote` digunakan untuk mempromosikan node dari peran worker menjadi peran manager, sementara `docker node demote` digunakan untuk menurunkan node dari peran manager menjadi peran worker.
+
+Penggunaan perintah `docker node promote` dan `docker node demote` dapat membantu dalam mengelola peran node dalam klaster Docker Swarm. Misalnya, ketika salah satu manager node mengalami masalah atau kegagalan, pengguna dapat mempromosikan worker node yang sehat menjadi manager node untuk menghindari kehilangan ketersediaan aplikasi. Atau, jika terdapat kebutuhan tambahan pada kapasitas dapat mempromosikan worker node menjadi manager node untuk membantu mengelola tugas-tugas manajerial pada klaster Docker Swarm.
+
+Dalam konfigurasi default Docker Swarm, semua manager node juga termasuk ke worker node dan setiap node secara otomatis diatur untuk bergabung dengan cluster saat Docker Engine dijalankan dan menghubungkan ke manager node. Dalam Docker Swarm, setiap node dapat diatur untuk berkomunikasi dengan node lainnya melalui jaringan overlay Docker, sehingga container dan layanan yang dijalankan pada node-node tersebut dapat saling berkomunikasi dan berinteraksi dengan lancar.
+
+##### Service
+##### Task
+##### Overlay Network
+#### Contoh Implementasi Docker Swarm
 
 ### Membuat Aplikasi Mikroservice dengan Docker
 ## Sumber Referensi
 - https://datacommcloud.co.id/microservices-adalah-perbedaan-monolithic-architecture/
 - https://medium.com/pujanggateknologi/berkenalan-dengan-teknologi-mqtt-7e63cab9d00d
 - https://aws.amazon.com/id/microservices/
+- https://docs.docker.com/engine/swarm/how-swarm-mode-works/nodes/
