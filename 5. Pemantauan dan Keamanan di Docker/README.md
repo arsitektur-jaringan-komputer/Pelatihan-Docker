@@ -1,28 +1,51 @@
 # **Pemantauan dan Keamanan di Docker**
 - [**Glosarium**](#glosarium)
 - [**Materi**](#materi)
-  - [Pemantauan di Docker](#️-pemantauan-di-docker)
-    - [Prometheus](#prometheus)
-    - [Grafana](#grafana)
-    - [Docker Logging](#docker-logging)
-    - [Container Runtime Logging](#container-runtime-logging)
-  - [Keamanan di Docker](#-keamanan-di-docker)
-    - [Keamanan pada Docker Image](#-keamanan-pada-docker-image)
-    - [Keamanan pada Docker Container](#-keamanan-pada-docker-container)
-- [**Sumber**](#-sumber)
+  - [Docker Monitoring](#️docker-monitoring)
+    - [Pengertian Docker Monitoring](#pengertian-docker-monitoring)
+    - [Alat Pemantauan di Docker](#alat-pemantauan-di-docker)
+      - [Docker Stats](#docker-stats)
+      - [Prometheus](#prometheus)
+      - [Grafana](#grafana)
+      - [cAdvisor](#cadvisor)
+      - [Sysdig](#sysdig)
+    - [Jenis-Jenis Docker Monitoring](#jenis-jenis-docker-monitoring)
+      - [Pemantauan Penggunaan CPU](#pemantauan-penggunaan-cpu)
+      - [Pemantauan Penggunaan Memory](#pemantauan-penggunaan-memory)
+      - [Pemantauan Penggunaan Jaringan](#pemantauan-penggunaan-jaringan)
+      - [Pemantauan Filesystem](#pemantauan-filesystem)
+      - [Pemantauan Log](#pemantauan-log)
+    - [Implementasi Docker Monitoring](#implementasi-docker-monitoring)
+  - [Docker Security](#docker-security) 
+    - [Pengertian Docker Security](#pengertian-docker-security)
+    - [Ancaman Keamanan di Docker](#ancaman-keamanan-di-docker)
+      - [Container Escape](#container-escape)
+      - [Container Breakout](#container-breakout)
+      - [Container Poisoning](#container-poisoning)
+      - [Container Sprawl](#container-sprawl)
+      - [Container Hijacking](#container-hijacking)
+    - [Strategi Keamanan di Docker](#strategi-keamanan-di-docker)
+      - [Pengaturan Kontrol Akses](#pengaturan-kontrol-akses)
+      - [Konfigurasi Jaringan](#konfigurasi-jaringan)
+      - [Manajemen Data dan Konfigurasi](#manajemen-data-dan-konfigurasi)
+      - [Memperbarui Docker secara Teratur](#memperbarui-docker-secara-teratur)
+- [**Sumber Referensi**](#sumber-referensi)
 
-## ⚠️ Monitoring
-Dalam penggunaan docker, kita dapat memonitor/memantau resource yang digunakan oleh docker. Docker memberikan beberapa command untuk melakukan hal tersebut. Monitoring resource sangatlah penting agar anda dapat mengetahui batasan perangkat anda dan dengan demikian anda dapat menghindar dari crash. Hal-hal yang perlu dimonitor disebut `metrics` pada modul ini. Metrics yang perlu diperhatikan secara umum adalah storage, memory, CPU Utilization, dan I/O Speed baik network maupun disk.
+## Glosarium
+## Materi
+### Pengertian Docker Monitoring
+### Alat Pemantauan di Docker
+#### Docker Stats
+#### Prometheus
+#### Grafana
+#### cAdvisor
+#### Sysdig
 
-Anda dapat memonitor resource memory, CPU Util dan IO yang digunakan oleh docker dengan `docker stats`. Berikut adalah beberapa command:
-- ```docker stats```<br>
-Mendapatkan informasi tentang penggunaan resource oleh tiap container secara realtime. Metrics yang didapatkan berupa CPU Usage (%), MEM Usage, Network Usage, Block Usage, dan PIDS.<br>
-- ```docker stats --no-stream```<br>
-Command diatas akan memberikan informasi resource pada saat ini (tidak realtime). Dengan option `no-stream` anda diberikan kebebasan untuk membuat scheduler anda sendiri.
+### Jenis-Jenis Docker Monitoring
+#### Pemantauan Penggunaan CPU
+#### Pemantauan Penggunaan Memory
+#### Pemantauan Penggunaan Jaringan
+#### Pemantauan Filesystem
+#### Pemantauan Log
 
-Anda dapat memonitor storage yang digunakan oleh Docker Image maupun Docker Container dengan `docker system`. Terdapat berbagai command untuk monitoring storage.
-- ```docker system df```<br>
-Menampilkan storage yang digunakan untuk masing-masing image dan container
-
-- ```docker system prune```<br>
-Command diatas menghapus image dan container yang sudah tidak berjalan. Image yang dihapus adalah image yang tidak digunakan di container manapun. Dengan `docker system prune` anda dapat mengklaim kembali storage. Hati-hati menggunakan docker system prune, karena mungkin saja karena kesalahan konfigurasi akan menghapus image yang masih anda perlukan.
+### Implementasi Docker Monitoring
