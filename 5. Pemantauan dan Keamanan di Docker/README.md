@@ -92,12 +92,66 @@ Keunggulan Sysdig di antara alat monitoring Docker lainnya adalah kemampuannya u
 
 ### Jenis-Jenis Docker Monitoring
 #### Pemantauan Penggunaan CPU
+Pemantauan Penggunaan CPU adalah proses memantau seberapa banyak sumber daya CPU yang digunakan oleh sistem atau aplikasi pada suatu waktu tertentu. CPU (Central Processing Unit) adalah salah satu komponen penting dalam sebuah sistem komputer yang bertugas untuk mengeksekusi instruksi yang diberikan oleh aplikasi atau sistem operasi.
+
+Dalam konteks teknologi informasi, Pemantauan Penggunaan CPU biasanya digunakan untuk memantau kinerja suatu sistem atau aplikasi, dan dapat membantu mengidentifikasi masalah kinerja atau bottleneck yang terjadi pada sistem tersebut. Pemantauan ini dapat dilakukan pada level hardware, seperti server atau komputer, atau pada level software, seperti aplikasi atau service yang berjalan pada sistem tersebut.
+
+Pemantauan Penggunaan CPU dapat dilakukan dengan menggunakan tools atau software monitoring yang khusus dirancang untuk tujuan tersebut. Beberapa tools monitoring populer untuk pemantauan penggunaan CPU meliputi Grafana, Nagios, Zabbix, dan Prometheus.
+
+Dalam praktiknya, pemantauan penggunaan CPU dilakukan dengan memantau beberapa parameter kunci, seperti persentase penggunaan CPU, load average, dan CPU utilization. Dengan memantau parameter-parameter ini secara teratur, kita dapat mengidentifikasi kapan terjadi puncak penggunaan CPU, kapan terjadi bottleneck, dan kapan diperlukan untuk menambah kapasitas CPU untuk menjaga kinerja sistem atau aplikasi tetap optimal.
+
 #### Pemantauan Penggunaan Memory
+Memantau penggunaan memory pada Docker sangat penting karena memory adalah sumber daya yang sangat kritis dalam lingkungan Docker. Ketika container berjalan, itu harus mengalokasikan sejumlah memory untuk menjalankan aplikasi di dalamnya. Jika container kekurangan memory, performa aplikasi dapat menurun, dan dalam kasus ekstrim, dapat menyebabkan kegagalan aplikasi atau bahkan crash.
+
+Docker menyediakan alat untuk memantau penggunaan memory pada container dengan menggunakan Docker stats command. Command ini dapat memberikan informasi terkini mengenai penggunaan CPU, memory, disk I/O, dan jaringan dari container Docker yang sedang berjalan.
+
+Selain itu, terdapat juga tool pihak ketiga yang dapat digunakan untuk memantau penggunaan memory pada Docker, seperti Prometheus dan Grafana. Kedua tool ini dapat digunakan untuk memantau berbagai aspek dari performa aplikasi Docker, termasuk penggunaan memory.
+
+Dalam pemantauan penggunaan memory pada Docker, penting untuk memantau penggunaan memory pada tingkat host dan tingkat container. Memantau penggunaan memory pada tingkat host dapat membantu menentukan seberapa banyak memory yang tersedia untuk menjalankan container, sementara memantau penggunaan memory pada tingkat container dapat membantu menentukan seberapa banyak memory yang digunakan oleh aplikasi di dalam container.
+
+
 #### Pemantauan Penggunaan Jaringan
+Dalam konteks Docker Monitoring, pemantauan penggunaan jaringan pada container Docker sangat penting untuk memastikan aplikasi berjalan dengan lancar dan aman. Penggunaan jaringan pada Docker dapat mempengaruhi performa dan kinerja aplikasi, dan memastikan keamanan jaringan dalam lingkungan Docker juga menjadi hal yang sangat penting.
+
+Untuk memantau penggunaan jaringan pada container Docker, Docker menyediakan beberapa alat bawaan, seperti Docker Stats Command. Command ini dapat memberikan informasi terkini mengenai penggunaan jaringan dari container Docker yang sedang berjalan. Informasi tersebut dapat mencakup jumlah paket yang diterima dan dikirim, bandwidth, dan jumlah kesalahan yang terjadi.
+
+Selain itu, terdapat juga tool pihak ketiga yang dapat digunakan untuk memantau penggunaan jaringan pada Docker, seperti Prometheus dan Grafana. Kedua tool ini dapat digunakan untuk memantau berbagai aspek dari performa aplikasi Docker, termasuk penggunaan jaringan.
+
+Dalam pemantauan penggunaan jaringan pada Docker, penting untuk memantau koneksi masuk dan keluar dari container. Hal ini dapat membantu memastikan bahwa aplikasi berinteraksi dengan jaringan secara efektif dan aman. Selain itu, perlu juga memantau lalu lintas jaringan dan menganalisis data lalu lintas tersebut untuk mendeteksi adanya serangan atau masalah jaringan lainnya.
+
+Selain itu, dapat pula melakukan pengaturan jaringan dengan membatasi akses pada container Docker menggunakan Docker Network. Docker Network menyediakan kontrol akses jaringan yang lebih baik dan memungkinkan pengaturan jaringan yang lebih fleksibel, seperti memisahkan lalu lintas jaringan antara beberapa container atau membatasi koneksi jaringan ke host.
+ 
 #### Pemantauan Filesystem
+Pemantauan Filesystem pada Docker Monitoring merujuk pada pemantauan sistem file yang digunakan oleh container Docker. Sistem file pada Docker adalah bagian penting dari container, karena berisi semua file dan data yang diperlukan untuk menjalankan aplikasi.
+
+Dalam pemantauan Filesystem pada Docker, perlu untuk memantau penggunaan ruang disk pada container Docker untuk memastikan bahwa tidak ada kehabisan ruang disk yang dapat menyebabkan aplikasi crash atau kegagalan lainnya. Docker Stats Command juga dapat digunakan untuk memantau penggunaan ruang disk pada container Docker.
+
+Selain itu, perlu juga memantau perubahan pada file sistem, seperti perubahan pada file konfigurasi atau data aplikasi. Docker menyediakan fitur log dan audit untuk memantau perubahan ini.
+
+Dalam beberapa kasus, memantau file sistem dapat membantu mendeteksi serangan keamanan pada container Docker. Sebagai contoh, memantau perubahan pada file konfigurasi atau sistem file pada container Docker dapat membantu mendeteksi adanya perubahan yang tidak sah dan mengambil tindakan yang diperlukan.
+
+Untuk memantau file sistem pada container Docker, terdapat juga tool pihak ketiga yang dapat digunakan, seperti Sysdig dan Fluentd. Kedua tool ini dapat digunakan untuk memantau berbagai aspek dari sistem file pada container Docker, termasuk penggunaan ruang disk dan perubahan pada file sistem.
+
+Dalam pemantauan Filesystem pada Docker, penting juga untuk melakukan backup secara teratur dan mengatur mekanisme pengelolaan data agar data tidak hilang atau rusak pada saat pemindahan container ke lingkungan lain. Hal ini dapat dilakukan dengan melakukan backup data secara teratur dan mengelola data menggunakan layanan penyimpanan data yang aman dan andal.
+
 #### Pemantauan Log
+Pemantauan Log pada Docker Monitoring merujuk pada pemantauan catatan log yang dihasilkan oleh container Docker. Log pada Docker sangat penting untuk memastikan bahwa aplikasi berjalan dengan lancar dan aman, dan untuk membantu mengidentifikasi dan memecahkan masalah yang mungkin terjadi pada aplikasi.
+
+Dalam pemantauan log pada Docker, perlu untuk memastikan bahwa log yang dihasilkan oleh container Docker dikumpulkan dan disimpan dengan baik. Docker menyediakan fitur logging bawaan yang dapat digunakan untuk memantau dan mengumpulkan log dari container Docker.
+
+Selain itu, terdapat juga tool pihak ketiga seperti Fluentd dan ELK Stack yang dapat digunakan untuk memantau log pada Docker dengan lebih efektif. Kedua tool ini dapat mengumpulkan log dari beberapa container Docker secara bersamaan dan melakukan analisis log yang lebih kompleks.
+
+Dalam pemantauan log pada Docker, penting juga untuk memastikan bahwa log disimpan dengan aman dan dapat diakses oleh orang yang berwenang. Hal ini dapat dilakukan dengan menggunakan sistem otentikasi dan otorisasi yang tepat untuk mengontrol akses ke log.
+
+Pemantauan log pada Docker juga dapat membantu dalam mendeteksi serangan keamanan pada container Docker. Dalam beberapa kasus, penyerang dapat meninggalkan jejak pada log yang dapat digunakan untuk mendeteksi adanya serangan atau kebocoran data.
+
+Selain itu, pemantauan log pada Docker juga dapat membantu dalam pemecahan masalah pada aplikasi. Dengan memantau log yang dihasilkan oleh container Docker, dapat membantu mengidentifikasi masalah pada aplikasi dan mengambil tindakan yang diperlukan untuk memperbaiki masalah tersebut.
+
+Dalam kesimpulannya, pemantauan log pada Docker Monitoring sangat penting untuk memastikan bahwa aplikasi berjalan dengan lancar dan aman, dan untuk membantu mengidentifikasi dan memecahkan masalah yang mungkin terjadi pada aplikasi.
 
 ### Implementasi Docker Monitoring
 
 ## Sumber Referensi
-https://docs.docker.com/engine/reference/commandline/stats/
+- https://docs.docker.com/engine/reference/commandline/stats/
+- https://docs.docker.com/engine/security/
+- https://cheatsheetseries.owasp.org/cheatsheets/Docker_Security_Cheat_Sheet.html
