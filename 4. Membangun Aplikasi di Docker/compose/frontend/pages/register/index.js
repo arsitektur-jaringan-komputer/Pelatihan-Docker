@@ -78,7 +78,7 @@ export default class Register extends Component {
 
           <main>
             <header>
-            <h1>
+              <h1>
                 Welcome to
                 {' '}
                 <a href="/">

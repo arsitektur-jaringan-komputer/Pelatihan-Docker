@@ -79,7 +79,7 @@ class Album extends Component {
             </p>
           ) : <Albums empty={empty} albums={albums.reverse()} />}
         </main>
-        <FloatingButton onClickHandler={onAddAlbumClick} icon="/icon/add.svg" text="Add Song" />
+        <FloatingButton onClickHandler={onAddAlbumClick} icon="/icon/add.svg" text="Add Album" />
       </div>
     );
   }
