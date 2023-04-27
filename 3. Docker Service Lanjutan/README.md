@@ -1,39 +1,56 @@
 # **Docker Service Lanjutan**
-- [**Glosarium**](#glosarium)
-- [**Materi**](#materi)
-  - [Docker Compose](#docker-compose)
-    - [Pengertian Docker Compose](#pengertian-docker-compose)
-    - [Contoh Implementasi Docker Compose](#contoh-implementasi-docker-compose)
-    - [Depend On Docker Compose](#depend-on-docker-compose)
-    - [Inheritance di Docker Compose](#inheritance-di-docker-compose)
-    - [Mengelola Docker Compose](#mengelola-docker-compose)
-  - [Docker Data Management](#docker-data-management)
-    - [Pengenalan Docker Data Management](#pengenalan-docker-data-management)
-    - [Jenis-Jenis Docker Mount](#jenis-jenis-docker-mount)
-      - [Volume](#volume)
-      - [Bind Mount](#bind-mount)
-      - [tmpfs Mount](#tmpfs-mount)
-    - [Mengelola Docker Volume](#mengelola-docker-volume)
-  - [Docker Networking](#docker-networking)
-    - [Pengenalan Docker Networking](#pengenalan-docker-networking)
-    - [Konsep Dasar di Docker Networking](#konsep-dasar-di-docker-networking)
-      - [Docker Network Driver](#docker-network-driver)
-      - [IP Address Management](#ip-address-management)
-      - [DNS Name Resolution](#dns-name-resolution)
-      - [Port Mapping](#port-mapping)
-    - [Jenis-Jenis Docker Network Driver](#jenis-jenis-docker-network-driver)
-      - [bridge Network](#bridge-network)
-      - [host Network](#host-network)
-      - [overlay Network](#overlay-network)
-      - [ipvlan Network](#ipvlan-network)
-      - [macvlan Network](#macvlan-network)
-      - [Network plugins](#network-plugins)
-    - [Mengelola Docker Networking di Docker Compose](#mengelola-docker-networking-di-docker-compose)
-  
-- [**Sumber Referensi**](#sumber-referensi)
+
+Di materi sebelumnya, kita telah mempelajari beberapa *command* dari Docker yang penting banget untuk kita ketahui. Nah, sebelum kita lanjut pada materi yang berfokus pada implementasi, Jeka ingin mengajak kamu untuk belajar bareng di materi ketiga ini!
+
+Materi ketiga ini akan berfokus pada apa penggunaan Docker yang lebih *advance* terutama untuk pengembangan aplikasi lebih lanjut dengan arsitektur seperti *microservices* atau mungkin juga *service-oriented architecture* (SOA). 
+
+> Baca juga: [Microservices vs SOA: Identifying the Differences](https://www.crowdstrike.com/cybersecurity-101/cloud-security/soa-vs-microservices/#:~:text=The%20main%20difference%20between%20SOA,individual%20services%20that%20function%20independently.)
+
+Penasaran? Yuk kita pelajari sama-sama bareng Jeka! Tapi, [apa yang akan kita pelajari?](#apa-yang-akan-kita-pelajari)
+
+</br>
+
+## **Apa yang Akan Kita Pelajari?**
+
+- [**Docker Service Lanjutan**](#docker-service-lanjutan)
+  - [**Apa yang Akan Kita Pelajari?**](#apa-yang-akan-kita-pelajari)
+  - [Glosarium](#glosarium)
+  - [Materi](#materi)
+    - [Docker Compose](#docker-compose)
+      - [Pengertian Docker Compose](#pengertian-docker-compose)
+      - [Contoh Implementasi Docker Compose](#contoh-implementasi-docker-compose)
+      - [Depend On Docker Compose](#depend-on-docker-compose)
+      - [Inheritance di Docker Compose](#inheritance-di-docker-compose)
+      - [Mengelola Docker Compose](#mengelola-docker-compose)
+    - [Docker Data Management](#docker-data-management)
+      - [Pengenalan Docker Data Management](#pengenalan-docker-data-management)
+      - [Jenis-Jenis Docker Mount](#jenis-jenis-docker-mount)
+      - [Mengelola Docker Volume](#mengelola-docker-volume)
+    - [Docker Networking](#docker-networking)
+      - [Pengertian Docker Networking](#pengertian-docker-networking)
+      - [Konsep Dasar di Docker Networking](#konsep-dasar-di-docker-networking)
+        - [Docker Network Driver](#docker-network-driver)
+        - [IP Address Management](#ip-address-management)
+        - [DNS Name Resolution](#dns-name-resolution)
+        - [Port mapping](#port-mapping)
+      - [Jenis-Jenis Docker Network Driver](#jenis-jenis-docker-network-driver)
+        - [bridge Network](#bridge-network)
+        - [host Network](#host-network)
+        - [overlay Network](#overlay-network)
+        - [ipvlan Network](#ipvlan-network)
+        - [macvlan Network](#macvlan-network)
+        - [Network plugins](#network-plugins)
+      - [Mengelola Docker Networking di Docker Compose](#mengelola-docker-networking-di-docker-compose)
+  - [Sumber Referensi](#sumber-referensi)
 
 
 ## Glosarium
+
+| Istilah | Arti | 
+| ------- | -----|
+| ------- | -----|
+
+
 
 ## Materi
 ### Docker Compose
