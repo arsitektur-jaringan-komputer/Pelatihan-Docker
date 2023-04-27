@@ -7,6 +7,8 @@
       - [Ubuntu](#ubuntu)
       - [Centos](#centos)
       - [Fedora](#fedora)
+      - [Debian](#debian)
+      - [openSUSE](#opensuse)
     - [MacOS](#macos)
 
 ## Pelatihan Linux
@@ -48,5 +50,9 @@ sudo apt-get install docker-ce docker-ce-cli containerd.io
 ###### Centos
 
 ###### Fedora
+
+###### Debian
+
+###### openSUSE
 
 #### MacOS
