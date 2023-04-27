@@ -5,7 +5,7 @@
     - [Windows](#Windows)
     - [Linux](#linux)
       - [Ubuntu](#ubuntu)
-      - [Centos](#centos)
+      - [CentOS](#centos)
       - [Fedora](#fedora)
       - [Debian](#debian)
       - [openSUSE](#opensuse)
@@ -47,7 +47,7 @@ sudo apt-get install docker-ce docker-ce-cli containerd.io
 5. pastikan docker sudah terinstall dengan benar
 ```sudo docker run hello-world```
 
-###### Centos
+###### CentOS
 
 ###### Fedora
 
