@@ -2,6 +2,13 @@ version: '3.8'
 services:
   db:
     image: postgres:latest
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - node.role == worker
+      restart_policy:
+        condition: on-failure
     container_name: db
     restart: always
     environment:
@@ -10,54 +17,98 @@ services:
       POSTGRES_DB: musicapp
     ports:
       - '5431:5432'
-    volumes: 
+    volumes:
       - db:/var/lib/postgresql/data
       - ./database/musicapp.sql:/docker-entrypoint-initdb.d/create_tables.sql
     networks:
-      - app-network
+      - db-network
 
   backend:
     container_name: backend
-    restart: always
+    deploy:
+      replicas: 2
+      placement:
+        constraints:
+          - node.role == worker
+      restart_policy:
+        condition: on-failure
+    environment:
+      # server configuration
+      HOST: 0.0.0.0
+      PORT: 5000
+      # database configuretion
+      PGHOST: db
+      PGPORT: 5432
+      PGUSER: docker
+      PGPASSWORD: docker
+      PGDATABASE: musicapp
+      # JWT token
+      ACCESS_TOKEN_KEY: 8ce5bac4518798d357e4f02dd7a4b3ab0c390c767c4f3e2a21e5e86d0e93656aa9f36bb6f6a50ba823c5c8ee23ea2291571f5335fef285efc3275d4ca612a935
+      REFRESH_TOKEN_KEY: a1a233a2b1c985bccdfeb71f5019f8bdfc2a312264ef54f78aa53f16353b6de4938e6782c0505b00d2ca15c5f2e95f204469345a49bf5a8da6500b0df38f3be1
+      ACCESS_TOKEN_AGE: 1800
     build:
       context: ./backend
       dockerfile: Dockerfile
-    image: backend
+    image: localhost:4000/backend
     depends_on:
       - db
     ports:
       - '5000:5000'
     volumes:
-      # - './backend/:/usr/src/backend'   # Development
-      - 'backend:/usr/src/backend'      # Production
+      - 'backend:/usr/src/backend'
     networks:
-      - app-network
+      - db-network
+      - web-network
 
   frontend:
     container_name: frontend
-    restart: always
+    deploy:
+      replicas: 2
+      placement:
+        constraints:
+          - node.role == worker
+      restart_policy:
+        condition: on-failure
+    environment:
+      NEXT_PUBLIC_APP_NAME: 'Music'
+      NEXT_PUBLIC_API_ENDPOINT: 'http://docker.mohammadtauchid.com/api/v1'
     build:
       context: ./frontend
       dockerfile: Dockerfile
-    image: frontend
+    image: localhost:4000/frontend
     depends_on:
       - backend
     ports:
       - '3000:3000'
     volumes:
-      # - './frontend/:/usr/src/frontend'   # Development
-      - 'frontend:/usr/src/frontend'      # Production
+      - 'frontend:/usr/src/frontend'
     networks:
-      - app-network
+      - web-network
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - node.role == worker
+      restart_policy:
+        condition: on-failure
+    ports:
+      - '80:80'
+    volumes:
+      - '/home/docker/Pelatihan-Docker/4. Membangun Aplikasi di Docker/compose/nginx/nginx.conf:/etc/nginx/nginx.conf'
+    networks:
+      - web-network
 
 networks:
- app-network:
-  driver: bridge
+  db-network:
+    driver: overlay
+  web-network:
+    driver: overlay
 
 volumes:
   db:
-    driver: local
   backend:
-    driver: local
   frontend:
-    driver: local
