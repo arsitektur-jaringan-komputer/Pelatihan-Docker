@@ -49,7 +49,7 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    image: localhost:4000/backend
+    image: 143.198.210.107:4000/backend
     depends_on:
       - db
     ports:
@@ -58,7 +58,7 @@ services:
       - 'backend:/usr/src/backend'
     networks:
       - db-network
-      - web-network
+      - api-network
 
   frontend:
     container_name: frontend
@@ -69,13 +69,10 @@ services:
           - node.role == worker
       restart_policy:
         condition: on-failure
-    environment:
-      NEXT_PUBLIC_APP_NAME: 'Music'
-      NEXT_PUBLIC_API_ENDPOINT: 'http://docker.mohammadtauchid.com/api/v1'
     build:
       context: ./frontend
       dockerfile: Dockerfile
-    image: localhost:4000/frontend
+    image: 143.198.210.107:4000/frontend
     depends_on:
       - backend
     ports:
@@ -85,9 +82,9 @@ services:
     networks:
       - web-network
 
-  nginx:
+  nginx-frontend:
     image: nginx:latest
-    container_name: nginx
+    container_name: nginx-frontend
     deploy:
       replicas: 1
       placement:
@@ -98,14 +95,34 @@ services:
     ports:
       - '80:80'
     volumes:
-      - '/home/docker/Pelatihan-Docker/4. Membangun Aplikasi di Docker/compose/nginx/nginx.conf:/etc/nginx/nginx.conf'
+      - ./nginx/nginx-frontend.conf:/etc/nginx/nginx.conf
     networks:
       - web-network
+
+  nginx-backend:
+    image: nginx:latest
+    container_name: nginx-backend
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - node.role == worker
+      restart_policy:
+        condition: on-failure
+    ports:
+      - '8080:80'
+    volumes:
+      - ./nginx/nginx-backend.conf:/etc/nginx/nginx.conf
+    networks:
+      - web-network
+      - api-network
 
 networks:
   db-network:
     driver: overlay
   web-network:
+    driver: overlay
+  api-network:
     driver: overlay
 
 volumes:
