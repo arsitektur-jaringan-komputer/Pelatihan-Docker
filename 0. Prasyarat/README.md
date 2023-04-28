@@ -7,8 +7,8 @@
       - [Ubuntu](#ubuntu)
       - [CentOS](#centos)
       - [Fedora](#fedora)
-      - [Debian](#debian)
       - [openSUSE](#opensuse)
+      - [Debian](#debian)
     - [MacOS](#macos)
 
 ## Pelatihan Linux
@@ -81,8 +81,6 @@ sudo dnf install ./docker-desktop-<version>-<arch>.rpm
 ```
 sudo docker run hello-world
 ```
-
-###### Debian
 
 ###### openSUSE
 
