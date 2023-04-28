@@ -50,6 +50,28 @@ sudo apt-get install docker-ce docker-ce-cli containerd.io
 ###### CentOS
 
 ###### Fedora
+Di sini kami berasumsi kalian menggunakan Fedora workstation dan bukan server (jika anda sudah mahir dengan CLI seharusnya anda tidak butuh tutorial). Maka kami akan menyarankan anda menginstall Docker Desktop, yang sudah include Docker Engine dan Docker Compose.
+
+1. Prasyarat
+   1. Gunakan versi 64-bit dari Docker 36 atau 37 (bukan 38)
+   2. Jika anda menggunakan desktop environment Gnome, anda harus menginstall ekstensi AppIndicator and KStatusNotifierItem
+   3. Untuk DE non-Gnome, anda harus menginstall gnome-terminal
+2. Siapkan Docker Package Repository
+```bash
+sudo dnf -y install dnf-plugins-core
+sudo dnf config-manager \
+    --add-repo \
+    https://download.docker.com/linux/fedora/docker-ce.repo
+```
+3. Download package RPM Docker Desktop di link berikut https://docs.docker.com/desktop/install/fedora/
+4. Install sesuai dengan versi yang didownload (gunakan autocomplete/tab agar lebih mudah)
+```
+sudo dnf install ./docker-desktop-<version>-<arch>.rpm
+```
+5. pastikan docker sudah terinstall dengan benar
+```
+sudo docker run hello-world
+```
 
 ###### Debian
 
