@@ -32,7 +32,9 @@ sudo apt-get update
     lsb-release
 ```
 2. tambahkan kunci GPG docker
-``` curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg```
+``` 
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+```
 3. gunakan command berikut untuk memilih repo stabil
 ``` echo \
   "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
@@ -43,10 +45,83 @@ sudo apt-get update
 sudo apt-get install docker-ce docker-ce-cli containerd.io 
 ```
 5. pastikan docker sudah terinstall dengan benar
-```sudo docker run hello-world```
+```
+sudo docker run hello-world
+```
+6. Install docker compose
+```
+sudo apt-get install docker-compose-plugin
+```
+
 
 ###### Centos
 
 ###### Fedora
 
+###### Debian
+1. update package apt lalu install package berikut agar apt bisa menggunakan repository https
+```
+sudo apt-get update
+
+ sudo apt-get install \
+    ca-certificates \
+    curl \
+    gnupg \
+    lsb-release
+```
+2. tambahkan kunci GPG docker
+``` 
+curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+```
+3. gunakan command berikut untuk memilih repo stabil
+``` echo \
+  "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian \
+  "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | \
+  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+ ```
+4. install docker engine
+``` sudo apt-get update
+sudo apt-get install docker-ce docker-ce-cli containerd.io 
+```
+5. pastikan docker sudah terinstall dengan benar
+```
+sudo docker run hello-world
+```
+6. Install docker compose
+```
+sudo apt-get install docker-compose-plugin
+```
+
+
 #### MacOS
+##### GUI
+1. Download installer melalui link berikut:
+https://www.docker.com/products/docker-desktop
+2. Jalankan installernya, kemudian drag ikon Docker menuju ikon folder _Application_ 
+3. Jalankan aplikasinya dari Launchpad atau folder _Application_
+4. Jika muncul peringatan "Are you sure you want to open it?", tekan open
+5. Baca terms and condition dan tekan accept
+6. Pilih recomended setting dan tekan ok
+7. Masukkan password mac anda dan tunggu hingga proses selesai
+
+##### Terminal
+1. Cek apakah Homebrew sudah terinstall
+```
+brew --version
+```
+2. Jika belum, install homebrew terlebih dahulu
+```
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+```
+3. Install docker
+```
+brew install --cask docker
+```
+4. Jalankan docker
+```
+open /Applications/Docker.app
+```
+5. Jika muncul peringatan "Are you sure you want to open it?", tekan open
+6. Baca terms and condition dan tekan accept
+7. Pilih recomended setting dan tekan ok
+8. Masukkan password mac anda dan tunggu hingga proses selesai
