@@ -16,7 +16,7 @@
       - [Pemantauan Filesystem](#pemantauan-filesystem)
       - [Pemantauan Log](#pemantauan-log)
     - [Implementasi Docker Monitoring](#implementasi-docker-monitoring)
-  - [Docker Security](#docker-security) 
+  - [Docker Security](#docker-security)
     - [Pengertian Docker Security](#pengertian-docker-security)
     - [Ancaman Keamanan di Docker](#ancaman-keamanan-di-docker)
       - [Container Escape](#container-escape)
@@ -120,7 +120,7 @@ Selain itu, terdapat juga tool pihak ketiga yang dapat digunakan untuk memantau 
 Dalam pemantauan penggunaan jaringan pada Docker, penting untuk memantau koneksi masuk dan keluar dari container. Hal ini dapat membantu memastikan bahwa aplikasi berinteraksi dengan jaringan secara efektif dan aman. Selain itu, perlu juga memantau lalu lintas jaringan dan menganalisis data lalu lintas tersebut untuk mendeteksi adanya serangan atau masalah jaringan lainnya.
 
 Selain itu, dapat pula melakukan pengaturan jaringan dengan membatasi akses pada container Docker menggunakan Docker Network. Docker Network menyediakan kontrol akses jaringan yang lebih baik dan memungkinkan pengaturan jaringan yang lebih fleksibel, seperti memisahkan lalu lintas jaringan antara beberapa container atau membatasi koneksi jaringan ke host.
- 
+
 #### Pemantauan Filesystem
 Pemantauan Filesystem pada Docker Monitoring merujuk pada pemantauan sistem file yang digunakan oleh container Docker. Sistem file pada Docker adalah bagian penting dari container, karena berisi semua file dan data yang diperlukan untuk menjalankan aplikasi.
 
@@ -151,6 +151,323 @@ Dalam kesimpulannya, pemantauan log pada Docker Monitoring sangat penting untuk 
 
 ### Implementasi Docker Monitoring
 
+# Docker Security
+## Pengertian Docker Security
+Docker Security adalah upaya untuk menjaga keamanan pada kontainer Docker. ontainer Docker adalah unit yang terisolasi dari sistem operasi host, sehingga memberikan keuntungan seperti portabilitas, skalabilitas, dan efisiensi. Namun, karena kontainer Docker memiliki akses ke sistem operasi host, maka diperlukan upaya untuk menjaga keamanan pada kontainer tersebut.
+
+## Ancaman Keamanan di Docker
+
+### Container Escape
+
+Container Escape atau disebut juga Container Breakout merupakan resiko kemanan pada Docker dimana “malicious user” dapat memanfaatkan kerentanan aplikasi dalam kontainer untuk menembus batas isolasi sehingga mendapatkan akses ke sumber daya sistem host.
+
+Attacker yang memiliki akses ke kontainer dapat mengeksploitasi berbagai kerentanan yang dapat menyebabkan Container Escape :
+
+- Memanfaatkan program apapun dalam privileged mode untuk melakukan operasi berbahaya pada host
+- Melakukan mounting filesystem host dan menjalankan container dengan parameter bind untuk mengirim payload kepada mereka.
+- Memanfaatkan kerentanan seperti bug kernel, konfigurasi yang buruk, atau kontrol akses yang lemah .
+- Meningkatkan privilege host untuk mengakses kontainer yang lain.
+
+### Container Poisoning
+
+Container poisoning adalah serangan keamanan yang dilakukan dengan memasukkan kode berbahaya atau komponen yang tidak diinginkan ke dalam sebuah container yang dijalankan pada sistem. Dengan cara ini, penyerang dapat mengambil alih kontrol dari container tersebut atau bahkan mengambil alih sistem host tempat container berjalan.
+
+Beberapa contoh teknik yang digunakan dalam container poisoning adalah memodifikasi atau menambahkan komponen saat membangun image container, menanamkan backdoor pada aplikasi yang dijalankan dalam container, atau mengubah konfigurasi container secara tidak sah.
+
+### Container Sprawl
+
+Container sprawl adalah fenomena ketika sebuah organisasi memiliki terlalu banyak kontainer yang berjalan di dalam infrastruktur mereka, yang dapat menyebabkan masalah seperti kurangnya transparansi dan visibilitas pada lingkungan kontainer, kesulitan dalam manajemen dan pemantauan kontainer, peningkatan biaya operasional, dan penurunan kinerja sistem secara keseluruhan. Hal ini dapat terjadi ketika organisasi mengadopsi teknologi kontainerisasi dan orkestrasi (seperti Kubernetes) tanpa strategi dan perencanaan yang matang, atau ketika *system administrator* tidak melakukan tindakan pemeliharaan atau penghapusan kontainer yang tidak terpakai.
+
+### Container Hijacking
+
+Container hijacking adalah serangan keamanan di mana seorang penyerang mencoba untuk mendapatkan akses yang tidak sah ke dalam suatu lingkungan container dengan tujuan mencuri data atau merusak lingkungan tersebut. Serangan ini dapat memanfaatkan kerentanan dalam software container, seperti Docker, atau memanfaatkan akses yang tidak terlindungi pada aplikasi container yang berjalan di dalamnya.
+
+Beberapa teknik yang dapat digunakan oleh penyerang untuk melakukan container hijacking antara lain:
+
+- Container Escape: Penyerang mencoba untuk melompat dari container yang terisolasi ke lingkungan host yang lebih luas.
+- Privilege Escalation: Penyerang mencoba untuk mendapatkan akses root pada container untuk mendapatkan kontrol penuh atas environment tersebut.
+- Malware Injection: Penyerang memasukkan malware ke dalam container untuk mencuri data atau merusak lingkungan.
+
+## Strategi Keamanan di Docker
+
+## Pengaturan Kontrol Akses
+
+### #1 Set non-root user
+
+Melakukan konfigurasi pada container untuk menggunakan unprivileged user adalah cara terbaik untuk mencegah serangan privilege escalation. Beberapa cara yang dapat dilakukan adalah
+
+1. Saat runtime, gunakan flag -u pada command docker run :
+
+    ```bash
+    docker run -u 4000 alpine
+    ```
+
+2. Saat build time. Tambahkan user baru pada Dockerfile
+
+    ```docker
+    FROM alpine
+    RUN groupadd -r myuser && useradd -r -g myuser myuser
+    <HERE DO WHAT YOU HAVE TO DO AS A ROOT USER LIKE INSTALLING PACKAGES ETC.>
+    USER myuser
+    ```
+
+3. Enable user namespace support(-userns-remap=default) pada Docker daemon.
+
+    ```docker
+    dockerd --userns-remap="testuser:testuser"
+    ```
+
+
+### #2 Batasi kapabilitas
+
+[Linux kernel capabilities](https://man7.org/linux/man-pages/man7/capabilities.7.html) adalah kumpulan privileges yang dapat digunakan oleh user yang memiliki privilege. Secara default, Docker berjalan hanya dengan sebagian dari capabilities. Dengan membatasi capabilities, kita dapat mencegah kerentanan yang mungkin terjadi pada container.
+
+Kita dapat mengubah dan melakukan drop beberapa capabilities menggunakan flag ( —can-drop) untuk lebih meningkatkan keamanan container, atau menambah beberapa capabilities (—cap-add) jika diperlukan. Pehatikan untuk tidak menjalankan container dengan flag (—privileged) karena hal ini akan menambah SEMUA linux kernel capabilities pada container.
+
+Cara setup capabilities yang paling aman dengan melakukan drop semua capabilities (—can-drop-all) kemudian tambahkan hanya yang diperlukan.
+
+```docker
+docker run --cap-drop all --cap-add CHOWN alpine
+```
+
+### #3 **Add –no-new-privileges flag**
+
+Saat akan menjalankan docker images, selalu gunakan flag -security-opt=no-new-privileges untuk mencegah privilege escalation yang menggunakan binary setuid dan setgid
+
+## Konfigurasi Jaringan
+
+Docker container sangat bergantung kepada Docker API dan jaringan untuk berkomunikasi satu sama lain. Sangat penting bagi kita untuk memastikan bahwa arsitektur jaringan dirancang dengan aman sehingga kita dapat memantau aktivitas jaringan terhadap anomali yang dapat mengindikasikan gangguan.
+
+### #1 Buat sebuah overlay network yang terenksipsi
+
+Docker swarm menghasilkan dua jenis lalu lintas yang berbeda :
+
+- Control dan management plane traffic
+- Application data plane traffic
+
+Semua overlay network pada Docker memiliki control plane traffic yang terenkripsi secara default. Untuk melakukan enkripsi pada data plane traffic, kita harus menggunakan —opt encrypted flag pada command docker create
+
+1. Buat overlay network baru bernama net1
+
+```bash
+docker network create -d overlay --opt encrypted net1
+```
+
+1. Inspect network net1 untuk memeriksa konfigurasi enkripsi
+
+```docker
+$ docker network inspect net1
+[
+	{
+     "Name": "net1",
+     "Id": "uaaw8ljwidoc5is2qo362hd8n",
+     "Created": "0001-01-01T00:00:00Z",
+     "Scope": "swarm",
+     "Driver": "overlay",
+     "EnableIPv6": false,
+     "IPAM": {
+         "Driver": "default",
+         "Options": null,
+         "Config": []
+     },
+     "Internal": false,
+     "Attachable": false,
+     "Containers": null,
+     "Options": {
+         "com.docker.network.driver.overlay.vxlanid_list": "4098",
+         "encrypted": ""
+     },
+     "Labels": null
+	}
+]
+```
+
+### #2 List networks
+
+1. Jalankan perintah docker network ls pada node1 (manager node)
+
+```docker
+node1$ docker network ls
+NETWORK ID          NAME                DRIVER              SCOPE
+70bd606f9f81        bridge              bridge              local
+475a3b8f04de        docker_gwbridge     bridge              local
+f94f673bfe7e        host                host                local
+3ecc06xxyb7d        ingress             overlay             swarm
+xt3jwgsq20ob        net1                overlay             swarm             swarm
+b535831c780f        none                null                local
+```
+
+1. Jalankan perintah docker network ls pada node2 (worker node)
+
+```docker
+node2$ docker network ls
+NETWORK ID          NAME                DRIVER              SCOPE
+abe97d2963b3        bridge              bridge              local
+42295053cd72        docker_gwbridge     bridge              local
+ad4f60192aa0        host                host                local
+3ecc06xxyb7d        ingress             overlay             swarm
+1a85d1a0721f        none                null                local
+```
+
+Pada list diatas, network net1 tidak terlihat di node2 (worker node). Ini membuktikan bahwa Docker tidak memperluas jaringan yang baru dibuat ke semua worker node di Swarm. Hal ini meningkatkan skalabilitas dan keamanan.
+
+### #3 Deploy service pada Swarm
+
+1. Deploy service baru di semua nodes pada Swarm. Pastikan untuk menggunakan replica task yang cukup (memadai) sehingga memaksa Docker untuk memperluas network ke semua nodes pada Swarm.
+
+```bash
+$ docker service create --name service1 \
+--network=net2 --replicas=4 \
+alpine:latest sleep 1d
+
+ivfei61h3jvypuj7v0443ow84
+```
+
+1. Cek apakah service yang baru telah berhasil dideploy
+
+```bash
+$ docker service ls
+ID            NAME      MODE        REPLICAS  IMAGE
+ivfei61h3jvy  service1  replicated  4/4       alpine:latest
+```
+
+1. Jalankan perintah docker network ls pada node2
+
+```bash
+node3$ docker network ls
+NETWORK ID          NAME                DRIVER              SCOPE
+abe97d2963b3        bridge              bridge              local
+42295053cd72        docker_gwbridge     bridge              local
+ad4f60192aa0        host                host                local
+3ecc06xxyb7d        ingress             overlay             swarm
+uaaw8ljwidoc        net2                overlay             swarm
+1a85d1a0721f        none                null                local
+```
+
+Network net2 sekarang terlihat di node2. Hal ini karena node2 sedang menjalankan task service1 yang menggunakan network net2.
+
+## Manajemen Data dan Konfigurasi
+
+Pada Docker, sebuah *secret* adalah segala jenis informasi atau data yang tidak boleh disimpan dalam text files biasa yang tidak dienkripsi, seperti password, SSH private keys, certificates, atau API keys. Oleh sebab itu docker memiliki fitur untuk memanajemen sebuah secret yang disebut Docker secrets. Docker secrets merupakan salah satu fitur yang disediakan dari container orchestration stack (Docker Swarm).
+
+Beberapa cara yang biasanya dilakukan untuk meyimpan secrets :
+
+1. Menyimpan secret pada Docker Compose.
+
+    ```yaml
+    version: '3'
+
+    services:
+
+      my_database:
+        container_name: my_database
+        hostname: my_database
+        image: postgres
+        volumes:
+          - ./volume:/var/lib/postgresql
+        environment:
+          - POSTGRES_DB=mydb, mydb_dev
+          - POSTGRES_USER=notsecure
+          - POSTGRES_PASSWORD=aStrongPassword
+        ports:
+          - 54321:5432
+        restart: unless-stopped
+    ```
+
+    Hal berikut merupakan kesalahan umum dimana ini memungkinkan informasi sensitif (seperti DB Password) yang dibutuhkan oleh container akan mudah diakses oleh siapa saja yang memiliki akses ke repositori atau file
+
+2. Melakukan embed secret ke Docker Images
+
+    JIka secret dilakukan embed ke Docker Images, hal ini membuat Images tersebut bergantung pada file eksternal sehingga merusak prinsip reusability.
+
+3. Menyimpan secret ke Environment Variable.
+
+    Secret yang disimpan ke env variable akan lebih rentan terhadap kesalahan yang tidak disengaja seperti melakukan print terhadap semua variabel pada file .env saat proses debugging.
+
+
+Beberapa cara diatas memiliki potensi untuk membahayakan kemanan sistem kita. Docker secrets memberikan sebuah solusi dengan benefit sebagai berikut :
+
+- Secrets selalui terenkripsi
+- Secret sulit untuk dibocorkan secara tidak sengaja oleh service yang menggunakannya.
+- Akses pada secret mengikut the principle of least privilege (POLP)
+
+### Implementasi Docker secrets pada Compose :
+
+1. Enable Swarm mode
+
+    ```bash
+    docker swarm init
+    ```
+
+2. Tambahkan sebuah secret ke Docker
+
+    ```bash
+    openssl rand -base64 128 | docker secret create my_secret_data -
+    ```
+
+3. Buat sebuah service redis dan beri akses ke secret
+
+    ```bash
+    docker service  create --name redis --secret my_secret_data redis:alpine
+    ```
+
+4. Dapatkan ID dari service redis sehingga kita dapat terhubung ke container redis dan membaca isi data dari file secret
+
+    ```bash
+    docker ps --filter name=redis -q
+
+    docker container exec $(docker ps --filter name=redis -q) cat /run/secrets/my_secret_data
+    ```
+
+5. Gunakan secret tersebut pada file docker-compsoe.yml
+
+    ```yaml
+    version: "3.9"
+    services:
+    	db:
+         image: mysql:latest
+         volumes:
+           - db_data:/var/lib/mysql
+         environment:
+           MYSQL_ROOT_PASSWORD_FILE: /run/secrets/my_secret_data
+           MYSQL_DATABASE: pelatihan_docker
+           MYSQL_USER: pelatihan_docker
+           MYSQL_PASSWORD_FILE: /run/secrets/db_password
+         secrets:
+           - my_secret
+           - db_password
+    	wordpress:
+         depends_on:
+           - db
+         image: wordpress:latest
+         ports:
+           - "8000:80"
+         environment:
+           WORDPRESS_DB_HOST: db:3306
+           WORDPRESS_DB_USER: wordpress
+           WORDPRESS_DB_PASSWORD_FILE: /run/secrets/my_secret_data
+         secrets:
+           - my_secret_data
+    secrets:
+      my_secret_data:
+        file: my_secret_data.txt
+      db_password:
+        external: true
+    ```
+
+    - keyword “secrets :” mendefinisikan dua secrets “my_secret_data :” dan “db_password :”
+    - Ketika dideploy, Docker membuat dua secrets dan mengisinya dengan konten dari file yang ditentukan pada file compose
+    - db services menggunakan dua secrets, sedangkan wordpress service menggunakan satu.
+    - Saat deploy, Docker melakukan mounting file pada /run/secrets/<secret_name> di service tersebut. File ini tidak penah disimpan pada disk, tetapi di managed di memory/
+
+    Dengan metode berikut, ini menjamin bahwa secret hanya tersedia untuk service yang diberikan akses secara eksplisit, dan secret tersebut hanya ada di sebuah in-memory filesystem saat service tersebut dijalankan.
+
+
+## Memperbarui Docker secara Teratur
+
+Containers tidak seperti virtual machines. Mereka berbagi kernel yang sama dengan host. Jika sebuah eksploit dijalankan di dalam container, hal tersebut bisa langsung mengenai atau merusak kernel host. Misalnya seperti eksploit kernel privilege escalation ([Dirty COW](https://github.com/scumjr/dirtycow-vdso)) yang saat dieksekusi di dalam container akan menghasilkan hak akses root di host.
+
+Untuk mencegah container dari beberapa ancaman keamanan seperti container escape yang dapat mengarah ke peningkatan hak akses istimewa ke root/administrator, selalu melakukan patching terhadap Docker Engine dan Docker Machine ke versi terbaru adalah hal yang sangat krusial.
 ## Sumber Referensi
 - https://docs.docker.com/engine/reference/commandline/stats/
 - https://docs.docker.com/engine/security/
