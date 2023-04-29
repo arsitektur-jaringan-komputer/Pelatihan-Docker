@@ -92,6 +92,8 @@ services:
           - node.role == worker
       restart_policy:
         condition: on-failure
+    depends_on:
+      - frontend
     ports:
       - '80:80'
     volumes:
@@ -109,6 +111,8 @@ services:
           - node.role == worker
       restart_policy:
         condition: on-failure
+    depends_on:
+      - backend
     ports:
       - '8080:80'
     volumes:
