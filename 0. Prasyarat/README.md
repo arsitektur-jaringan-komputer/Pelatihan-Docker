@@ -8,7 +8,7 @@
       - [CentOS](#centos)
       - [Fedora](#fedora)
       - [openSUSE](#opensuse)
-      - [Debian](#debian)
+      - [Debian (termasuk Kali Linux, MX Linux, dkk)](#debian)
     - [MacOS](#macos)
 
 ## Pelatihan Linux
@@ -85,6 +85,7 @@ sudo docker run hello-world
 ###### openSUSE
 
 ###### Debian
+Termasuk Kali Linux, MX Linux, dkk
 1. update package apt lalu install package berikut agar apt bisa menggunakan repository https
 ```
 sudo apt-get update
