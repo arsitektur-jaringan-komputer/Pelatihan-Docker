@@ -205,7 +205,7 @@ Dalam Dockerfile di atas, langkah-langkah yang dilakukan adalah sebagai berikut:
 
 #### Contoh Implementasi Dockerfile
 
-1. clone repository [disini](https://github.com/fhinnn/custom-nginx-image) , dalam repository tersebut sudah tersedia `Dockerfile` dan `index.html `
+1. Buat direktori baru , dalam direktori tersebut buat `Dockerfile` dan `index.html` sesuaikan dengan [ini](./custom-nginx-image/)
 
 ![git clone](img/git-clone.jpg)
 
