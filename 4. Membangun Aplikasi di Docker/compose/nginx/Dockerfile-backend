@@ -1,0 +1,5 @@
+FROM nginx:latest
+
+COPY ./nginx-backend.conf /etc/nginx/nginx.conf
+
+EXPOSE 80

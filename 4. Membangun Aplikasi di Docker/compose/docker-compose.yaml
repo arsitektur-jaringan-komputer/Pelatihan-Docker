@@ -1,7 +1,6 @@
 version: '3.8'
 services:
   db:
-    image: postgres:latest
     deploy:
       replicas: 1
       placement:
@@ -10,6 +9,10 @@ services:
       restart_policy:
         condition: on-failure
     container_name: db
+    build:
+      context: ./database
+      dockerfile: Dockerfile
+    image: 143.198.210.107:4000/database
     restart: always
     environment:
       POSTGRES_USER: docker
@@ -19,7 +22,6 @@ services:
       - '5431:5432'
     volumes:
       - db:/var/lib/postgresql/data
-      - ./database/musicapp.sql:/docker-entrypoint-initdb.d/create_tables.sql
     networks:
       - db-network
 
@@ -83,7 +85,6 @@ services:
       - web-network
 
   nginx-frontend:
-    image: nginx:latest
     container_name: nginx-frontend
     deploy:
       replicas: 1
@@ -96,13 +97,14 @@ services:
       - frontend
     ports:
       - '80:80'
-    volumes:
-      - ./nginx/nginx-frontend.conf:/etc/nginx/nginx.conf
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile-frontend
+    image: 143.198.210.107:4000/nginx-frontend
     networks:
       - web-network
 
   nginx-backend:
-    image: nginx:latest
     container_name: nginx-backend
     deploy:
       replicas: 1
@@ -115,8 +117,10 @@ services:
       - backend
     ports:
       - '8080:80'
-    volumes:
-      - ./nginx/nginx-backend.conf:/etc/nginx/nginx.conf
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile-backend
+    image: 143.198.210.107:4000/nginx-backend
     networks:
       - web-network
       - api-network
@@ -131,5 +135,10 @@ networks:
 
 volumes:
   db:
+    driver: local
+    driver_opts:
+      type: nfs
+      o: addr=10.104.0.2,nolock,soft,rw
+      device: ":/etc/db-data"
   backend:
   frontend:
