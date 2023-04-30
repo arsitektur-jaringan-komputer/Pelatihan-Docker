@@ -207,17 +207,17 @@ Dalam Dockerfile di atas, langkah-langkah yang dilakukan adalah sebagai berikut:
 
 1. Buat direktori baru , dalam direktori tersebut buat `Dockerfile` dan `index.html` sesuaikan dengan [ini](./custom-nginx-image/)
 
-![git clone](img/git-clone.jpg)
+![mkdir](img/mkdir.jpg)
 
-2. Masuk ke dalam direktori yang sudah di clone tersebut dan jalankan command `docker build -t <nama image>` untuk membuat image baru dari dockerfile yang sudah ada. Isi nama image sesuai dengan yang diinginkan.
+2. Dalam direktori yang sudah tersebut, jalankan command `docker build -t <nama image>` untuk membuat image baru dari dockerfile yang sudah ada. Isi nama image sesuai dengan yang diinginkan.
 
 ![Docker-build](img/docker-build.jpg)
 
 3. Lalu cek pada `docker image ls` , apakah image yang dibuild sudah tersedia.
 
-![Docker image ls](img/docker-images.jpg)
+![Docker image ls](img/docker-ls.jpg)
 
-4. Selanjutnya image yang sudah ada dapat di gunakan, dengan command `docker run -d -p 8080:80 <nama image>` untuk menjalankan sebuah container dari image tersebut.
+4. Selanjutnya image yang sudah ada dapat di gunakan, dengan command `docker run -d -p 8080:80 <nama image>` untuk menjalankan sebuah container dari image tersebut. Cek dengan `docker ps` apakah container sudah berjalan.
 
 ![Docker-run](img/run-container.jpg)
 
@@ -259,7 +259,7 @@ Berikut merupakan langkah-langkah untuk meletakkan image docker pada Docker Hub:
     docker image ls
 ```
 
-![Docker image ls](img/docker-images.jpg)
+![Docker image ls](img/docker-ls.jpg)
 
 4. Membuat tag pada docker image
 
@@ -272,7 +272,7 @@ Berikut merupakan langkah-langkah untuk meletakkan image docker pada Docker Hub:
 5. Melakukan **`docker push`** agar image tersimpan dalam docker hub
 
 ```
-    docker push <nama repository>/<nama image>:<version image>
+    docker <nama image>:<version image>
 ```
 
 ![Docker push](img/docker-push.jpg)
