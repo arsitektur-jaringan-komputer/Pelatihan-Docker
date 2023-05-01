@@ -84,12 +84,37 @@ sudo docker run hello-world
 
 ###### openSUSE
 1. Install Docker sesuai dengan tipe OS yang kalian gunakan
-   1. Tumbleweed ```zypper install docker docker-compose docker-compose-switch```
+   1. Tumbleweed 
+```
+zypper install docker docker-compose docker-compose-switch
+```
    2. Leap
       1. Tambahkan repo python devel ```zypper addrepo https://download.opensuse.org/repositories/devel:languages:python/15.4/devel:languages:python.repo zypper refresh```
       2. Install ```zypper install docker python3-docker-compose```
-3. Mulai docker daemon saat boot ```sudo systemctl enable docker```
+3. Mulai docker daemon saat boot
+```
+sudo systemctl enable docker
+```
 4. Bergabung ke docker group yang dapat menggunakan docker daemon
+```
+sudo usermod -G docker -a $USER
+```
+5. Cek jika docker berjalan
+```
+docker version
+```
+6. Menambahkan buildx support sebagai plugin
+```
+mkdir -p .docker/cli-plugins
+
+wget https://github.com/docker/buildx/releases/download/v0.6.1/buildx-v0.6.1.linux-s390x
+
+cp buildx-v0.6.1.linux-s390x .docker/cli-plugins/docker-buildx
+
+chmod +x .docker/cli-plugins/docker-buildx
+
+docker buildx version
+```
 
 ###### Debian
 Termasuk Kali Linux, MX Linux, dkk
