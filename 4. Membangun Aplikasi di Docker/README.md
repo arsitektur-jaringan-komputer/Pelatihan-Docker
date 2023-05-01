@@ -287,7 +287,7 @@ Lalu masuk ke directory `Pelatihan Docker/4. Membangun Aplikasi di Docker/compos
 
 Pada folder `nginx/` terdapat 2 file, `nginx-frontend.conf` dan `nginx-backend.conf` yang perlu dikonfigurasi. Caranya cukup mudah, yaitu mengganti nilai `server_name` dari `localhost` ke domain name masing-masing
 
-![Nginx conf](Img/nginx-conf.png)
+![Nginx conf](img/nginx-conf.png)
 
 #### 4. Konfigurasi File Environment
 
