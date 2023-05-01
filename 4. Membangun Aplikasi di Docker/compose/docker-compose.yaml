@@ -12,7 +12,7 @@ services:
     build:
       context: ./database
       dockerfile: Dockerfile
-    image: 143.198.210.107:4000/database
+    image: <ip-manager>:4000/database
     restart: always
     environment:
       POSTGRES_USER: docker
@@ -51,7 +51,7 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    image: 143.198.210.107:4000/backend
+    image: <ip-manager>:4000/backend
     depends_on:
       - db
     ports:
@@ -74,7 +74,7 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
-    image: 143.198.210.107:4000/frontend
+    image: <ip-manager>:4000/frontend
     depends_on:
       - backend
     ports:
@@ -100,7 +100,7 @@ services:
     build:
       context: ./nginx
       dockerfile: Dockerfile-frontend
-    image: 143.198.210.107:4000/nginx-frontend
+    image: <ip-manager>:4000/nginx-frontend
     networks:
       - web-network
 
@@ -116,11 +116,11 @@ services:
     depends_on:
       - backend
     ports:
-      - '8080:80'
+      - '8080:8080'
     build:
       context: ./nginx
       dockerfile: Dockerfile-backend
-    image: 143.198.210.107:4000/nginx-backend
+    image: <ip-manager>:4000/nginx-backend
     networks:
       - web-network
       - api-network
@@ -138,7 +138,7 @@ volumes:
     driver: local
     driver_opts:
       type: nfs
-      o: addr=10.104.0.2,nolock,soft,rw
+      o: addr=<ip-manager>,nolock,soft,rw
       device: ":/etc/db-data"
   backend:
   frontend:
