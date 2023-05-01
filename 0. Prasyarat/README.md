@@ -83,6 +83,13 @@ sudo docker run hello-world
 ```
 
 ###### openSUSE
+1. Install Docker sesuai dengan tipe OS yang kalian gunakan
+   1. Tumbleweed ```zypper install docker docker-compose docker-compose-switch```
+   2. Leap
+      1. Tambahkan repo python devel ```zypper addrepo https://download.opensuse.org/repositories/devel:languages:python/15.4/devel:languages:python.repo zypper refresh```
+      2. Install ```zypper install docker python3-docker-compose```
+3. Mulai docker daemon saat boot ```sudo systemctl enable docker```
+4. Bergabung ke docker group yang dapat menggunakan docker daemon
 
 ###### Debian
 Termasuk Kali Linux, MX Linux, dkk
