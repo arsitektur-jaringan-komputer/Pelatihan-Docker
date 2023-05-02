@@ -146,7 +146,7 @@ Namun, penggunaan MQTT juga memiliki beberapa kelemahan, seperti:
 Pemilihan mekanisme inter-container communication yang tepat harus dipertimbangkan berdasarkan kebutuhan bisnis dan teknologi yang digunakan dalam aplikasi microservice. MQTT dapat menjadi pilihan yang baik terutama jika aplikasi microservice membutuhkan penggunaan bandwidth jaringan dan penggunaan daya yang efisien, serta dukungan terhadap kualitas layanan dan pengamanan.
 
 ### Docker Swarm
-Docker Swarm adalah fitur orkestrasi pada platform Docker yang memungkinkan untuk mengelola dan menyederhanakan proses deployment aplikasi yang terdistribusi ke dalam beberapa mesin atau host secara otomatis. Docker Swarm menyediakan fungsi clustering dan scheduling untuk membantu membagi dan menjalankan container Docker pada berbagai mesin secara terdistribusi dan memberikan kemampuan untuk meningkatkan ketersediaan aplikasi dengan menangani failover secara otomatis. Dengan Docker Swarm, pengguna dapat dengan mudah membangun, mengelola, dan merilis aplikasi yang dioptimalkan untuk lingkungan produksi yang besar dan terdistribusi.
+Docker Swarm adalah fitur orkestrasi pada platform Docker yang memungkinkan untuk mengelola dan menyederhanakan proses deployment aplikasi yang terdistribusi ke dalam beberapa mesin atau host secara otomatis. Docker Swarm menyediakan fungsi clustering dan scheduling untuk membantu membagi dan menjalankan container Docker pada berbagai mesin secara terdistribusi dan memberikan kemampuan untuk meningkatkan ketersediaan aplikasi dengan menangani failover secara otomatis. Dengan Docker Swarm, tentunya dapat dengan mudah membangun, mengelola, dan merilis aplikasi yang dioptimalkan untuk lingkungan produksi yang besar dan terdistribusi.
 
 #### Konfigurasi Docker Swarm
 #### Konsep-Konsep Dasar pada Docker Swarm
@@ -165,13 +165,70 @@ Setiap node memiliki status, status node pada Docker Swarm adalah kondisi dari s
 
 Selain status node, Docker Swarm juga memiliki konsep role atau peran pada setiap node, yaitu Manager Node dan Worker Node. Namun, setiap node hanya dapat memiliki satu peran pada suatu waktu. Peran node dapat diubah dengan menggunakan perintah `docker node promote` dan `docker node demote`. Perintah `docker node promote` digunakan untuk mempromosikan node dari peran worker menjadi peran manager, sementara `docker node demote` digunakan untuk menurunkan node dari peran manager menjadi peran worker.
 
-Penggunaan perintah `docker node promote` dan `docker node demote` dapat membantu dalam mengelola peran node dalam klaster Docker Swarm. Misalnya, ketika salah satu manager node mengalami masalah atau kegagalan, pengguna dapat mempromosikan worker node yang sehat menjadi manager node untuk menghindari kehilangan ketersediaan aplikasi. Atau, jika terdapat kebutuhan tambahan pada kapasitas dapat mempromosikan worker node menjadi manager node untuk membantu mengelola tugas-tugas manajerial pada klaster Docker Swarm.
+Penggunaan perintah `docker node promote` dan `docker node demote` dapat membantu dalam mengelola peran node dalam klaster Docker Swarm. Misalnya, ketika salah satu manager node mengalami masalah atau kegagalan, worker node yang sehat dapat dipromosikan menjadi manager node untuk menghindari kehilangan ketersediaan aplikasi. Atau, jika terdapat kebutuhan tambahan pada kapasitas dapat mempromosikan worker node menjadi manager node untuk membantu mengelola tugas-tugas manajerial pada klaster Docker Swarm.
 
 Dalam konfigurasi default Docker Swarm, semua manager node juga termasuk ke worker node dan setiap node secara otomatis diatur untuk bergabung dengan cluster saat Docker Engine dijalankan dan menghubungkan ke manager node. Dalam Docker Swarm, setiap node dapat diatur untuk berkomunikasi dengan node lainnya melalui jaringan overlay Docker, sehingga container dan layanan yang dijalankan pada node-node tersebut dapat saling berkomunikasi dan berinteraksi dengan lancar.
 
 ##### Service
+Pada Docker Swarm, service adalah objek yang digunakan untuk mengelola dan menjalankan aplikasi dalam klaster. Sebuah service dapat berjalan pada satu atau lebih container, dan dapat dipasang pada satu atau beberapa node dalam klaster Docker Swarm.
+
+![Service pada Docker Swarm](img/docker-swarm-service.png)
+
+Untuk membuat sebuah service pada Docker Swarm dapat dilakukan menggunakan perintah `docker service create`. Perintah ini menentukan konfigurasi dari service seperti nama, jumlah instance, image container, jaringan, port, dan volume yang akan digunakan oleh container. Selain itu juga dapat menentukan kriteria yang digunakan oleh Docker Swarm untuk menyeimbangkan beban (load balancing) antara container-container yang berjalan pada node-node dalam klaster.
+
+Setelah service dibuat, Docker Swarm akan secara otomatis mengelola container-container yang menjalankan service tersebut pada node-node dalam klaster. Docker Swarm akan memantau kondisi dari container-container, dan jika terdapat container yang berhenti atau mengalami kegagalan, Docker Swarm akan otomatis memulai kembali container tersebut pada node lain dalam klaster.
+
+Untuk mengubah konfigurasi dari sebuah service yang sedang berjalan dapat menggunakan perintah `docker service update`. Perintah ini akan mengubah konfigurasi seperti jumlah instance, image container, jaringan, port, dan volume yang digunakan oleh container-container yang menjalankan service.
+
+Dalam Docker Swarm, service sangat berguna untuk memudahkan pengelolaan aplikasi yang berjalan dalam klaster. Dengan menggunakan service tidak perlu lagi memikirkan tentang detail teknis dari container-container yang berjalan pada node-node dalam klaster, sehingga dapat fokus pada pengembangan aplikasi dan fungsionalitasnya.
+
 ##### Task
+Task pada Docker Swarm adalah unit terkecil yang digunakan untuk menjalankan container pada suatu service. Ketika sebuah service dijalankan pada Docker Swarm, Docker akan menugaskan sejumlah task untuk menjalankan container-container yang menyediakan layanan dari service tersebut.
+
+Sebuah task terdiri dari sebuah image container dan konfigurasi yang diperlukan untuk menjalankan container tersebut, seperti port, volume, dan variabel lingkungan. Task juga dapat diatur sedemikian rupa sehingga hanya berjalan pada node-node tertentu dalam klaster, atau diatur sedemikian rupa sehingga hanya dijalankan pada node-node tertentu yang memenuhi kriteria tertentu, seperti memiliki spesifikasi hardware tertentu atau memiliki label-label khusus.
+
+Dalam sebuah service, Docker Swarm secara otomatis akan menyebar task-task yang berjalan pada seluruh node dalam klaster, termasuk pada node manajer. Docker Swarm juga secara otomatis memantau kondisi dari task-task yang berjalan, dan jika terdapat task yang berhenti atau mengalami kegagalan, Docker Swarm akan otomatis memulai kembali task tersebut pada node lain dalam klaster.
+
+Setiap task pada Docker Swarm memiliki task states. Task states adalah status dari sebuah task pada suatu service yang dijalankan pada worker node. Terdapat beberapa task states yang dapat terjadi, di antaranya adalah:
+
+| Task State | Deskripsi |
+| --- | ---- |
+| `NEW` | Task baru telah dibuat, tetapi belum dimulai. |
+| `PENDING` | Task sedang menunggu resource yang diperlukan untuk dimulai, seperti image container atau jaringan.
+| `ASSIGNED` | Container untuk task telah dimulai, tetapi task belum dimulai.
+| `ACCEPTED` | Task diterima oleh Worker node |
+| `READY` | Worker node siap untuk memulai task |
+| `PREPARING` |	Task sedang dalam proses persiapan, seperti download image atau mounting volume.
+| `STARTING` | Task sedang dalam proses memulai. |
+| `RUNNING` |	Task sedang berjalan. |
+| `COMPLETE` |	Task telah selesai dijalankan. |
+| `FAILED` |	Task gagal karena terjadi error. |
+| `SHUTDOWN` | Docker mengirim sebuah permintaan untuk mematikan task |
+| `REJECTED` |	Task ditolak oleh Worker node karena ada masalah dengan persyaratan task atau worker node. |
+| `ORPHANED` |	Task tidak terikat ke service mana pun karena masalah pada worker node atau task itu sendiri. |
+| `REMOVE` | Task dihapus oleh service meskipun belum selesai dijalankan |
+
+Untuk dapat mengakses informasi tentang task dengan menggunakan perintah `docker service ps <nama_service>`. Perintah ini dapat untuk melihat informasi tentang task seperti ID, nama task, status, node yang menjalankan task, dan port yang digunakan oleh task tersebut.
+
+Task sangat berguna dalam Docker Swarm karena memungkinkan untuk menjalankan aplikasi pada berbagai node dalam klaster dengan mudah dan otomatis. Dengan menggunakan tast dapat memastikan bahwa aplikasi yang dijalankan pada seluruh node dalam klaster memiliki konfigurasi yang serupa dan konsisten, sehingga memudahkan dalam manajemen dan pengembangan aplikasi.
+
 ##### Overlay Network
+Masih ingatkah kalian dengan bahasan overlay network pada modul 3? Pada materi ini akan dibahas tentang overlay network pada Docker Swarm. Overlay network adalah salah satu jenis jaringan pada Docker Swarm yang memungkinkan komunikasi antara container yang dijalankan pada node-node yang berbeda dalam klaster Docker Swarm. Dengan menggunakan overlay network, container-container pada klaster dapat berkomunikasi satu sama lain tanpa perlu mengetahui lokasi fisik masing-masing container.
+
+![Overlay network pada Docker Swarm](img/docker-swarm-overlay-network.png)
+
+Overlay network pada Docker Swarm juga mendukung fitur load balancing, yaitu ketika sebuah request masuk ke sebuah service, Docker Swarm akan menyebar request tersebut ke salah satu task yang berjalan pada node yang paling sedikit beban nya. Hal ini membuat service yang dijalankan pada Docker Swarm dapat menangani request secara efisien dan terdistribusi pada setiap node dalam klaster.
+
+Untuk membuat overlay network pada Docker Swarm, dapat menggunakan perintah `docker network create` dengan opsi `--driver overlay`, seperti contoh berikut:
+```
+docker network create --driver overlay <nama_network>
+```
+Setelah overlay network dibuat, dapat membuat service dengan menggunakan opsi `-network` untuk menentukan overlay network yang akan digunakan oleh service tersebut. Misalnya, untuk membuat sebuah service yang menggunakan overlay network dapat menggunakan perintah sebagai berikut:
+```
+docker service create --name <nama_service> --network <nama_network> <nama_image>
+```
+Dengan menggunakan overlay network pada Docker Swarm, tentunya mempermudah dalam membuat dan mengelola jaringan yang terdistribusi pada setiap node dalam klaster, sehingga memudahkan dalam membangun aplikasi yang terdiri dari beberapa service yang berjalan pada beberapa node dalam klaster.
+
 #### Contoh Implementasi Docker Swarm
 
 ### Membuat Aplikasi Mikroservice dengan Docker
@@ -180,3 +237,5 @@ Dalam konfigurasi default Docker Swarm, semua manager node juga termasuk ke work
 - https://medium.com/pujanggateknologi/berkenalan-dengan-teknologi-mqtt-7e63cab9d00d
 - https://aws.amazon.com/id/microservices/
 - https://docs.docker.com/engine/swarm/how-swarm-mode-works/nodes/
+- https://docs.docker.com/engine/swarm/how-swarm-mode-works/services/
+- https://docs.docker.com/engine/swarm/how-swarm-mode-works/swarm-task-states/
