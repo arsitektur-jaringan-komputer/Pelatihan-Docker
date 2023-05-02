@@ -57,6 +57,29 @@ sudo apt-get install docker-compose-plugin
 
 
 ###### CentOS
+0. Prasyarat
+   1. CentOS 7, 8, atau 9
+   2. Repo ```centos-extras``` harus sudah diaktifkan
+1. Siapkan repo
+```
+sudo yum install -y yum-utils
+sudo yum-config-manager \
+    --add-repo \
+    https://download.docker.com/linux/centos/docker-ce.repo
+```
+
+2. Install docker engine, containerd, dan docker compose
+```
+sudo yum install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+```
+3. Mulai docker
+```
+sudo systemctl start docker
+```
+4. Pastikan docker berjalan sempurna
+```
+sudo docker run hello-world
+```
 
 ###### Fedora
 Di sini kami berasumsi kalian menggunakan Fedora workstation dan bukan server (jika anda sudah mahir dengan CLI seharusnya anda tidak butuh tutorial). Maka kami akan menyarankan anda menginstall Docker Desktop, yang sudah include Docker Engine dan Docker Compose.
