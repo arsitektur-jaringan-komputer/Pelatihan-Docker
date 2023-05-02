@@ -23,38 +23,39 @@
 
 #### Linux
 ###### Ubuntu
-1. update package apt lalu install package berikut agar apt bisa menggunakan repository https
+1. Kebutuhan sistem minimal: Ubuntu 18.04 (LTS) _64-bit_
+2. update package apt lalu install package berikut agar apt bisa menggunakan repository https
 ```
 sudo apt-get update
 
- sudo apt-get install \
+sudo apt-get install \
     ca-certificates \
     curl \
-    gnupg \
-    lsb-release
+    gnupg
 ```
-2. tambahkan kunci GPG docker
+3. tambahkan kunci GPG docker
 ``` 
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+sudo install -m 0755 -d /etc/apt/keyrings
+
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+
+sudo chmod a+r /etc/apt/keyrings/docker.gpg
 ```
-3. gunakan command berikut untuk memilih repo stabil
-``` echo \
-  "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
-  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+4. gunakan command berikut untuk memilih repo stabil
+``` 
+echo \
+  "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+  "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | \
+  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
  ```
-4. install docker engine
-``` sudo apt-get update
-sudo apt-get install docker-ce docker-ce-cli containerd.io 
+5. install docker engine dan docker compose
+``` 
+sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin 
 ```
-5. pastikan docker sudah terinstall dengan benar
+6. pastikan docker sudah terinstall dengan benar
 ```
 sudo docker run hello-world
 ```
-6. Install docker compose
-```
-sudo apt-get install docker-compose-plugin
-```
-
 
 ###### CentOS
 0. Prasyarat
@@ -141,41 +142,43 @@ docker buildx version
 
 ###### Debian
 Termasuk Kali Linux, MX Linux, dkk
-1. update package apt lalu install package berikut agar apt bisa menggunakan repository https
+1. Kebutuhan sistem minimal: Debian Buster 10 _64-bit_
+2. update package apt lalu install package berikut agar apt bisa menggunakan repository https
 ```
 sudo apt-get update
 
- sudo apt-get install \
+sudo apt-get install \
     ca-certificates \
     curl \
-    gnupg \
-    lsb-release
+    gnupg
 ```
-2. tambahkan kunci GPG docker
+3. tambahkan kunci GPG docker
 ``` 
+sudo install -m 0755 -d /etc/apt/keyrings
+
 curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+
+sudo chmod a+r /etc/apt/keyrings/docker.gpg
 ```
-3. gunakan command berikut untuk memilih repo stabil
-``` echo \
+4. gunakan command berikut untuk memilih repo stabil
+``` 
+echo \
   "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian \
   "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | \
   sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
  ```
-4. install docker engine
-``` sudo apt-get update
-sudo apt-get install docker-ce docker-ce-cli containerd.io 
+5. install docker engine dan docker compose
+``` 
+sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 ```
-5. pastikan docker sudah terinstall dengan benar
+6. pastikan docker sudah terinstall dengan benar
 ```
 sudo docker run hello-world
-```
-6. Install docker compose
-```
-sudo apt-get install docker-compose-plugin
 ```
 
 
 #### MacOS
+_kebutuhan sistem minimal: macOS versi 11 dengan ram 4 GB_
 ##### GUI
 1. Download installer melalui link berikut:
 https://www.docker.com/products/docker-desktop
@@ -184,7 +187,7 @@ https://www.docker.com/products/docker-desktop
 4. Jika muncul peringatan "Are you sure you want to open it?", tekan open
 5. Baca terms and condition dan tekan accept
 6. Pilih recomended setting dan tekan ok
-7. Masukkan password mac anda dan tunggu hingga proses selesai
+7. Masukkan password mac dan tunggu hingga proses selesai
 
 ##### Terminal
 1. Cek apakah Homebrew sudah terinstall
@@ -206,4 +209,4 @@ open /Applications/Docker.app
 5. Jika muncul peringatan "Are you sure you want to open it?", tekan open
 6. Baca terms and condition dan tekan accept
 7. Pilih recomended setting dan tekan ok
-8. Masukkan password mac anda dan tunggu hingga proses selesai
+8. Masukkan password mac dan tunggu hingga proses selesai
