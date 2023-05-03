@@ -149,8 +149,316 @@ Selain itu, pemantauan log pada Docker juga dapat membantu dalam pemecahan masal
 
 Dalam kesimpulannya, pemantauan log pada Docker Monitoring sangat penting untuk memastikan bahwa aplikasi berjalan dengan lancar dan aman, dan untuk membantu mengidentifikasi dan memecahkan masalah yang mungkin terjadi pada aplikasi.
 
-### Implementasi Docker Monitoring
+# Implementasi Docker Monitoring
 
+Pada bagian ini kita akan mencoba melakukan implementasi monitoring pada arsitektur microservice Docker Swarm menggunakan beberapa tools yaitu cAdvisor, node-exporter, prometheus, dan grafana.
+
+Sub-bagian ini akan dilakukan dengan asumsi bahwa kita telah melakukan Swarm Init dan Join pada modul 4
+
+Berikut diagram implementasi
+
+![Untitled](img/Untitled%203.png)
+
+1. Buat Compose file
+
+    Agar memudahkan kita untuk menginstal tools yang diperlukan untuk melakukan monitoring, kita akan membuat file docker-compose.yml pada folder monitoring. File tersebut akan mendifinisikan service prometheus, node-exporter, cAdvisor, dan grafana kita, serta sebuah monitoring bridge network
+
+    Buat sebuah file docker-compose.yml pada folder monitoring dan paste kode berikut :
+
+    ```yaml
+    version: '3.2'
+    services:
+      ######################################
+      # Prometheus
+      # - runs on manager ndoe
+      ######################################
+      prometheus:
+        image: prom/prometheus:latest
+        container_name: prometheus
+        ports:
+        - 9090:9090
+        command:
+        - --config.file=/etc/prometheus/prometheus.yml
+        volumes:
+        - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+        deploy:
+          labels:
+            com.docker.stack.namespace: monitoring
+          placement:
+            constraints:
+            - node.role == manager
+
+      ######################################
+      # Prometheus Node Exporter
+      # for each node separate service need to be added
+      ######################################
+      node-exporter-manager:
+        image: prom/node-exporter:latest
+        container_name: node-exporter-manager
+        volumes:
+          - /proc:/host/proc:ro
+          - /sys:/host/sys:ro
+          - /:/rootfs:ro
+        command:
+          - '--path.procfs=/host/proc'
+          - '--path.rootfs=/rootfs'
+          - '--path.sysfs=/host/sys'
+          - '--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)'
+        deploy:
+          placement:
+            constraints:
+            # hostname of the manager node
+            - node.hostname == manager-node
+        # expose:
+        #   - 9100
+
+      node-exporter-worker-1:
+        image: prom/node-exporter:latest
+        container_name: node-exporter-worker-1
+        volumes:
+          - /proc:/host/proc:ro
+          - /sys:/host/sys:ro
+          - /:/rootfs:ro
+        command:
+          - '--path.procfs=/host/proc'
+          - '--path.rootfs=/rootfs'
+          - '--path.sysfs=/host/sys'
+          - '--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)'
+        deploy:
+          placement:
+            constraints:
+            # hostname of the worker node
+            - node.hostname == worker-node-1
+        # expose:
+        #   - 9100
+
+      node-exporter-worker-2:
+        image: prom/node-exporter:latest
+        container_name: node-exporter-worker-2
+        volumes:
+          - /proc:/host/proc:ro
+          - /sys:/host/sys:ro
+          - /:/rootfs:ro
+        command:
+          - '--path.procfs=/host/proc'
+          - '--path.rootfs=/rootfs'
+          - '--path.sysfs=/host/sys'
+          - '--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)'
+        deploy:
+          placement:
+            constraints:
+            # hostname of the worker node
+            - node.hostname == worker-node-2
+        # expose:
+        #   - 9100
+
+      node-exporter-worker-3:
+        image: prom/node-exporter:latest
+        container_name: node-exporter-worker-3
+        volumes:
+          - /proc:/host/proc:ro
+          - /sys:/host/sys:ro
+          - /:/rootfs:ro
+        command:
+          - '--path.procfs=/host/proc'
+          - '--path.rootfs=/rootfs'
+          - '--path.sysfs=/host/sys'
+          - '--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)'
+        deploy:
+          placement:
+            constraints:
+            # hostname of the worker node
+            - node.hostname == worker-node-3
+        # expose:
+        #   - 9100
+
+      ######################################
+      # Cadvisor
+      # - runs on every node
+      ######################################
+      cadvisor-manager:
+        image: gcr.io/cadvisor/cadvisor:latest
+        container_name: cadvisor-manager
+        # ports:
+        # - 8090:8080
+        volumes:
+        - /:/rootfs:ro
+        - /var/run:/var/run:rw
+        - /sys:/sys:ro
+        - /var/lib/docker/:/var/lib/docker:ro
+        deploy:
+          placement:
+            constraints:
+            # hostname of the manager node
+            - node.hostname == manager-node
+
+      cadvisor-worker-1:
+        image: gcr.io/cadvisor/cadvisor:latest
+        container_name: cadvisor-worker-1
+        # ports:
+        # - 8090:8080
+        volumes:
+        - /:/rootfs:ro
+        - /var/run:/var/run:rw
+        - /sys:/sys:ro
+        - /var/lib/docker/:/var/lib/docker:ro
+        deploy:
+          placement:
+            constraints:
+            # hostname of the worker node
+            - node.hostname == worker-node-1
+
+      cadvisor-worker-2:
+        image: gcr.io/cadvisor/cadvisor:latest
+        container_name: cadvisor-worker-2
+        # ports:
+        # - 8090:8080
+        volumes:
+        - /:/rootfs:ro
+        - /var/run:/var/run:rw
+        - /sys:/sys:ro
+        - /var/lib/docker/:/var/lib/docker:ro
+        deploy:
+          placement:
+            constraints:
+            # hostname of the worker node
+            - node.hostname == worker-node-2
+
+      cadvisor-worker-3:
+        image: gcr.io/cadvisor/cadvisor:latest
+        container_name: cadvisor-worker-3
+        # ports:
+        # - 8090:8080
+        volumes:
+        - /:/rootfs:ro
+        - /var/run:/var/run:rw
+        - /sys:/sys:ro
+        - /var/lib/docker/:/var/lib/docker:ro
+        deploy:
+          placement:
+            constraints:
+            # hostname of the worker node
+            - node.hostname == worker-node-3
+
+      ######################################
+      # Grafana
+      # - runs on manager node
+      ######################################
+      grafana:
+        image: grafana/grafana:latest
+        user: "$UID:$GID"
+        ports:
+        - 3100:3000
+        volumes:
+        - ./grafana_storage:/var/lib/grafana
+        deploy:
+          placement:
+            constraints:
+            - node.role == manager
+    ```
+
+    - Pada service Prometheus,
+
+2. Baut file konfigurasi Prometheus
+
+    Pada step ini, kita akan membuat file konfigurasi Prometheus untuk melakukan scraping metrics node-exporter dan cAdvisor dan metrics tersebut akan divisualisasikan melalui grafana. Kita akan melakukan konfigurasi bagian berikut :
+
+    - global :  ini ada konfigurasi default Global. Pada contoh, kita set scrape_interval untuk scraping metrics dari configured jobs sebesar 15 detik.
+    - scrape_configs : mendefinisikan jobs yang akan di scraping metrics nya.
+
+    Buat sebuah file konfigurasi Prometheus prometheus.yml pada folder yang sama dengan file docker-compose.yml sebelumnya dan paste kode berikut :
+
+    ```yaml
+    global:
+      scrape_interval: 15s
+
+    scrape_configs:
+      - job_name: 'prometheus'
+        static_configs:
+        - targets: ['prometheus:9090']
+          labels:
+            alias: 'prometheus'
+      - job_name: 'node-exporter'
+        static_configs:
+        - targets: ['node-exporter-manager:9100', 'node-exporter-worker-1:9100', 'node-exporter-worker-2:9100', 'node-exporter-worker-3:9100']
+          labels:
+            alias: 'node-exporter'
+      - job_name: 'cadvisor'
+        static_configs:
+        - targets: ['cadvisor-manager:8080', 'cadvisor-worker-1:8080', 'cadvisor-worker-2:8080', 'cadvisor-worker-3:8080']
+          labels:
+            alias: 'cadvisor'
+    ```
+
+    - Pada file diatas, kita membuat 3 jobs dengan masing-masing jobs memiliki target yaitu service yang telah didefinisikan pada file docker-compose.yml
+3. Melakukan deploy service monitoring
+
+    Setelah melakukan konfigurasi pada file docker-compose.yml dan prometheus.yml, kita akan menggunakan fitur pada Docker Swarm yaitu docker stack untuk mendeploy service yang telah didefinisikan ke semua node pada cluster.
+
+    ```bash
+    docker stack deploy -c <path-to-file-compose> <stack-name>
+    ```
+
+    Dengan command tersebut, kita akan menggunakan file docker-compose.yml untuk mendeploy service yang telah didefinisikan sebagai sebuah stack.
+
+    ![Untitled](img/Untitled%204.png)
+
+4. Cek semua service
+
+    Setelah melakukan deploy, kita akan cek setiap service apakah berhasil dideploy pada node yang telah ditentukan dengan perintah berikut:
+
+    ```bash
+    docker service ls
+    ```
+
+    ![Untitled](img/Untitled%205.png)
+
+    Terlihat bahwa pada kolom REPLICAS, semua service telah berhasil dideploy
+
+5. Cek target Prometheus
+
+    Setelah memastikan semua service telah berhasil dideploy, kita akan melakukan cek status pada target prometheus yaitu node-exporter dan cAdvisor.
+
+    Buka browser, lalu akses aplikasi Prometheus pada url berikut:
+
+    ```bash
+    http://<public-ip-manager-node>:9090
+    ```
+
+    setelah aplikasi Prometheus terbuka, pada tab status, pilih targets.
+
+    ![Untitled](img/Untitled%206.png)
+
+    Pada contoh berikut, semua target prometheus memiliki State (UP) yang artinya Prometheus bisa melakukan query metrics pada target node-exporter dan cAdvisor.
+
+6. Menambah data source pada Grafana
+
+    Pada step berikut, pada grafana kita akan menambah Prometheus sebagai data source. Akses aplikasi grafana pada port 3100 dan buka tab Connection untuk menambah data source
+
+    ![Untitled](img/Untitled%207.png)
+
+    Pada URL section, kita mengisinya dengan URL internal prometheus. Lalu klik save&test untuk memastikan bahwa data source dapat digunakan
+
+7. Membuat Dashboard
+
+    Di grafana kita bisa membuat berbagai macam dashboard sesuai kebutuhan kita. Atau melakukan import dashboard dari grafana community. Pada step ini kita akan membuat 2 dashboard masing-masing untuk monitoring container (cAdvisor) dan monitoring node (node-exporter).
+
+    - Buka web grafana dashboard, lalu search dashbaord sesuai kebutuhan.
+    - Copy ID dashboard, kemudian buka tab dashboard dan load Dashboard Grafana menggunakan ID sebelumnya.
+
+        ![Untitled](img/Untitled%208.png)
+
+    - PIlih data source sebelumnya yang telah ditambah pada section Prometheus.
+
+        ![Untitled](img/Untitled%209.png)
+
+    - Dashboard monitoring node (node-exporter) sudah tersedia.
+
+        ![Untitled](img/Untitled%2010.png)
+
+    - Berikut dashboard monitoring container (cAdvisor) dengan mengimport dashbord Docker.
+
+        ![Untitled](img/Untitled%2011.png)
 # Docker Security
 ## Pengertian Docker Security
 Docker Security adalah upaya untuk menjaga keamanan pada kontainer Docker. ontainer Docker adalah unit yang terisolasi dari sistem operasi host, sehingga memberikan keuntungan seperti portabilitas, skalabilitas, dan efisiensi. Namun, karena kontainer Docker memiliki akses ke sistem operasi host, maka diperlukan upaya untuk menjaga keamanan pada kontainer tersebut.

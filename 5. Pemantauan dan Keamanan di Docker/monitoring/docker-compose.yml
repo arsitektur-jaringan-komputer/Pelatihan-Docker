@@ -1,0 +1,180 @@
+version: '3.2'
+services:
+  ######################################
+  # Prometheus
+  # - runs on manager ndoe
+  ######################################
+  prometheus:
+    image: prom/prometheus:latest
+    ports:
+    - 9090:9090
+    command:
+    - --config.file=/etc/prometheus/prometheus.yml
+    volumes:
+    - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    deploy:
+      labels:
+        com.docker.stack.namespace: monitoring
+      placement:
+        constraints:
+        - node.role == manager
+
+  ######################################
+  # Prometheus Node Exporter
+  # for each node separate service need to be added
+  ######################################
+  node-exporter-manager:
+    image: prom/node-exporter:latest
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.rootfs=/rootfs'
+      - '--path.sysfs=/host/sys'
+      - '--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)'
+    deploy:
+      placement:
+        constraints:
+        # hostname of the manager node
+        - node.hostname == manager-node
+    # expose:
+    #   - 9100
+
+  node-exporter-worker-1:
+    image: prom/node-exporter:latest
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.rootfs=/rootfs'
+      - '--path.sysfs=/host/sys'
+      - '--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)'
+    deploy:
+      placement:
+        constraints:
+        # hostname of the worker node
+        - node.hostname == worker-node-1
+    # expose:
+    #   - 9100
+
+  node-exporter-worker-2:
+    image: prom/node-exporter:latest
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.rootfs=/rootfs'
+      - '--path.sysfs=/host/sys'
+      - '--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)'
+    deploy:
+      placement:
+        constraints:
+        # hostname of the worker node
+        - node.hostname == worker-node-2
+    # expose:
+    #   - 9100
+
+  node-exporter-worker-3:
+    image: prom/node-exporter:latest
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.rootfs=/rootfs'
+      - '--path.sysfs=/host/sys'
+      - '--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)'
+    deploy:
+      placement:
+        constraints:
+        # hostname of the worker node
+        - node.hostname == worker-node-3
+    # expose:
+    #   - 9100
+
+  ######################################
+  # Cadvisor
+  # - runs on every node
+  ######################################
+  cadvisor-manager:
+    image: gcr.io/cadvisor/cadvisor:latest
+    # ports:
+    # - 8090:8080
+    volumes:
+    - /:/rootfs:ro
+    - /var/run:/var/run:rw
+    - /sys:/sys:ro
+    - /var/lib/docker/:/var/lib/docker:ro
+    deploy:
+      placement:
+        constraints:
+        # hostname of the manager node
+        - node.hostname == manager-node
+
+  cadvisor-worker-1:
+    image: gcr.io/cadvisor/cadvisor:latest
+    # ports:
+    # - 8090:8080
+    volumes:
+    - /:/rootfs:ro
+    - /var/run:/var/run:rw
+    - /sys:/sys:ro
+    - /var/lib/docker/:/var/lib/docker:ro
+    deploy:
+      placement:
+        constraints:
+        # hostname of the worker node
+        - node.hostname == worker-node-1
+
+  cadvisor-worker-2:
+    image: gcr.io/cadvisor/cadvisor:latest
+    # ports:
+    # - 8090:8080
+    volumes:
+    - /:/rootfs:ro
+    - /var/run:/var/run:rw
+    - /sys:/sys:ro
+    - /var/lib/docker/:/var/lib/docker:ro
+    deploy:
+      placement:
+        constraints:
+        # hostname of the worker node
+        - node.hostname == worker-node-2
+
+  cadvisor-worker-3:
+    image: gcr.io/cadvisor/cadvisor:latest
+    # ports:
+    # - 8090:8080
+    volumes:
+    - /:/rootfs:ro
+    - /var/run:/var/run:rw
+    - /sys:/sys:ro
+    - /var/lib/docker/:/var/lib/docker:ro
+    deploy:
+      placement:
+        constraints:
+        # hostname of the worker node
+        - node.hostname == worker-node-3
+
+  ######################################
+  # Grafana
+  # - runs on manager node
+  ######################################
+  grafana:
+    image: grafana/grafana:latest
+    user: "$UID:$GID"
+    ports:
+    - 3100:3000
+    volumes:
+    - ./grafana_storage:/var/lib/grafana
+    deploy:
+      placement:
+        constraints:
+        - node.role == manager
