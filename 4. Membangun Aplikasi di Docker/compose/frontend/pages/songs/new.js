@@ -20,6 +20,7 @@ class New extends Component {
       albumId: undefined,
       albums: [],
       error: null,
+      accessToken: null,
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
