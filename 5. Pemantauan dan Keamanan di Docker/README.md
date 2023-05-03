@@ -209,8 +209,6 @@ Berikut diagram implementasi
             constraints:
             # hostname of the manager node
             - node.hostname == manager-node
-        # expose:
-        #   - 9100
 
       node-exporter-worker-1:
         image: prom/node-exporter:latest
@@ -229,9 +227,6 @@ Berikut diagram implementasi
             constraints:
             # hostname of the worker node
             - node.hostname == worker-node-1
-        # expose:
-        #   - 9100
-
       node-exporter-worker-2:
         image: prom/node-exporter:latest
         container_name: node-exporter-worker-2
@@ -249,8 +244,6 @@ Berikut diagram implementasi
             constraints:
             # hostname of the worker node
             - node.hostname == worker-node-2
-        # expose:
-        #   - 9100
 
       node-exporter-worker-3:
         image: prom/node-exporter:latest
@@ -269,8 +262,6 @@ Berikut diagram implementasi
             constraints:
             # hostname of the worker node
             - node.hostname == worker-node-3
-        # expose:
-        #   - 9100
 
       ######################################
       # Cadvisor
@@ -279,8 +270,6 @@ Berikut diagram implementasi
       cadvisor-manager:
         image: gcr.io/cadvisor/cadvisor:latest
         container_name: cadvisor-manager
-        # ports:
-        # - 8090:8080
         volumes:
         - /:/rootfs:ro
         - /var/run:/var/run:rw
@@ -295,8 +284,6 @@ Berikut diagram implementasi
       cadvisor-worker-1:
         image: gcr.io/cadvisor/cadvisor:latest
         container_name: cadvisor-worker-1
-        # ports:
-        # - 8090:8080
         volumes:
         - /:/rootfs:ro
         - /var/run:/var/run:rw
@@ -311,8 +298,6 @@ Berikut diagram implementasi
       cadvisor-worker-2:
         image: gcr.io/cadvisor/cadvisor:latest
         container_name: cadvisor-worker-2
-        # ports:
-        # - 8090:8080
         volumes:
         - /:/rootfs:ro
         - /var/run:/var/run:rw
@@ -327,8 +312,6 @@ Berikut diagram implementasi
       cadvisor-worker-3:
         image: gcr.io/cadvisor/cadvisor:latest
         container_name: cadvisor-worker-3
-        # ports:
-        # - 8090:8080
         volumes:
         - /:/rootfs:ro
         - /var/run:/var/run:rw
@@ -357,9 +340,8 @@ Berikut diagram implementasi
             - node.role == manager
     ```
 
-    - Pada service Prometheus,
 
-2. Baut file konfigurasi Prometheus
+2. Buat file konfigurasi Prometheus
 
     Pada step ini, kita akan membuat file konfigurasi Prometheus untuk melakukan scraping metrics node-exporter dan cAdvisor dan metrics tersebut akan divisualisasikan melalui grafana. Kita akan melakukan konfigurasi bagian berikut :
 
@@ -459,6 +441,20 @@ Berikut diagram implementasi
     - Berikut dashboard monitoring container (cAdvisor) dengan mengimport dashbord Docker.
 
         ![Untitled](img/Untitled%2011.png)
+
+## Tambahan
+Untuk memvisualisasi container yang berjalan pada setiap node Swarm, kita dapat menggunakan service Docker Swarm Visualizer
+
+```bash
+$ docker service create \
+  --name=viz \
+  --publish=8100:8080/tcp \
+  --constraint=node.role==manager \
+  --mount=type=bind,src=/var/run/docker.sock,dst=/var/run/docker.sock \
+  dockersamples/visualizer
+```
+Kemudin kita dapat mengakses port 8081 dengan IP public manager node untuk mengakses visualizer tersebut
+  ![Untitled](img/Untitled%2012.png/)
 # Docker Security
 ## Pengertian Docker Security
 Docker Security adalah upaya untuk menjaga keamanan pada kontainer Docker. ontainer Docker adalah unit yang terisolasi dari sistem operasi host, sehingga memberikan keuntungan seperti portabilitas, skalabilitas, dan efisiensi. Namun, karena kontainer Docker memiliki akses ke sistem operasi host, maka diperlukan upaya untuk menjaga keamanan pada kontainer tersebut.
