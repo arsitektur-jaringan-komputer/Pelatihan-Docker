@@ -18,8 +18,6 @@ services:
       POSTGRES_USER: docker
       POSTGRES_PASSWORD: docker
       POSTGRES_DB: musicapp
-    ports:
-      - '5431:5432'
     volumes:
       - db:/var/lib/postgresql/data
     networks:
@@ -54,8 +52,6 @@ services:
     image: <ip-manager>:4000/backend
     depends_on:
       - db
-    ports:
-      - '5000:5000'
     volumes:
       - 'backend:/usr/src/backend'
     networks:
@@ -77,8 +73,6 @@ services:
     image: <ip-manager>:4000/frontend
     depends_on:
       - backend
-    ports:
-      - '3000:3000'
     volumes:
       - 'frontend:/usr/src/frontend'
     networks:

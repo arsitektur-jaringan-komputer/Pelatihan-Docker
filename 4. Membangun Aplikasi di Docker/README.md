@@ -393,10 +393,6 @@ Apa itu Docker Stack? Docker Stack ada sekelompok machine yang tersebar di selur
 docker stack deploy -c docker-compose.yaml <nama-stack>
 ```
 
-> Pastikan saat menjalankan perintah tersebut, kita berada pada directory `Pelatihan-Docker/4. Membuat Aplikasi di Docker/compose/` atau berada pada directory yang sama dengan `docker-compose.yaml`. Selain itu sesuaikan jumlah `replicas` dengan maksimum nilai sebanyak jumlah **worker node**
->
-> ![Replicas](img/replicas.png)
-
 #### 9. Cek Aplikasi
 
 Untuk mengecek aplikasi telah berjalan dengan sesuai atau tidak, kita dapat menjalankan perintah `docker service ls` lalu pastikan bahwa semua service telah ter-replika dengan sempurna (jumlah replika saat ini sama dengan jumlah replika yang telah kita sesuaikan pada `docker-compose.yaml`)
