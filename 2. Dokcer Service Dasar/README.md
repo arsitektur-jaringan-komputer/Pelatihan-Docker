@@ -147,6 +147,22 @@ Berikut adalah langkah-langkah menggunakan Hello-World docker image.
 
 3. Setelah selesai, container yang tidak diperlukan dapat dihapus dengan menjalankan perintah **`docker rm [container ID]`**. Selain container, image "Hello World" dapat dihapus dari host lokal dengan menjalankan perintah **`docker rmi hello-world`**.
 
+#### Konsep Docker Image Layer
+
+![Docker-image-layer](img/docker-image-layers.webp)
+
+Docker image layer adalah konsep penting dalam Docker yang memungkinkan pengguna untuk membuat, memperbarui, dan membagikan image Docker secara efisien. Image layer pada dasarnya adalah _file system_ baca saja yang menyimpan perubahan pada _file system_ pada suatu tahap dalam proses pembuatan image Docker.
+
+Setiap perubahan yang terjadi pada image Docker, seperti menambahkan file, memperbarui paket atau mengubah konfigurasi, akan ditambahkan ke layer baru dalam image Docker. Layer baru ini akan menjadi layer anak dari layer sebelumnya dalam image Docker, yang berarti bahwa setiap layer akan memiliki layer induk yang berbeda dan akan menambahkan perubahan pada layer sebelumnya.Sehingga, layer gambar baru hanya menyimpan perubahan yang terjadi pada layer gambar sebelumnya dan tidak perlu menyimpan seluruh gambar Docker. Oleh karena itu, gambar Docker terdiri dari beberapa layer yang bersama-sama membentuk sistem file root yang lengkap di dalam kontainer.
+
+Dan nantinya jika dilakukan `run` pada image akan menambah satu layer , yaitu writable layer yang disebut dengan `container layer`. Jadi dalam sebuah image kita tidak dapat melakukan edit `kecuali jika kita membuild image baru` dan hanya dapat melakukan edit saat nanti sudah dalam bentuk container.
+
+![contoh-layer](img/docker-image-compare.jpg)
+
+Pada contoh diatas, pada saat `run` container pertama docker otomatis melakukan `pull` terlebih dahulu karena image yang dimaksud belum ada, namun ketika `run` untuk kedua kalinya dapat langsung di `run` tanpa melakukan `pull` terlebih dahulu.
+
+Hal ini dikarenakan satu image docker dapat digunakan oleh banyak container, sesuai dengan konsep docker image.
+
 ### Dockerfile
 
 #### Pengertian Dockerfile
