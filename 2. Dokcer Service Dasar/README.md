@@ -28,7 +28,7 @@
 
 #### Pengertian Docker Container
 
-**Docker container** adalah sebuah unit terisolasi yang berisi perangkat lunak dan semua dependensinya, yang dijalankan pada lingkungan yang terpisah dari host dan container lainnya. Dalam container, aplikasi dapat berjalan dengan konsisten di berbagai lingkungan meskipun terdapat perbedaan dalam konfigurasi dan infrastruktur.
+Docker container adalah sebuah unit terisolasi yang berisi perangkat lunak dan semua dependensinya, yang dijalankan pada lingkungan yang terpisah dari host dan container lainnya. Dalam container, aplikasi dapat berjalan dengan konsisten di berbagai lingkungan meskipun terdapat perbedaan dalam konfigurasi dan infrastruktur.
 
 Docker container bisa diibaratkan seperti kotak berisi program dan semua bahan yang dibutuhkan agar program tersebut bisa berjalan dengan baik. Kotak ini dijalankan secara terpisah dari komputer aslinya, sehingga program dalam kotak ini dapat berjalan dengan konsisten pada berbagai lingkungan tanpa terpengaruh oleh konfigurasi dan infrastruktur yang ada pada komputer aslinya. Dengan Docker container, kita bisa dengan mudah mengelola dan menjalankan aplikasi di berbagai lingkungan tanpa harus khawatir dengan masalah konfigurasi dan dependensi.
 
@@ -87,13 +87,13 @@ Untuk menggunakan shell di Docker Container bisa dengan menggunakan perintah **`
 | `-w`,`--workdir string` | Mengatur direktori kerja di dalam container                                                                   |
 
 - **`<nama_container>`** adalah nama atau ID dari container yang ingin diakses.
-- **`<COMMAND>`** adalah command yang akan dijalankan seperti: ls, bash, dan lainlain.
+- **`<COMMAND>`** adalah command yang akan dijalankan seperti: ls, bash, dan lain lain.
 
 Contoh penggunaan:
 
 ![Docker-exec](img/docker-exec.jpg)
 
-**`docker exec -it my_container bash`**
+**`docker exec -it my_container /bin/sh`**
 
 Perintah di atas akan membuka shell di dalam container dengan nama **`my_container`**. Dengan ini, kita bisa melakukan perintah-perintah shell seperti biasa setelah masuk ke dalam shell tersebut. Untuk keluar dari shell gunakan perintah **`exit`**.
 
@@ -147,6 +147,22 @@ Berikut adalah langkah-langkah menggunakan Hello-World docker image.
 
 3. Setelah selesai, container yang tidak diperlukan dapat dihapus dengan menjalankan perintah **`docker rm [container ID]`**. Selain container, image "Hello World" dapat dihapus dari host lokal dengan menjalankan perintah **`docker rmi hello-world`**.
 
+#### Konsep Docker Image Layer
+
+![Docker-image-layer](img/docker-image-layers.webp)
+
+Docker image layer adalah konsep penting dalam Docker yang memungkinkan pengguna untuk membuat, memperbarui, dan membagikan image Docker secara efisien. Image layer pada dasarnya adalah _file system_ baca saja yang menyimpan perubahan pada _file system_ pada suatu tahap dalam proses pembuatan image Docker.
+
+Setiap perubahan yang terjadi pada image Docker, seperti menambahkan file, memperbarui paket atau mengubah konfigurasi, akan ditambahkan ke layer baru dalam image Docker. Layer baru ini akan menjadi layer anak dari layer sebelumnya dalam image Docker, yang berarti bahwa setiap layer akan memiliki layer induk yang berbeda dan akan menambahkan perubahan pada layer sebelumnya.Sehingga, layer image baru hanya menyimpan perubahan yang terjadi pada layer image sebelumnya dan tidak perlu menyimpan seluruh image Docker. Oleh karena itu, image Docker terdiri dari beberapa layer yang bersama-sama membentuk sistem file root yang lengkap di dalam kontainer.
+
+Dan nantinya jika dilakukan `run` pada image akan menambah satu layer , yaitu writable layer yang disebut dengan `container layer`. Jadi dalam sebuah image kita tidak dapat melakukan edit `kecuali jika kita membuild image baru` dan hanya dapat melakukan edit saat nanti sudah dalam bentuk container.
+
+![contoh-layer](img/docker-image-compare.jpg)
+
+Pada contoh diatas, pada saat `run` container pertama docker otomatis melakukan `pull` terlebih dahulu karena image yang dimaksud belum ada, namun ketika `run` untuk kedua kalinya dapat langsung di `run` tanpa melakukan `pull` terlebih dahulu.
+
+Hal ini dikarenakan satu image docker dapat digunakan oleh banyak container, sesuai dengan konsep docker image.
+
 ### Dockerfile
 
 #### Pengertian Dockerfile
@@ -179,28 +195,49 @@ Berikut adalah beberapa perintah penting beserta penjelasannya yang bisa diimple
 | `EXPOSE`     | Menentukan port yang akan di-expose dari container ke host.                                                                                 |
 | `VOLUME`     | Menentukan direktori yang akan di-mount sebagai volume di dalam container.                                                                  |
 
+#### Contoh Dockerfile
+
+Berikut adalah contoh Dockerfile untuk untuk membuat sebuah image untuk mendeploy aplikasi **`index.html`** dengan menggunakan Nginx.
+
+```docker
+FROM nginx
+
+ RUN apt-get update && apt-get upgrade -y
+
+ COPY index.html /usr/share/nginx/html
+
+ EXPOSE 8080
+
+ CMD ["nginx", "-g", "daemon off;"]
+```
+
+Dalam Dockerfile di atas, langkah-langkah yang dilakukan adalah sebagai berikut:
+
+- Menetapkan base image yang digunakan yaitu official image nginx.
+- Menjalankan perintah apt-get update dan apt-get upgrade untuk melakukan update dan upgrade package yang ada di image.
+- Menyalin file index.html dari direktori saat ini ke direktori /usr/share/nginx/html di dalam container.
+- Menetapkan port yang akan digunakan untuk mengakses aplikasi yaitu port 8080.
+- Menetapkan perintah CMD yang akan dijalankan saat container di-start. Dalam hal ini, perintah yang dijalankan adalah nginx -g 'daemon off;'.
+
 #### Contoh Implementasi Dockerfile
 
-Berikut adalah contoh penggunaan Dockerfile untuk untuk membuat sebuah image untuk mengdeploy aplikasi **`index.html`** dengan menggunakan Nginx sebagai reverse proxy
+1. Buat direktori baru , dalam direktori tersebut buat `Dockerfile` dan `index.html` sesuaikan dengan [ini](./custom-nginx-image/)
 
-```
-FROM alpine:3.13.2
+![mkdir](img/mkdir.jpg)
 
-ENV nginx_version 1.18.0-r15
+2. Dalam direktori yang sudah tersebut, jalankan command `docker build -t <nama image>` untuk membuat image baru dari dockerfile yang sudah ada. Isi nama image sesuai dengan yang diinginkan.
 
-RUN apk update \
-    && apk add --no-cache nginx=${nginx_version} \
-    && adduser -D -g 'www' www \
-    && mkdir -p /run/nginx \
-    && mkdir -p /www \
-    && chown -R www:www /var/lib/nginx \
-    && chown -R www:www /run/nginx
+![Docker-build](img/docker-build.jpg)
 
-ADD nginx.conf /etc/nginx/nginx.conf
-ADD index.html /www/index.html
-EXPOSE 80
-ENTRYPOINT ["nginx", "-g", "daemon off;"]
-```
+3. Lalu cek pada `docker image ls` , apakah image yang dibuild sudah tersedia.
+
+![Docker image ls](img/docker-ls.jpg)
+
+4. Selanjutnya image yang sudah ada dapat di gunakan, dengan command `docker run -d -p 8080:80 <nama image>` untuk menjalankan sebuah container dari image tersebut. Cek dengan `docker ps` apakah container sudah berjalan.
+
+![Docker-run](img/run-container.jpg)
+
+5. kunjungi hasil running container pada `localhost:8080`
 
 ### Docker Hub
 
@@ -219,8 +256,10 @@ Berikut merupakan langkah-langkah untuk meletakkan image docker pada Docker Hub:
 1. Melakukan login docker
 
 ```
-    docker login
+ docker login
 ```
+
+![Docker login](img/docker-login.jpg)
 
 2. Melakukan build image (jika sudah terdapat docker image, maka langkah ini dapat dilewati)
 
@@ -228,11 +267,15 @@ Berikut merupakan langkah-langkah untuk meletakkan image docker pada Docker Hub:
     docker build -t <nama image>:<version image> .
 ```
 
+![Docker-build](img/docker-build.jpg)
+
 3. Melihat image docker yang nantinya akan diletakan pada Docker Hub
 
 ```
-    docker images
+    docker image ls
 ```
+
+![Docker image ls](img/docker-ls.jpg)
 
 4. Membuat tag pada docker image
 
@@ -240,13 +283,19 @@ Berikut merupakan langkah-langkah untuk meletakkan image docker pada Docker Hub:
     docker tag <nama image>:<version image> <nama repository>/<nama image>:<version image>
 ```
 
+![Docker tag](img/docker-tag.jpg)
+
 5. Melakukan **`docker push`** agar image tersimpan dalam docker hub
 
 ```
-    docker push <nama repository>/<nama image>:<version image>
+    docker <nama image>:<version image>
 ```
 
+![Docker push](img/docker-push.jpg)
+
 6. Melihat image yang telah di push pada Docker Hub
+
+![Dockerhub - web](img/dockerhub-web.jpg)
 
 ## Sumber Referensi
 
