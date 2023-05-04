@@ -326,7 +326,7 @@ Setelah itu konfigurasi setiap node agar dapat mengakses registry pada jaringan 
 
 #### 6. Menyiapkan NFS pada Manager Node
 
-Apa itu NFS? Secara sederhana, NFS (Network File System) adalah sebuah protokol *file sharing*. NFS ini akan kita gunakan untuk menyimpan database aplikasi. Tujuannya sebenarnya cukup penting, agar ketika men-deploy ulang aplikasi kita, isi dari database tidak hilang. Selain itu ketika kita memiliki lebih dari 1 sistem database, maka dapat dipastikan bahwa isinya sama.
+Masih ingatkah kalian dengan materi Network File System (NFS) pada [Modul 3](https://github.com/arsitektur-jaringan-komputer/Pelatihan-Docker/tree/master/3.%20Docker%20Service%20Lanjutan). Penggunaan NFS pada docker swarm sangatlah penting, khususnya agar ketika men-deploy ulang aplikasi kita, isi dari database tidak hilang. Selain itu ketika kita memiliki lebih dari 1 sistem database, maka dapat dipastikan bahwa isinya sama.
 
 Untuk menggunakan NFS, kita perlu menginstall `nfs-kernel-server` dengan menjalankan perintah berikut.
 
