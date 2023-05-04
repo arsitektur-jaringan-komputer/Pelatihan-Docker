@@ -42,10 +42,35 @@ Sebelum memasuki materi, silahkan mempelajari alur pembahasan pada *section* [**
 
 Seperti materi sebelumnya, selalulah untuk *keep in mind* beberapa istilah berikut ini.
 
-| Istilah | Arti | 
-| ------- | ----- | 
-| Container | ----- | 
-| Image | ----- | 
+<details>
+  <summary>Daftar Istilah Glosarium</summary>
+
+| Istilah           | Deskripsi |
+|-------------------|-----------|
+| Alamat MAC       | Alamat MAC merupakan sebuah alamat fisik pada jaringan komputer yang terdiri dari 6 *byte* atau 48 *bit*. Alamat MAC digunakan untuk mengidentifikasi setiap perangkat yang terhubung pada jaringan, sehingga memungkinkan komunikasi antar perangkat. |
+| Alamat IP        | Alamat IP adalah alamat unik yang diberikan pada setiap perangkat yang terhubung ke jaringan komputer. Alamat IP terdiri dari serangkaian angka, yang dibagi menjadi beberapa segmen. Ada dua jenis alamat IP, yaitu IPv4 dan IPv6. |
+| Bridge Network    | Bridge Network adalah sebuah jaringan virtual yang memungkinkan komunikasi antara beberapa *container* atau antara *container* dan *host*. Bridge Network dapat diatur menggunakan *driver* yang berbeda, dan setiap *container* akan memiliki alamat IP sendiri-sendiri pada jaringan tersebut. |
+| Cluster           | *Cluster* adalah kumpulan beberapa host yang bekerja sama untuk menjalankan aplikasi. Dalam konteks Docker, *cluster* dapat digunakan untuk mengelola *container* pada beberapa *host* secara bersamaan. |
+| Compose           | Docker Compose adalah sebuah *tool* yang digunakan untuk mendefinisikan, menjalankan, dan mengelola aplikasi multi-*container* dengan Docker. Compose memungkinkan kita untuk mendefinisikan semua konfigurasi aplikasi dalam sebuah *file* YAML, sehingga memudahkan pengguna untuk mengelola dan melakukan *deployment* aplikasi dengan Docker. |
+| Container         | *Container* adalah sebuah unit perangkat lunak yang berisi semua yang diperlukan untuk menjalankan sebuah aplikasi. *Container* berjalan di atas Docker Engine, dan memiliki sistem file yang terisolasi serta sumber daya (seperti CPU, memori, dan jaringan) yang terisolasi. *Container* sangat ringan dan portabel, sehingga memungkinkan aplikasi dapat dijalankan di mana saja. |
+| Data Management   | Data Management dalam konteks Docker merujuk pada cara pengelolaan data yang digunakan oleh *container*, seperti *persistent* *storage* dan *backup*. Data Management yang baik sangat penting untuk menghindari kehilangan data dan memastikan keandalan dan kesinambungan aplikasi. |
+| Driver            | *Driver* dalam konteks Docker merujuk pada komponen yang digunakan untuk mengatur komunikasi antara Docker Engine dan sistem penyimpanan. *Driver* dapat diatur untuk berbagai jenis sistem penyimpanan, seperti *file* *system* lokal, Amazon S3, dan lain-lain. |                                             
+| Environment       | *Environment* dalam konteks Docker merujuk pada variabel lingkungan yang didefinisikan untuk sebuah *container* atau aplikasi. Variabel lingkungan ini dapat digunakan untuk konfigurasi aplikasi, seperti konfigurasi *database* dan koneksi ke *server* lain. |
+| Host Machine      | *Host* *Machine* adalah mesin fisik di mana Docker Engine di-*instal* dan berjalan. Host Machine dapat berupa laptop, desktop, atau *server*. |
+| Interface Virtual | Virtual *Interface* adalah sebuah *interface* jaringan virtual yang digunakan oleh *container* untuk terhubung ke jaringan *host* atau ke jaringan lain. *Interface* virtual memungkinkan *container* untuk berkomunikasi dengan *host* atau *container* lain, dengan menggunakan alamat IP yang terpisah dari alamat IP host. |
+| Image             | *Image* adalah sebuah *template* atau *blueprints* untuk membuat *container*. Image berisi semua yang diperlukan untuk menjalankan sebuah aplikasi, seperti kode aplikasi, dependensi, dan konfigurasi. *Image* dapat diunduh dari Docker Hub atau dibuat secara lokal menggunakan Dockerfile. |
+| Mount             | *Mount* adalah cara untuk menghubungkan sebuah volume ke dalam sebuah *container*, sehingga memungkinkan *container* untuk mengakses dan memodifikasi data di volume tersebut. *Mount* dapat dilakukan secara *read*-*only* atau *read*-*write*. |
+| Network Host      | Network Host adalah mode jaringan di mana *container* menggunakan jaringan *host* yang sama dengan *host* *machine*. Dalam mode ini, *container* tidak akan memiliki alamat IP sendiri, sehingga dapat mengakses aplikasi yang berjalan pada *host* *machine*. |
+| Overlay Network   | Overlay Network adalah sebuah jaringan virtual yang memungkinkan komunikasi antara beberapa *host*. Overlay Network digunakan untuk menghubungkan beberapa *container* pada beberapa *host* yang berbeda. Setiap *container* pada *overlay* *network* akan memiliki alamat IP yang unik. |
+| Port              | *Port* adalah alamat yang digunakan untuk mengirim dan menerima data melalui jaringan. Setiap aplikasi atau layanan pada sebuah *host* dapat diakses melalui *port* tertentu. |
+| Port Mapping      | Port Mapping adalah proses untuk memetakan *port* pada *host* *machine* ke *port* pada *container*. Port Mapping digunakan untuk mengakses aplikasi yang berjalan di dalam container dari luar *host* *machine*. |
+| Routing           | *Routing* adalah proses mengarahkan lalu lintas jaringan dari satu jaringan ke jaringan lain. Dalam konteks Docker, *routing* digunakan untuk mengarahkan lalu lintas jaringan antara *container* yang berbeda dalam sebuah *overlay* *network*. |
+| Standalone        | *Standalone* adalah sebuah *container* yang berjalan sendiri, tanpa terhubung ke *container* lain atau ke jaringan. *Standalone* *container* dapat diakses melalui *port* yang di-*expose*. |
+| Subnet            | *Subnet* adalah jaringan kecil yang terdiri dari sekelompok alamat IP yang sama. Dalam konteks Docker, *subnet* digunakan untuk mengatur jaringan antara *container* pada sebuah *overlay* *network*. Setiap *subnet* memiliki rentang alamat IP yang unik. |
+| Topologi Jaringan | Topologi Jaringan adalah cara di mana komponen-komponen jaringan saling terhubung dan berinteraksi. Dalam konteks Docker, topologi jaringan digunakan untuk mengatur bagaimana *container* saling terhubung dalam sebuah *overlay* *network*. Topologi jaringan dapat berupa *tree*, *star*, *mesh*, atau jenis topologi jaringan lainnya. |
+| Volume            | Volume adalah tempat untuk menyimpan dan mengelola data di dalam *container*. Volume digunakan untuk menyimpan data yang ingin dijaga persisten dan tidak ingin hilang saat container dihapus atau dimulai ulang. Volume dapat digunakan untuk menghubungkan data di *host* *machine* ke dalam *container* atau antara beberapa *container*. |
+
+</details>
 
 </br>
 </br>
@@ -447,7 +472,7 @@ Oleh karena itu, Docker Networking adalah komponen kunci dalam penggunaan Docker
 
     Dalam Docker, setiap *container* dapat memiliki alamat IP unik pada jaringan tertentu. IPAM memastikan bahwa alamat IP yang diberikan pada *container* tidak bertabrakan dengan alamat IP yang sudah ada di jaringan, sehingga mencegah masalah komunikasi dan konflik alamat IP.
 
-    Untuk melihat alamat IP yang digunakan oleh sebuah Docker *container*, maka dapat menggunakan perintah `docker *container* inspect <container_id>`. Informasi seputar IP Address biasanya terdapat di `NetworkSettings`.
+    Untuk melihat alamat IP yang digunakan oleh sebuah Docker *container*, maka dapat menggunakan perintah `docker container inspect <container_id>`. Informasi seputar IP Address biasanya terdapat di `NetworkSettings`.
 
     ![Network setting di docker container](img/docker-network-setting.png)
 
@@ -495,7 +520,7 @@ Oleh karena itu, Docker Networking adalah komponen kunci dalam penggunaan Docker
 
     Bridge Network merupakan salah satu jenis *network* yang ada pada Docker. Bridge Network digunakan untuk menghubungkan *container* dengan *container* lainnya pada satu *host*. Dalam Bridge Network, setiap *container* memiliki alamat IP yang unik dan terisolasi dalam *network* yang sama. Dalam jaringan *bridge*, setiap *container* dapat berkomunikasi dengan *container* lainnya melalui alamat IP yang diberikan oleh Docker.
 
-    Bridge Network pada Docker merupakan default *network* yang dibuat oleh Docker ketika Docker di-*instal* pada sebuah *host*. Setiap *container* yang dibuat tanpa menyebutkan *network* yang digunakan, secara otomatis akan terhubung dengan jaringan *bridge* yang telah dibuat. Setiap jaringan *bridge* yang dibuat akan memiliki sebuah *gateway* yang bertindak sebagai titik masuk ke jaringan dari *host*.
+    Bridge Network pada Docker merupakan default *network* yang dibuat oleh Docker ketika Docker di-*install* pada sebuah *host*. Setiap *container* yang dibuat tanpa menyebutkan *network* yang digunakan, secara otomatis akan terhubung dengan jaringan *bridge* yang telah dibuat. Setiap jaringan *bridge* yang dibuat akan memiliki sebuah *gateway* yang bertindak sebagai titik masuk ke jaringan dari *host*.
 
     Dalam Bridge Network pada Docker, *container* dapat diakses menggunakan alamat IP dari jaringan yang sama, atau menggunakan nama *container* yang diberikan pada saat pembuatan *container*. *Container* juga dapat dihubungkan dengan *network* lainnya melalui fitur Bridge Network yang disediakan oleh Docker. Dalam hal ini, sebuah *container* dapat terhubung dengan beberapa *network* secara bersamaan untuk memungkinkan interaksi dengan *container* lain yang berada pada jaringan yang berbeda.
 
