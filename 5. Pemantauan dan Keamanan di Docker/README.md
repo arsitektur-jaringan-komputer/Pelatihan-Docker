@@ -41,14 +41,14 @@ Penggunaan alat monitoring Docker memungkinkan tim operasi untuk memantau kinerj
 ### Alat Pemantauan di Docker
 Dalam praktiknya, docker monitoring dapat dilakukan dengan menggunakan berbagai alat dan layanan yang akan dijelaskan di bawah ini.
 
-#### Docker Stats
+#### __Docker Stats__
 Docker Stats adalah sebuah perintah dalam Docker CLI (Command Line Interface) yang digunakan untuk memantau penggunaan sumber daya sistem pada setiap kontainer yang berjalan di sebuah host Docker. Perintah Docker Stats memberikan informasi seperti penggunaan CPU, memori, I/O disk, dan jaringan pada kontainer Docker.
 
 Docker Stats dapat digunakan untuk memantau kinerja aplikasi di dalam kontainer, mengidentifikasi masalah yang mempengaruhi performa, dan untuk menentukan waktu untuk mengubah konfigurasi sistem atau skala aplikasi. Informasi yang diberikan oleh Docker Stats juga dapat digunakan untuk menganalisis dan memperbaiki masalah kinerja pada aplikasi dan memastikan penggunaan sumber daya yang optimal pada host Docker.
 
 Perintah Docker Stats dapat dijalankan dengan menjalankan perintah `docker stats` di terminal. Perintah ini akan menampilkan daftar semua kontainer yang sedang berjalan di host Docker, beserta informasi penggunaan sumber daya sistem yang terkait. Selain itu, Docker Stats juga dapat diberikan opsi seperti `--no-stream` untuk menampilkan informasi dalam format yang lebih ringkas, atau opsi `--format` untuk menentukan format output yang dihasilkan.
 
-#### Prometheus
+#### __Prometheus__
 Prometheus adalah salah satu alat open-source yang digunakan dalam Docker monitoring untuk memantau dan mengumpulkan metrik pada lingkungan Docker. Prometheus menyediakan platform monitoring dan alerting yang kuat dengan model data fleksibel dan query language yang ekspresif. Dalam lingkungan Docker, Prometheus dapat digunakan untuk memantau kinerja aplikasi dan infrastruktur yang berjalan dalam kontainer Docker.
 
 Prometheus dapat bekerja dengan berbagai jenis aplikasi dan layanan yang dijalankan di dalam kontainer Docker, dan dapat mengumpulkan data metrik dari berbagai sumber, termasuk layanan yang dijalankan di dalam kontainer, host Docker, atau bahkan lingkungan yang lebih luas. Metrik yang dikumpulkan oleh Prometheus dapat digunakan untuk memantau performa aplikasi secara real-time, menganalisis kecenderungan kinerja dari waktu ke waktu, dan mengidentifikasi masalah yang mempengaruhi performa.
@@ -57,7 +57,7 @@ Prometheus juga dapat digunakan untuk menghasilkan alert ketika metrik tertentu 
 
 Untuk mengintegrasikan Prometheus dalam lingkungan Docker, dapat digunakan beberapa tools seperti Docker Compose, Docker Swarm, atau Kubernetes. Selain itu, Prometheus juga menyediakan library client yang dapat digunakan dalam aplikasi yang dijalankan di dalam kontainer Docker, sehingga memungkinkan aplikasi untuk langsung mengirimkan metrik ke Prometheus.
 
-#### Grafana
+#### __Grafana__
 
 ![Grafana](img/docker-grafana.png)
 Grafana adalah platform open-source untuk memvisualisasikan dan memantau data dari berbagai sumber, termasuk lingkungan Docker. Dalam lingkungan Docker monitoring, Grafana digunakan untuk memvisualisasikan data metrik yang dikumpulkan oleh alat monitoring seperti Prometheus.
@@ -70,7 +70,7 @@ Dalam lingkungan Docker monitoring, Grafana biasanya diintegrasikan dengan alat 
 
 Grafana juga menyediakan banyak plugin dan integrasi dengan berbagai layanan dan platform yang berbeda, sehingga memungkinkan untuk mengintegrasikan dengan berbagai sumber data lainnya, termasuk basis data, layanan cloud, dan alat monitoring lainnya.
 
-#### cAdvisor
+#### __cAdvisor__
 cAdvisor (Container Advisor) adalah alat open-source yang dikembangkan oleh Google yang digunakan dalam Docker monitoring untuk memantau dan mengumpulkan metrik performa pada setiap kontainer Docker yang berjalan di dalam sebuah host. cAdvisor dirancang khusus untuk mengumpulkan data metrik seperti penggunaan CPU, memori, jaringan, dan I/O disk pada setiap kontainer Docker dan mengirimkannya ke alat monitoring seperti Prometheus atau Grafana untuk dianalisis.
 
 cAdvisor berjalan sebagai sebuah layanan di dalam host Docker, dan secara otomatis memantau setiap kontainer Docker yang berjalan di host tersebut. Alat ini juga dapat mengumpulkan metrik dari host Docker sendiri, seperti penggunaan CPU dan memori, yang memungkinkan pengguna untuk memperoleh gambaran lengkap tentang performa seluruh lingkungan Docker.
@@ -81,7 +81,7 @@ cAdvisor juga mendukung beberapa fitur seperti HTTP API untuk mengambil data met
 
 Dalam lingkungan Docker monitoring, cAdvisor sering digunakan bersama dengan alat monitoring lainnya seperti Prometheus dan Grafana untuk memantau performa aplikasi dan infrastruktur secara efektif. Alat ini juga dapat digunakan untuk membuat tindakan pemulihan otomatis ketika terjadi masalah pada performa aplikasi.
 
-#### Sysdig
+#### __Sysdig__
 Sysdig adalah alat open-source yang digunakan dalam Docker monitoring untuk memantau sistem dan aplikasi pada kontainer Docker. Alat ini berjalan pada level kernel di host, sehingga memungkinkan pengguna untuk memantau seluruh sistem operasi yang berjalan di dalam lingkungan Docker, termasuk aplikasi dan layanan yang dijalankan di setiap kontainer Docker.
 
 Sysdig dapat memantau banyak metrik yang berbeda, seperti penggunaan CPU dan memori, aktivitas I/O disk dan jaringan, serta aktivitas sistem seperti penggunaan sistem file dan jaringan. Selain itu, Sysdig juga dapat digunakan untuk memantau keamanan dan kepatuhan Docker, seperti pengawasan akses user pada setiap kontainer Docker dan deteksi aktivitas yang mencurigakan.
@@ -90,8 +90,13 @@ Sysdig dapat digunakan bersama dengan alat monitoring seperti Prometheus dan Gra
 
 Keunggulan Sysdig di antara alat monitoring Docker lainnya adalah kemampuannya untuk memantau aktivitas pada level kernel dan aplikasi di setiap kontainer Docker, sehingga memungkinkan pengguna untuk memperoleh gambaran yang lebih lengkap tentang performa dan keamanan seluruh lingkungan Docker. Selain itu, Sysdig juga dapat digunakan pada berbagai sistem operasi, termasuk Linux, Windows, dan Mac OS, sehingga dapat diimplementasikan pada lingkungan Docker yang beragam dan kompleks.
 
+#### __Docker Swarm Visualizer__
+![visualizer](img/visualizer.png)
+Docker Swarm Visualizer adalah project yang dibuat oleh Fransisco Miranda untuk DockerCon EU 2015. Kemudian banyak komunitas yang berkontribusi pada project open source tersebut. Pada diagram diatas menampilkan Docker service yang sedang berjalan dan tidak pada tiap node Swarm.
+Service ini hanya dapat berjalan pada node yang sudah running Swarm. Biasanya service ini akan dijalankan pada master node sehingga semua node yang bergabung ke Swarm akan dapat divisualisasikan.
+
 ### Jenis-Jenis Docker Monitoring
-#### Pemantauan Penggunaan CPU
+#### __Pemantauan Penggunaan CPU__
 Pemantauan Penggunaan CPU adalah proses memantau seberapa banyak sumber daya CPU yang digunakan oleh sistem atau aplikasi pada suatu waktu tertentu. CPU (Central Processing Unit) adalah salah satu komponen penting dalam sebuah sistem komputer yang bertugas untuk mengeksekusi instruksi yang diberikan oleh aplikasi atau sistem operasi.
 
 Dalam konteks teknologi informasi, Pemantauan Penggunaan CPU biasanya digunakan untuk memantau kinerja suatu sistem atau aplikasi, dan dapat membantu mengidentifikasi masalah kinerja atau bottleneck yang terjadi pada sistem tersebut. Pemantauan ini dapat dilakukan pada level hardware, seperti server atau komputer, atau pada level software, seperti aplikasi atau service yang berjalan pada sistem tersebut.
@@ -100,7 +105,7 @@ Pemantauan Penggunaan CPU dapat dilakukan dengan menggunakan tools atau software
 
 Dalam praktiknya, pemantauan penggunaan CPU dilakukan dengan memantau beberapa parameter kunci, seperti persentase penggunaan CPU, load average, dan CPU utilization. Dengan memantau parameter-parameter ini secara teratur, kita dapat mengidentifikasi kapan terjadi puncak penggunaan CPU, kapan terjadi bottleneck, dan kapan diperlukan untuk menambah kapasitas CPU untuk menjaga kinerja sistem atau aplikasi tetap optimal.
 
-#### Pemantauan Penggunaan Memory
+#### __Pemantauan Penggunaan Memory__
 Memantau penggunaan memory pada Docker sangat penting karena memory adalah sumber daya yang sangat kritis dalam lingkungan Docker. Ketika container berjalan, itu harus mengalokasikan sejumlah memory untuk menjalankan aplikasi di dalamnya. Jika container kekurangan memory, performa aplikasi dapat menurun, dan dalam kasus ekstrim, dapat menyebabkan kegagalan aplikasi atau bahkan crash.
 
 Docker menyediakan alat untuk memantau penggunaan memory pada container dengan menggunakan Docker stats command. Command ini dapat memberikan informasi terkini mengenai penggunaan CPU, memory, disk I/O, dan jaringan dari container Docker yang sedang berjalan.
@@ -110,7 +115,7 @@ Selain itu, terdapat juga tool pihak ketiga yang dapat digunakan untuk memantau 
 Dalam pemantauan penggunaan memory pada Docker, penting untuk memantau penggunaan memory pada tingkat host dan tingkat container. Memantau penggunaan memory pada tingkat host dapat membantu menentukan seberapa banyak memory yang tersedia untuk menjalankan container, sementara memantau penggunaan memory pada tingkat container dapat membantu menentukan seberapa banyak memory yang digunakan oleh aplikasi di dalam container.
 
 
-#### Pemantauan Penggunaan Jaringan
+#### __Pemantauan Penggunaan Jaringan__
 Dalam konteks Docker Monitoring, pemantauan penggunaan jaringan pada container Docker sangat penting untuk memastikan aplikasi berjalan dengan lancar dan aman. Penggunaan jaringan pada Docker dapat mempengaruhi performa dan kinerja aplikasi, dan memastikan keamanan jaringan dalam lingkungan Docker juga menjadi hal yang sangat penting.
 
 Untuk memantau penggunaan jaringan pada container Docker, Docker menyediakan beberapa alat bawaan, seperti Docker Stats Command. Command ini dapat memberikan informasi terkini mengenai penggunaan jaringan dari container Docker yang sedang berjalan. Informasi tersebut dapat mencakup jumlah paket yang diterima dan dikirim, bandwidth, dan jumlah kesalahan yang terjadi.
@@ -121,7 +126,7 @@ Dalam pemantauan penggunaan jaringan pada Docker, penting untuk memantau koneksi
 
 Selain itu, dapat pula melakukan pengaturan jaringan dengan membatasi akses pada container Docker menggunakan Docker Network. Docker Network menyediakan kontrol akses jaringan yang lebih baik dan memungkinkan pengaturan jaringan yang lebih fleksibel, seperti memisahkan lalu lintas jaringan antara beberapa container atau membatasi koneksi jaringan ke host.
 
-#### Pemantauan Filesystem
+#### __Pemantauan Filesystem__
 Pemantauan Filesystem pada Docker Monitoring merujuk pada pemantauan sistem file yang digunakan oleh container Docker. Sistem file pada Docker adalah bagian penting dari container, karena berisi semua file dan data yang diperlukan untuk menjalankan aplikasi.
 
 Dalam pemantauan Filesystem pada Docker, perlu untuk memantau penggunaan ruang disk pada container Docker untuk memastikan bahwa tidak ada kehabisan ruang disk yang dapat menyebabkan aplikasi crash atau kegagalan lainnya. Docker Stats Command juga dapat digunakan untuk memantau penggunaan ruang disk pada container Docker.
@@ -134,7 +139,7 @@ Untuk memantau file sistem pada container Docker, terdapat juga tool pihak ketig
 
 Dalam pemantauan Filesystem pada Docker, penting juga untuk melakukan backup secara teratur dan mengatur mekanisme pengelolaan data agar data tidak hilang atau rusak pada saat pemindahan container ke lingkungan lain. Hal ini dapat dilakukan dengan melakukan backup data secara teratur dan mengelola data menggunakan layanan penyimpanan data yang aman dan andal.
 
-#### Pemantauan Log
+#### __Pemantauan Log__
 Pemantauan Log pada Docker Monitoring merujuk pada pemantauan catatan log yang dihasilkan oleh container Docker. Log pada Docker sangat penting untuk memastikan bahwa aplikasi berjalan dengan lancar dan aman, dan untuk membantu mengidentifikasi dan memecahkan masalah yang mungkin terjadi pada aplikasi.
 
 Dalam pemantauan log pada Docker, perlu untuk memastikan bahwa log yang dihasilkan oleh container Docker dikumpulkan dan disimpan dengan baik. Docker menyediakan fitur logging bawaan yang dapat digunakan untuk memantau dan mengumpulkan log dari container Docker.
@@ -149,7 +154,316 @@ Selain itu, pemantauan log pada Docker juga dapat membantu dalam pemecahan masal
 
 Dalam kesimpulannya, pemantauan log pada Docker Monitoring sangat penting untuk memastikan bahwa aplikasi berjalan dengan lancar dan aman, dan untuk membantu mengidentifikasi dan memecahkan masalah yang mungkin terjadi pada aplikasi.
 
-### Implementasi Docker Monitoring
+## Implementasi Docker Monitoring
+
+Pada bagian ini kita akan mencoba melakukan implementasi monitoring pada arsitektur microservice Docker Swarm menggunakan beberapa tools yaitu cAdvisor, node-exporter, prometheus, dan grafana.
+
+Sub-bagian ini akan dilakukan dengan asumsi bahwa kita telah melakukan Swarm Init dan worker node sudah join ke Swarm seperti pada modul 4
+
+Berikut diagram implementasi
+
+![monitoring_diagram](img/monitoring_diagram.png)
+
+1. Buat Compose file
+
+    Agar memudahkan kita untuk menginstal tools yang diperlukan untuk melakukan monitoring, kita akan membuat file docker-compose.yml pada folder monitoring. File tersebut akan mendifinisikan service prometheus, node-exporter, cAdvisor, dan grafana kita, serta sebuah monitoring bridge network
+
+    Buat sebuah file docker-compose.yml pada folder monitoring dan paste kode berikut :
+
+    ```yaml
+    version: '3.2'
+    services:
+      ######################################
+      # Prometheus
+      # - runs on manager ndoe
+      ######################################
+      prometheus:
+        image: prom/prometheus:latest
+        container_name: prometheus
+        ports:
+        - 9090:9090
+        command:
+        - --config.file=/etc/prometheus/prometheus.yml
+        volumes:
+        - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+        deploy:
+          labels:
+            com.docker.stack.namespace: monitoring
+          placement:
+            constraints:
+            - node.role == manager
+
+      ######################################
+      # Prometheus Node Exporter
+      # for each node separate service need to be added
+      ######################################
+      node-exporter-manager:
+        image: prom/node-exporter:latest
+        container_name: node-exporter-manager
+        volumes:
+          - /proc:/host/proc:ro
+          - /sys:/host/sys:ro
+          - /:/rootfs:ro
+        command:
+          - '--path.procfs=/host/proc'
+          - '--path.rootfs=/rootfs'
+          - '--path.sysfs=/host/sys'
+          - '--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)'
+        deploy:
+          placement:
+            constraints:
+            # hostname of the manager node
+            - node.hostname == manager-node
+
+      node-exporter-worker-1:
+        image: prom/node-exporter:latest
+        container_name: node-exporter-worker-1
+        volumes:
+          - /proc:/host/proc:ro
+          - /sys:/host/sys:ro
+          - /:/rootfs:ro
+        command:
+          - '--path.procfs=/host/proc'
+          - '--path.rootfs=/rootfs'
+          - '--path.sysfs=/host/sys'
+          - '--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)'
+        deploy:
+          placement:
+            constraints:
+            # hostname of the worker node
+            - node.hostname == worker-node-1
+      node-exporter-worker-2:
+        image: prom/node-exporter:latest
+        container_name: node-exporter-worker-2
+        volumes:
+          - /proc:/host/proc:ro
+          - /sys:/host/sys:ro
+          - /:/rootfs:ro
+        command:
+          - '--path.procfs=/host/proc'
+          - '--path.rootfs=/rootfs'
+          - '--path.sysfs=/host/sys'
+          - '--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)'
+        deploy:
+          placement:
+            constraints:
+            # hostname of the worker node
+            - node.hostname == worker-node-2
+
+      node-exporter-worker-3:
+        image: prom/node-exporter:latest
+        container_name: node-exporter-worker-3
+        volumes:
+          - /proc:/host/proc:ro
+          - /sys:/host/sys:ro
+          - /:/rootfs:ro
+        command:
+          - '--path.procfs=/host/proc'
+          - '--path.rootfs=/rootfs'
+          - '--path.sysfs=/host/sys'
+          - '--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)'
+        deploy:
+          placement:
+            constraints:
+            # hostname of the worker node
+            - node.hostname == worker-node-3
+
+      ######################################
+      # Cadvisor
+      # - runs on every node
+      ######################################
+      cadvisor-manager:
+        image: gcr.io/cadvisor/cadvisor:latest
+        container_name: cadvisor-manager
+        volumes:
+        - /:/rootfs:ro
+        - /var/run:/var/run:rw
+        - /sys:/sys:ro
+        - /var/lib/docker/:/var/lib/docker:ro
+        deploy:
+          placement:
+            constraints:
+            # hostname of the manager node
+            - node.hostname == manager-node
+
+      cadvisor-worker-1:
+        image: gcr.io/cadvisor/cadvisor:latest
+        container_name: cadvisor-worker-1
+        volumes:
+        - /:/rootfs:ro
+        - /var/run:/var/run:rw
+        - /sys:/sys:ro
+        - /var/lib/docker/:/var/lib/docker:ro
+        deploy:
+          placement:
+            constraints:
+            # hostname of the worker node
+            - node.hostname == worker-node-1
+
+      cadvisor-worker-2:
+        image: gcr.io/cadvisor/cadvisor:latest
+        container_name: cadvisor-worker-2
+        volumes:
+        - /:/rootfs:ro
+        - /var/run:/var/run:rw
+        - /sys:/sys:ro
+        - /var/lib/docker/:/var/lib/docker:ro
+        deploy:
+          placement:
+            constraints:
+            # hostname of the worker node
+            - node.hostname == worker-node-2
+
+      cadvisor-worker-3:
+        image: gcr.io/cadvisor/cadvisor:latest
+        container_name: cadvisor-worker-3
+        volumes:
+        - /:/rootfs:ro
+        - /var/run:/var/run:rw
+        - /sys:/sys:ro
+        - /var/lib/docker/:/var/lib/docker:ro
+        deploy:
+          placement:
+            constraints:
+            # hostname of the worker node
+            - node.hostname == worker-node-3
+
+      ######################################
+      # Grafana
+      # - runs on manager node
+      ######################################
+      grafana:
+        image: grafana/grafana:latest
+        user: "$UID:$GID"
+        ports:
+        - 3100:3000
+        volumes:
+        - ./grafana-storage:/var/lib/grafana
+        deploy:
+          placement:
+            constraints:
+            - node.role == manager
+    ```
+    - Pada file diatas, kita membuat 10 services (1 Prometheus, 4 node-exporter, 4 cAdvisor, 1 Grafana) dimana untuk node-exporter dan cAdvisor berjalan di masing-masing node.
+    - Untuk service Prometheus, pada bagian ```volumes```, kita akan mounting file konfigurasi prometheus ```prometheus.yml``` ke container yang akan dibuat. Kemudian pada bagian ```deploy```.
+    - Untuk services node-exporter dan cAdvisor, karena kita akan mendeploy services tersebut di masing-masing node sehingga pada bagian ```deploy```, kita harus mendefinisikan constraint  ```node-hostname``` dengan value hostname tiap node.
+    - Untuk service grafana, pada bagian ```volumes``` kita akan melakukan mounting folder ```grafana-storage``` ke container grafana untuk menyimpan data grafana seperti dashboard monitoring.
+
+2. Buat file konfigurasi Prometheus
+
+    Pada step ini, kita akan membuat file konfigurasi Prometheus untuk melakukan scraping metrics node-exporter dan cAdvisor dan metrics tersebut akan divisualisasikan melalui grafana. Kita akan melakukan konfigurasi bagian berikut :
+
+    - global :  ini ada konfigurasi default Global. Pada contoh, kita set scrape_interval untuk scraping metrics dari configured jobs sebesar 15 detik.
+    - scrape_configs : mendefinisikan jobs yang akan di scraping metrics nya.
+
+    Buat sebuah file konfigurasi Prometheus prometheus.yml pada folder yang sama dengan file docker-compose.yml sebelumnya dan paste kode berikut :
+
+    ```yaml
+    global:
+      scrape_interval: 15s
+
+    scrape_configs:
+      - job_name: 'prometheus'
+        static_configs:
+        - targets: ['prometheus:9090']
+          labels:
+            alias: 'prometheus'
+      - job_name: 'node-exporter'
+        static_configs:
+        - targets: ['node-exporter-manager:9100', 'node-exporter-worker-1:9100', 'node-exporter-worker-2:9100', 'node-exporter-worker-3:9100']
+          labels:
+            alias: 'node-exporter'
+      - job_name: 'cadvisor'
+        static_configs:
+        - targets: ['cadvisor-manager:8080', 'cadvisor-worker-1:8080', 'cadvisor-worker-2:8080', 'cadvisor-worker-3:8080']
+          labels:
+            alias: 'cadvisor'
+    ```
+
+    - Pada file diatas, kita membuat 3 jobs dengan masing-masing jobs memiliki target yaitu service yang telah didefinisikan pada file docker-compose.yml
+3. Melakukan deploy service monitoring
+
+    Setelah melakukan konfigurasi pada file docker-compose.yml dan prometheus.yml, kita akan menggunakan fitur pada Docker Swarm yaitu docker stack untuk mendeploy service yang telah didefinisikan ke semua node pada cluster.
+
+    ```bash
+    docker stack deploy -c <path-to-file-compose> <stack-name>
+    ```
+
+    Dengan command tersebut, kita akan menggunakan file docker-compose.yml untuk mendeploy service yang telah didefinisikan sebagai sebuah stack.
+
+    ![stack_deploy](img/stack_deploy.png)
+
+4. Cek semua service
+
+    Setelah melakukan deploy, kita akan cek setiap service apakah berhasil dideploy pada node yang telah ditentukan dengan perintah berikut:
+
+    ```bash
+    docker service ls
+    ```
+
+    ![service_list](img/service_list.png)
+
+    Terlihat bahwa pada kolom ```REPLICAS```, semua service telah berhasil dideploy.
+
+    Kita dapat menggunakan Docker Swarm Visualizer untuk melihat visualisasi dari tiap service yang jalan di masing-masing node dengan menggunakan perintah berikut :
+
+    ```bash
+    $ docker service create \
+      --name=viz \
+      --publish=8100:8080/tcp \
+      --constraint=node.role==manager \
+      --mount=type=bind,src=/var/run/docker.sock,dst=/var/run/docker.sock \
+      dockersamples/visualizer
+    ```
+
+    Kemudian kita dapat mengakses port 8100 dengan IP public manager node untuk mengakses visualizer tersebut
+      ![service_visualizer](img/service_visualizer.png)
+
+5. Cek target Prometheus
+
+    Setelah memastikan semua service telah berhasil dideploy, kita akan melakukan cek status pada target prometheus yaitu node-exporter dan cAdvisor.
+
+    Buka browser, lalu akses aplikasi Prometheus pada url berikut:
+
+    ```bash
+    http://<public-ip-manager-node>:9090
+    ```
+
+    setelah aplikasi Prometheus terbuka, pada tab status, pilih targets.
+
+    ![prometheus_target](img/prometheus_target.png)
+
+    Pada contoh berikut, semua target prometheus memiliki State (UP) yang artinya Prometheus bisa melakukan query metrics pada target node-exporter dan cAdvisor.
+
+6. Menambah data source pada Grafana
+
+    Pada step berikut, pada grafana kita akan menambah Prometheus sebagai data source. Akses aplikasi grafana pada port 3100 dan buka tab Connection untuk menambah data source
+
+    ![grafana_datasource](img/grafana_datasource.png)
+
+    Pada URL section, kita mengisinya dengan URL internal prometheus. Lalu klik save&test untuk memastikan bahwa data source dapat digunakan
+
+7. Membuat Dashboard
+
+    Di grafana kita bisa membuat berbagai macam dashboard sesuai kebutuhan kita. Atau melakukan import dashboard dari grafana community. Pada step ini kita akan membuat 2 dashboard masing-masing untuk monitoring container (cAdvisor) dan monitoring node (node-exporter).
+
+    - Buka web grafana dashboard, lalu search dashbaord sesuai kebutuhan.
+    - Copy ID dashboard, kemudian buka tab dashboard dan load Dashboard Grafana menggunakan ID sebelumnya.
+
+        ![import_grafana_dashboard](img/import_grafana_dashboard.png)
+
+    - PIlih data source sebelumnya yang telah ditambah pada section Prometheus.
+
+        ![import_grafana_datasource](img/import_grafana_datasource.png)
+
+    - Dashboard monitoring node (node-exporter) sudah tersedia.
+
+        ![dashboard_node](img/dashboard_node.png)
+
+    - Berikut dashboard monitoring container (cAdvisor) dengan mengimport dashbord Docker.
+
+        ![dashboard_cadvisor](img/dashboard_cadvisor.png)
+
 
 # Docker Security
 ## Pengertian Docker Security

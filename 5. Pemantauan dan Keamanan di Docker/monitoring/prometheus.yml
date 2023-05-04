@@ -1,0 +1,24 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+# alerting:
+#   alertmanagers:
+#   - static_configs:
+#     - targets:
+#       - cadvisor:8090
+scrape_configs:
+  - job_name: 'prometheus'
+    static_configs:
+    - targets: ['prometheus:9090']
+      labels:
+        alias: 'prometheus'
+  - job_name: 'node-exporter'
+    static_configs:
+    - targets: ['node-exporter-manager:9100', 'node-exporter-worker-1:9100', 'node-exporter-worker-2:9100', 'node-exporter-worker-3:9100']
+      labels:
+        alias: 'node-exporter'
+  - job_name: 'cadvisor'
+    static_configs:
+    - targets: ['cadvisor-manager:8080', 'cadvisor-worker-1:8080', 'cadvisor-worker-2:8080', 'cadvisor-worker-3:8080']
+      labels:
+        alias: 'cadvisor'
