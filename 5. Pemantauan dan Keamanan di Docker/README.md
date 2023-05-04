@@ -31,13 +31,14 @@
       - [Memperbarui Docker secara Teratur](#memperbarui-docker-secara-teratur)
 - [**Sumber Referensi**](#sumber-referensi)
 
-# Docker Monitoring
-## Pengertian Docker Monitoring
+## Glosarium
+## Materi
+### Pengertian Docker Monitoring
 Docker monitoring merujuk pada proses memantau dan menganalisis kinerja aplikasi yang dijalankan di dalam Docker Container. Docker monitoring melibatkan pengumpulan data dan metrik dari aplikasi yang dijalankan di dalam Docker Container, serta pemantauan sumber daya sistem yang digunakan oleh kontainer tersebut, seperti penggunaan CPU, memori, dan jaringan. Data ini kemudian dianalisis untuk memahami performa aplikasi dan untuk mengidentifikasi masalah atau kelemahan yang mempengaruhi performa.
 
 Penggunaan alat monitoring Docker memungkinkan tim operasi untuk memantau kinerja aplikasi secara real-time, mendeteksi masalah dan mendiagnosa root cause, serta membuat keputusan berdasarkan data yang terkumpul. Dengan melakukan docker monitoring secara teratur, ini dapat memastikan bahwa sistem yang menggunakan teknologi Docker berjalan dengan lancar, memenuhi kebutuhan performa dan keamanan, serta menghindari terjadinya masalah yang dapat mempengaruhi bisnis Anda.
 
-## Alat Pemantauan di Docker
+### Alat Pemantauan di Docker
 Dalam praktiknya, docker monitoring dapat dilakukan dengan menggunakan berbagai alat dan layanan yang akan dijelaskan di bawah ini.
 
 #### __Docker Stats__
@@ -94,7 +95,7 @@ Keunggulan Sysdig di antara alat monitoring Docker lainnya adalah kemampuannya u
 Docker Swarm Visualizer adalah project yang dibuat oleh Fransisco Miranda untuk DockerCon EU 2015. Kemudian banyak komunitas yang berkontribusi pada project open source tersebut. Pada diagram diatas menampilkan Docker service yang sedang berjalan dan tidak pada tiap node Swarm.
 Service ini hanya dapat berjalan pada node yang sudah running Swarm. Biasanya service ini akan dijalankan pada master node sehingga semua node yang bergabung ke Swarm akan dapat divisualisasikan.
 
-## Jenis-Jenis Docker Monitoring
+### Jenis-Jenis Docker Monitoring
 #### __Pemantauan Penggunaan CPU__
 Pemantauan Penggunaan CPU adalah proses memantau seberapa banyak sumber daya CPU yang digunakan oleh sistem atau aplikasi pada suatu waktu tertentu. CPU (Central Processing Unit) adalah salah satu komponen penting dalam sebuah sistem komputer yang bertugas untuk mengeksekusi instruksi yang diberikan oleh aplikasi atau sistem operasi.
 
@@ -161,7 +162,7 @@ Sub-bagian ini akan dilakukan dengan asumsi bahwa kita telah melakukan Swarm Ini
 
 Berikut diagram implementasi
 
-![Untitled](img/Untitled%203.png)
+![monitoring_diagram](img/monitoring_diagram.png)
 
 1. Buat Compose file
 
@@ -390,7 +391,7 @@ Berikut diagram implementasi
 
     Dengan command tersebut, kita akan menggunakan file docker-compose.yml untuk mendeploy service yang telah didefinisikan sebagai sebuah stack.
 
-    ![Untitled](img/Untitled%204.png)
+    ![stack_deploy](img/stack_deploy.png)
 
 4. Cek semua service
 
@@ -400,7 +401,7 @@ Berikut diagram implementasi
     docker service ls
     ```
 
-    ![Untitled](img/Untitled%205.png)
+    ![service_list](img/service_list.png)
 
     Terlihat bahwa pada kolom ```REPLICAS```, semua service telah berhasil dideploy.
 
@@ -416,7 +417,7 @@ Berikut diagram implementasi
     ```
 
     Kemudian kita dapat mengakses port 8100 dengan IP public manager node untuk mengakses visualizer tersebut
-      ![Untitled](img/Untitled%2012.png/)
+      ![service_visualizer](img/service_visualizer.png)
 
 5. Cek target Prometheus
 
@@ -430,7 +431,7 @@ Berikut diagram implementasi
 
     setelah aplikasi Prometheus terbuka, pada tab status, pilih targets.
 
-    ![Untitled](img/Untitled%206.png)
+    ![prometheus_target](img/prometheus_target.png)
 
     Pada contoh berikut, semua target prometheus memiliki State (UP) yang artinya Prometheus bisa melakukan query metrics pada target node-exporter dan cAdvisor.
 
@@ -438,7 +439,7 @@ Berikut diagram implementasi
 
     Pada step berikut, pada grafana kita akan menambah Prometheus sebagai data source. Akses aplikasi grafana pada port 3100 dan buka tab Connection untuk menambah data source
 
-    ![Untitled](img/Untitled%207.png)
+    ![grafana_datasource](img/grafana_datasource.png)
 
     Pada URL section, kita mengisinya dengan URL internal prometheus. Lalu klik save&test untuk memastikan bahwa data source dapat digunakan
 
@@ -449,19 +450,19 @@ Berikut diagram implementasi
     - Buka web grafana dashboard, lalu search dashbaord sesuai kebutuhan.
     - Copy ID dashboard, kemudian buka tab dashboard dan load Dashboard Grafana menggunakan ID sebelumnya.
 
-        ![Untitled](img/Untitled%208.png)
+        ![import_grafana_dashboard](img/import_grafana_dashboard.png)
 
     - PIlih data source sebelumnya yang telah ditambah pada section Prometheus.
 
-        ![Untitled](img/Untitled%209.png)
+        ![import_grafana_datasource](img/import_grafana_datasource.png)
 
     - Dashboard monitoring node (node-exporter) sudah tersedia.
 
-        ![Untitled](img/Untitled%2010.png)
+        ![dashboard_node](img/dashboard_node.png)
 
     - Berikut dashboard monitoring container (cAdvisor) dengan mengimport dashbord Docker.
 
-        ![Untitled](img/Untitled%2011.png)
+        ![dashboard_cadvisor](img/dashboard_cadvisor.png)
 
 
 # Docker Security
