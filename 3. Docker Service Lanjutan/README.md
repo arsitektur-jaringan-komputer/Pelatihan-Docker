@@ -13,6 +13,7 @@
       - [Volume](#volume)
       - [Bind Mount](#bind-mount)
       - [tmpfs Mount](#tmpfs-mount)
+    - [Network File System](#network-file-system)
     - [Mengelola Docker Volume](#mengelola-docker-volume)
   - [Docker Networking](#docker-networking)
     - [Pengenalan Docker Networking](#pengenalan-docker-networking)
@@ -87,7 +88,7 @@ Konfigurasi docker compose di atas mendefinisikan tiga layanan yaitu backend, fr
 - **`environment: POSTGRES_USER: myuser POSTGRES_PASSWORD: mypassword POSTGRES_DB: mydb`**: Mendefinisikan environment variable pada service database, dimana `POSTGRES_USER` akan di-set sebagai myuser, `POSTGRES_PASSWORD` akan di-set sebagai mypassword, dan `POSTGRES_DB` akan di-set sebagai mydb.
 
 
-Untuk praktiknya akan dicontohkah pada [Modul 4](https://github.com/arsitektur-jaringan-komputer/Pelatihan-Docker/tree/pd23/4.%20Membangun%20Aplikasi%20di%20Docker)
+Untuk praktiknya akan dicontohkah pada [Modul 4](https://github.com/arsitektur-jaringan-komputer/Pelatihan-Docker/tree/master/4.%20Membangun%20Aplikasi%20di%20Docker)
 
 #### Depend On Docker Compose
 Pada konfigurasi Docker Compose, terdapat fitur **`depends_on`** yang berguna untuk menentukan urutan dalam membangun dan menjalankan container. Hal ini dibutuhkan ketika terdapat container yang membutuhkan layanan dari container lain yang harus sudah terlebih dahulu dibangun dan dijalankan. Contohnya pada konfigurasi Docekr compose sebelumnya, container backend membutuhkan layanan dari database untuk terkoneksi sehingga perlu menunggu container database terlebih dahulu dibangun dan dijalankan. 
@@ -250,6 +251,19 @@ Untuk memastikan proses tmpfs mount berjalan dengan baik dapat menggunakan perin
 
 ![Hasil implementasi dari tmpfs mount](img/hasil-tmpfs-mount.png)
 
+#### Network File System
+NFS (Network File System) pada Docker adalah cara untuk menghubungkan shared file system yang terpisah di antara beberapa host atau container Docker yang berbeda. NFS memungkinkan container Docker untuk berbagi file dengan mudah di antara satu sama lain, bahkan ketika container berjalan pada host yang berbeda atau pada swarm cluster yang terdiri dari beberapa host.
+
+Keuntungan dari menggunakan NFS pada Docker antara lain:
+- Mudah digunakan: NFS dapat dengan mudah diimplementasikan pada Docker, terutama ketika digunakan dalam lingkungan cluster yang besar.
+- Menyederhanakan manajemen file: Dengan menggunakan NFS, file hanya perlu disimpan di satu lokasi, dan semua container Docker dapat mengakses file tersebut tanpa perlu menyimpannya di dalam container itu sendiri. Hal ini menyederhanakan manajemen file dan membuatnya lebih mudah untuk diatur dan dikelola.
+- Skalabilitas: NFS memungkinkan pengguna untuk menambahkan host atau container Docker dengan mudah tanpa perlu menambahkan file atau konfigurasi pada setiap host baru. Ini membuat skala aplikasi menjadi lebih mudah dan cepat.
+- Efisiensi: Dalam beberapa kasus, menggunakan NFS lebih efisien daripada melakukan copy file ke dalam setiap container. Ini dapat meningkatkan kinerja aplikasi dan menghemat ruang penyimpanan pada setiap host.
+
+NFS cocok digunakan pada saat kita ingin menggunakan shared file system pada beberapa host atau container Docker yang berbeda. Contoh penggunaannya adalah ketika kita ingin membagikan file konfigurasi, data atau aplikasi di antara beberapa container Docker, bahkan ketika container berjalan pada host yang berbeda atau pada cluster Docker Swarm. Namun, NFS tidak cocok digunakan jika Anda hanya perlu berbagi file antara beberapa container di host yang sama.
+
+Konsep dari Network File System (NFS) ini akan digunakan pada implementasi docker swarm di [Modul 4](https://github.com/arsitektur-jaringan-komputer/Pelatihan-Docker/tree/master/4.%20Membangun%20Aplikasi%20di%20Docker).
+
 #### Mengelola Docker Volume
 - ##### Membuat Docker Volume
   Untuk membuat Docker Volume dapat menggunakan perintah docker volume create. Contoh sintaks perintahnya adalah sebagai berikut: `docker volume create <nama_volume>`
@@ -302,7 +316,7 @@ Oleh karena itu, Docker Networking adalah komponen kunci dalam penggunaan Docker
 ##### Docker Network Driver
 Docker Network Driver adalah komponen utama yang memungkinkan container Docker terhubung ke jaringan. Network Driver adalah plug-in yang diinstal pada host Docker dan mengatur bagaimana container terhubung ke jaringan.
 
-Docker menyediakan beberapa jenis Network Driver yang berbeda, masing-masing dengan karakteristik yang unik, dan memungkinkan pengguna untuk memilih Network Driver yang tepat untuk kebutuhan aplikasi mereka. Berikut adalah beberapa jenis Network Driver yang tersedia di Docker: `bridge network`, `host network`, `overlay network`, `ipvlan`, `macvlan network`, `network plugins`. Detail pembahasan akan dijelaskan pada sub materi [Jenis-Jenis Docker Network Driver](#https://github.com/arsitektur-jaringan-komputer/Pelatihan-Docker/tree/pd23/3.%20Docker%20Service%20Lanjutan#jenis-jenis-docker-network-driver)
+Docker menyediakan beberapa jenis Network Driver yang berbeda, masing-masing dengan karakteristik yang unik, dan memungkinkan pengguna untuk memilih Network Driver yang tepat untuk kebutuhan aplikasi mereka. Berikut adalah beberapa jenis Network Driver yang tersedia di Docker: `bridge network`, `host network`, `overlay network`, `ipvlan`, `macvlan network`, `network plugins`. Detail pembahasan akan dijelaskan pada sub materi [Jenis-Jenis Docker Network Driver](https://github.com/arsitektur-jaringan-komputer/Pelatihan-Docker/tree/master/3.%20Docker%20Service%20Lanjutan#jenis-jenis-docker-network-driver)
 
 Dengan pemilihan Network Driver yang tepat, pengguna dapat memaksimalkan fleksibilitas, portabilitas, dan keamanan aplikas di dalam container.
 
