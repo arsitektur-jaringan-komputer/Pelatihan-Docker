@@ -4,11 +4,12 @@
   - [Install Docker](#install-docker)
     - [Windows](#Windows)
     - [Linux](#linux)
-      - [Ubuntu](#ubuntu)
+      - [Ubuntu (termasuk Mint, Elementary, dkk)](#ubuntu)
       - [CentOS](#centos)
       - [Fedora](#fedora)
       - [openSUSE](#opensuse)
       - [Debian (termasuk Kali Linux, MX Linux, dkk)](#debian)
+      - [Arch (termasuk Endeavour)](#arch)
     - [MacOS](#macos)
 
 ## Pelatihan Linux
@@ -176,6 +177,23 @@ sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin 
 sudo docker run hello-world
 ```
 
+###### Arch
+1. Install docker dan docker-compose
+```
+pacman -Syu docker docker-compose
+```
+2. Jalankan docker service
+```
+systemctl start docker.service
+```
+3. Cek apakah docker sudah berjalan
+```
+docker info
+```
+4. Pastikan anda bisa menjalankan container
+```
+docker run -it --rm archlinux bash -c "echo hello world"
+```
 
 #### MacOS
 _kebutuhan sistem minimal: macOS versi 11 dengan ram 4 GB_
