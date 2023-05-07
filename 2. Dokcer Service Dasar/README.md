@@ -97,6 +97,15 @@ Contoh penggunaan:
 
 Perintah di atas akan membuka shell di dalam container dengan nama **`my_container`**. Dengan ini, kita bisa melakukan perintah-perintah shell seperti biasa setelah masuk ke dalam shell tersebut. Untuk keluar dari shell gunakan perintah **`exit`**.
 
+Namun, kita juga bisa melkukan docker exec tanpa harus measuk kedalam shell di dalam container tersebut.
+Contoh penggunaan :
+
+**`docker exec my_container ls /etc/nginx`**
+
+Perintah di atas akan menampilkan isi dari direktori **`/etc/nginx`** di dalam container dengan nama **`my_container`**.
+
+![Docker-exec-ls](img/docker-exec-notit.jpg)
+
 ### Docker Images
 
 #### Pengertian Docker Image
@@ -194,6 +203,57 @@ Berikut adalah beberapa perintah penting beserta penjelasannya yang bisa diimple
 | `ENV`        | Menentukan environment variable di dalam container.                                                                                         |
 | `EXPOSE`     | Menentukan port yang akan di-expose dari container ke host.                                                                                 |
 | `VOLUME`     | Menentukan direktori yang akan di-mount sebagai volume di dalam container.                                                                  |
+
+#### Sekilas Tentang NGINX
+
+Nginx adalah sebuah web server yang dapat digunakan sebagai reverse proxy, load balancer, mail proxy, dan HTTP cache. Nginx dikembangkan oleh Igor Sysoev pada tahun 2002 untuk digunakan pada situs dengan traffic tinggi. Nginx dapat digunakan sebagai pengganti Apache karena memiliki fitur yang lebih ringan dan cepat.Nginx bekerja dengan cara memproses request yang masuk dari client dan mengirimkan response berupa file HTML atau data lainnya.
+
+Untuk dapat menjalankan Nginx di local dapat menginstallnya dengan menggunakan perintah berikut:
+
+```shell
+sudo apt install nginx
+```
+
+untuk melihat konfigurasinya dapat dilihat pada direktori `/etc/nginx/` dan untuk melihat konfigurasi defaultnya dapat dilihat pada direktori `/etc/nginx/sites-available/default`
+
+![nginx-dir](img/conf-nginx.jpg)
+
+![nginx-conf](img/config-nginx.jpg)
+
+pada file `/etc/nginx/sites-available/default` konfigurasi defaultnya terdapat beberapa konfigurasi yang dapat diubah sesuai dengan kebutuhan, berikut adalah penjelasan konfigurasi defaultnya:
+
+```shell
+server {
+        listen 80 default_server;
+        listen [::]:80 default_server;
+
+        root /var/www/html;
+
+        index index.html index.htm index.nginx-debian.html;
+
+        server_name _;
+
+        location / {
+                try_files $uri $uri/ =404;
+        }
+}
+```
+
+`root /var/www/html` menunjukkan direktori root server, tempat Nginx akan mencari file yang diminta oleh klien.
+
+`index index.html index.htm index.nginx-debian.html` menunjukkan urutan file indeks yang akan dicari oleh Nginx jika permintaan tidak menyebutkan nama file.
+
+`server_name _` mengonfigurasi server untuk merespons permintaan yang datang ke semua host.
+
+`location /` menentukan bagaimana Nginx akan menangani permintaan yang diterima. Di sini, Nginx akan mencoba mencari file yang diminta dalam direktori root, dan jika tidak ditemukan, akan memberikan respons 404 Not Found.
+
+Dan jika konfigurasi sudah benar (bisa dicek dengan `nginx -t`) maka dapat menjalankan Nginx dengan perintah berikut:
+
+```shell
+sudo systemctl start nginx
+```
+
+![nginx-conf](img/start-nginx.jpg)
 
 #### Contoh Dockerfile
 
