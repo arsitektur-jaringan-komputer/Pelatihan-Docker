@@ -14,7 +14,6 @@
       - [Bind Mount](#bind-mount)
       - [tmpfs Mount](#tmpfs-mount)
     - [Network File System](#network-file-system)
-    - [Mengelola Docker Volume](#mengelola-docker-volume)
   - [Docker Networking](#docker-networking)
     - [Pengenalan Docker Networking](#pengenalan-docker-networking)
     - [Konsep Dasar di Docker Networking](#konsep-dasar-di-docker-networking)
@@ -39,15 +38,18 @@
 ## Materi
 ### Docker Compose
 #### Pengertian Docker Compose
-![Docker compose](img/docker-compose.jpg)
-Docker Compose adalah sebuah alat atau tool untuk mengelola dan menjalankan aplikasi yang terdiri dari satu atau beberapa container. Docker Compose memungkinkan untuk mendefinisikan, mengonfigurasi, dan menjalankan beberapa container Docker sekaligus dengan menggunakan file konfigurasi YAML yang sederhana.
+![Docker Compose](img/docker-compose.jpg)
+Docker Compose adalah sebuah alat atau tool untuk mengelola dan menjalankan aplikasi yang terdiri dari satu atau beberapa container. Docker Compose memungkinkan untuk mendefinisikan, mengonfigurasi, dan menjalankan beberapa Docker Container sekaligus dengan menggunakan file konfigurasi YAML yang sederhana.
 
-Dengan Docker Compose juga dapat menentukan image Docker untuk setiap container, mengatur pengaturan jaringan, menentukan volume yang dibutuhkan, dan melakukan konfigurasi lainnya dalam satu file konfigurasi. Selain itu, Docker Compose juga memudahkan proses pengaturan dan penyebaran aplikasi pada lingkungan produksi atau development yang berbeda dengan cara yang konsisten.
+Docker Compose juga dapat menentukan Docker Image untuk setiap Docker Container, mengatur pengaturan jaringan, menentukan volume yang dibutuhkan, dan melakukan konfigurasi lainnya dalam satu file konfigurasi. Selain itu, Docker Compose juga memudahkan proses pengaturan dan penyebaran aplikasi pada lingkungan produksi atau development yang berbeda dengan cara yang konsisten.
 
-Dalam pengembangan perangkat lunak modern, aplikasi terdiri dari banyak komponen yang dapat dijalankan secara terpisah dan berinteraksi satu sama lain melalui jaringan. Dalam hal ini, Docker Compose menjadi alat yang sangat berguna untuk mengatur aplikasi tersebut dengan menggunakan container Docker, sehingga memudahkan proses pengembangan, pengujian, dan penyebaran aplikasi yang kompleks.
+Dalam pengembangan perangkat lunak modern, aplikasi terdiri dari banyak komponen yang dapat dijalankan secara terpisah dan berinteraksi satu sama lain melalui jaringan. Dalam hal ini, Docker Compose menjadi alat yang sangat berguna untuk mengatur aplikasi tersebut dengan menggunakan Docker Container, sehingga memudahkan proses pengembangan, pengujian, dan penyebaran aplikasi yang kompleks.
 
 #### Contoh Implementasi Docker Compose
+> **Catatan**
+Implementasi Docker Compose akan dipraktikan bersamaan dengan implementasi membangun aplikasi microservice dengan Docker. Untuk detailnya bisa dilihat di [Modul 4](https://github.com/arsitektur-jaringan-komputer/Pelatihan-Docker/tree/master/4.%20Membangun%20Aplikasi%20di%20Docker).
 
+Berikut adalah contoh penerapan Docker Compose untuk membuat sebuah aplikasi web yang terdiri dari tiga service yaitu frontend, backend, dan database.
 ```
 version: '3'
 services:
@@ -71,27 +73,24 @@ services:
       POSTGRES_DB: mydb
 ```
 
-Konfigurasi docker compose di atas mendefinisikan tiga layanan yaitu backend, frontend, dan database. Berikut adalah penjelasan tentang konfigurasi diatas:
+Berikut adalah penjelasan dari konfigurasi diatas:
 
 - **`version: '3'`**: Versi dari Docker Compose yang digunakan dalam konfigurasi tersebut.
 - **`services`**: Komponen utama yang mendefinisikan service yang akan dijalankan. Dalam konfigurasi diatas, terdapat 3 service yaitu frontend, backend, dan database.
 - **`backend`**: Nama service yang akan dijalankan.
 - **`build: ./backend`**: Menentukan direktori dimana Docker akan melakukan build image untuk service backend.
 - **`ports: - "8080:8080"`**: Mendefinisikan port mapping, dimana port 8080 pada container akan di-forward ke port 8080 pada host.
-- **`environment: DB_HOST: database`**: Mendefinisikan environment variable pada service backend, dimana DB_HOST akan di-set sebagai database.
+- **`environment: DB_HOST: database`**: Mendefinisikan environment variable pada service backend, dimana **`DB_HOST`** akan di-set sebagai database.
 - **`frontend`**: Nama service yang akan dijalankan.
 - **`build: ./frontend`**: Menentukan direktori dimana Docker akan melakukan build image untuk service frontend.
 - **`ports: - "3000:3000"`**: Mendefinisikan port mapping, dimana port 3000 pada container akan di-forward ke port 3000 pada host.
-- **`environment: REACT_APP_BACKEND_URL: http://backend:8080`**: Mendefinisikan environment variable pada service frontend, dimana `REACT_APP_BACKEND_URL` akan di-set sebagai `http://backend:8080`.
+- **`environment: REACT_APP_BACKEND_URL: http://backend:8080`**: Mendefinisikan environment variable pada service frontend, dimana **`REACT_APP_BACKEND_URL`** akan di-set sebagai **`http://backend:8080`**.
 - **`database`**: Nama service yang akan dijalankan.
 - **`image: postgres`**: Mendefinisikan image yang akan digunakan untuk service database.
-- **`environment: POSTGRES_USER: myuser POSTGRES_PASSWORD: mypassword POSTGRES_DB: mydb`**: Mendefinisikan environment variable pada service database, dimana `POSTGRES_USER` akan di-set sebagai myuser, `POSTGRES_PASSWORD` akan di-set sebagai mypassword, dan `POSTGRES_DB` akan di-set sebagai mydb.
-
-
-Untuk praktiknya akan dicontohkah pada [Modul 4](https://github.com/arsitektur-jaringan-komputer/Pelatihan-Docker/tree/master/4.%20Membangun%20Aplikasi%20di%20Docker)
+- **`environment: POSTGRES_USER: myuser POSTGRES_PASSWORD: mypassword POSTGRES_DB: mydb`**: Mendefinisikan environment variable pada service database, dimana **`POSTGRES_USER`** akan di-set sebagai myuser, **`POSTGRES_PASSWORD`** akan di-set sebagai mypassword, dan **`POSTGRES_DB`** akan di-set sebagai mydb.
 
 #### Depend On Docker Compose
-Pada konfigurasi Docker Compose, terdapat fitur **`depends_on`** yang berguna untuk menentukan urutan dalam membangun dan menjalankan container. Hal ini dibutuhkan ketika terdapat container yang membutuhkan layanan dari container lain yang harus sudah terlebih dahulu dibangun dan dijalankan. Contohnya pada konfigurasi Docekr compose sebelumnya, container backend membutuhkan layanan dari database untuk terkoneksi sehingga perlu menunggu container database terlebih dahulu dibangun dan dijalankan. 
+Pada konfigurasi Docker Compose, terdapat fitur **`depends_on`** yang berguna untuk menentukan urutan dalam membangun dan menjalankan container. Hal ini dibutuhkan ketika terdapat container yang membutuhkan layanan dari container lain yang harus sudah terlebih dahulu dibangun dan dijalankan. Contohnya pada konfigurasi Docker Compose sebelumnya, container backend membutuhkan service dari database untuk terkoneksi sehingga perlu menunggu container database terlebih dahulu dibangun dan dijalankan. 
 
 ```
 version: '3'
@@ -121,47 +120,70 @@ services:
 Dari konfigurasi diatas, ditambahkan fitur **`depends_on`** pada service backend untuk memastikan container tersebut tidak akan dijalankan sebelum container database siap digunakan.
 
 #### Inheritance di Docker Compose
-Inheritance (pewarisan) adalah fitur penting di Docker Compose untuk mengelola container Docker yang terkait. Inheritance memungkinkan untuk mewarisi konfigurasi dari file konfigurasi lain. Dalam Docker Compose, ini dilakukan dengan menggunakan opsi **`extends`** di dalam file konfigurasi YAML. Dengan opsi ini, developer dapat membuat file konfigurasi yang lebih spesifik untuk setiap lingkungan, seperti production, staging, atau development, sementara masih mewarisi konfigurasi yang sama dari file konfigurasi yang lebih umum.
+Inheritance (pewarisan) adalah fitur penting di Docker Compose untuk mengelola Docker Container yang terkait. Inheritance memungkinkan untuk mewarisi konfigurasi dari file konfigurasi lain. Dalam Docker Compose, ini dilakukan dengan menggunakan opsi **`extends`** di dalam file konfigurasi YAML.
 
+Contoh implementasi penggunaan inheritance di Docker Compose
+```
+version: '3'
+services:
+  backend:
+    extends:
+      file: docker-compose.yml
+      service: backend
+    environment:
+      DB_HOST: database
+      DB_PORT: 5432
+  frontend:
+    extends:
+      file: docker-compose.yml
+      service: frontend
+  database:
+    extends:
+      file: docker-compose.yml
+      service: database
+```
+Pada konfigurasi diatas, dilakukan inherintance dari konfigurasi docker-compose.yaml pada service **`frontend`** **`backend`** dan **`database`** serta melakukan perubahan pada service **`backend`** yaitu **`DB_HOST`** dan **`DB_PORT`**. Dengan ini, developer dapat membuat file konfigurasi yang lebih spesifik untuk setiap lingkungan, seperti production, staging, atau development, sementara masih mewarisi konfigurasi yang sama dari file konfigurasi yang lebih umum.
 
 #### Mengelola Docker Compose
-Berikut adalah beberapa perintah penting untuk mengelola Docker compose beserta penjelasannya yang tersedia pada **`docker compose COMMAND`**. Perthatian, apabila installasi docker compose melalui standalone maka format perintahnya adalah **`docker-compose COMMAND`** 
+Berikut adalah beberapa perintah penting untuk mengelola Docker Compose beserta penjelasannya yang tersedia pada **`docker compose COMMAND`**.
+> **Catatan** 
+Apabila installasi Docker Compose dilakukan melalui standalone maka format perintahnya adalah **`docker-compose COMMAND`** 
 
 | Perintah | Deskripsi |
 | --- | --- |
-|`up` | Membuat dan memulai container sesuai dengan konfigurasi di dalam file docker-compose.yml. Jika file tersebut tidak ada, perintah ini akan gagal. |
+|`up` | Membuat dan memulai container sesuai dengan konfigurasi di dalam file Docker Compose. |
 |`up -d` |	Sama seperti docker-compose up, tetapi menjalankan container di background (detached mode).
 |`down`	| Menghentikan dan menghapus container yang dihasilkan oleh docker-compose up. |
-|`build` |	Membuat image untuk service yang didefinisikan di dalam docker-compose.yml. |
+|`build` |	Membuat image untuk service yang didefinisikan di dalam konfigurasi Docker Compose. |
 |`start` | Menjalankan container yang sudah dibuat. |
 |`stop` |	Menghentikan container yang sedang berjalan. |
 |`restart` |	Menghentikan dan menjalankan kembali container. |
 |`ps` |	Menampilkan status dari container yang dijalankan oleh Docker Compose. |
 |`logs` |	Menampilkan log dari service yang dijalankan oleh Docker Compose. |
 |`exec` |	Menjalankan perintah di dalam container. |
-|`config` |	Memvalidasi dan menampilkan konfigurasi dari docker-compose.yml. |
+|`config` |	Memvalidasi dan menampilkan konfigurasi dari Docker Compose |
 |`kill` |	Memaksa menghentikan container yang sedang berjalan. |
 
 ### Docker Data Management
 #### Pengenalan Docker Data Management 
-Docker Data Management adalah sebuah konsep untuk mengelola data atau file yang ada di Docker. Ketika menjalankan sebuah aplikasi atau layanan di dalam Docker container, data yang dihasilkan oleh aplikasi tersebut dapat disimpan dalam container itu sendiri atau dalam sebuah volume yang terpisah dari container.
+Docker Data Management adalah sebuah konsep untuk mengelola data atau file yang ada di Docker. Ketika menjalankan sebuah aplikasi atau layanan di dalam Docker Container, data yang dihasilkan oleh aplikasi tersebut dapat disimpan dalam container itu sendiri atau dalam sebuah volume yang terpisah dari container.
 
 Dalam Docker, terdapat beberapa jenis mount atau penghubung yang digunakan untuk mengelola data, seperti volume, bind mount, dan tmpfs mount. Seorang developer dapat memilih jenis mount yang tepat sesuai dengan kebutuhan aplikasi yang dijalankan di dalam container.
 
-Selain itu, Docker juga menyediakan beberapa perintah untuk mengelola data pada Docker volume, seperti menampilkan informasi volume, menghapus volume, dan mengatur volume driver options. Dengan menggunakan perintah-perintah ini, developer dapat mengelola data di Docker dengan mudah dan efisien.
+Selain itu, Docker juga menyediakan beberapa perintah untuk mengelola data pada Docker Volume, seperti menampilkan informasi volume, menghapus volume, dan mengatur volume driver options. Dengan menggunakan perintah-perintah ini, developer dapat mengelola data di Docker dengan mudah dan efisien.
 
 Pemahaman tentang Docker Data Management sangat penting untuk memastikan data yang dihasilkan oleh aplikasi yang dijalankan di dalam container tetap terjaga dan tidak hilang saat container dihapus atau dimatikan.
 
 #### Jenis-Jenis Docker Mount
 <img src="img/docker-mounts.png" alt="Docker Mount" style="width:100%;">
 
-- ##### Volume
-Docker Volume adalah fitur pada Docker yang memungkinkan developer untuk mengelola data yang dibutuhkan oleh container secara terpisah dari container itu sendiri. Volume Docker memungkinkan container untuk berbagi data dengan host, container lain, atau dengan layanan penyimpanan data yang disediakan oleh penyedia layanan cloud.
+##### Volume
+Docker Volume adalah fitur pada Docker yang memungkinkan developer untuk mengelola data yang dibutuhkan oleh container secara terpisah dari container itu sendiri. Docker Volume memungkinkan container untuk berbagi data dengan host, container lain, atau dengan layanan penyimpanan data yang disediakan oleh penyedia layanan cloud.
 
 Dalam Docker, setiap container memiliki file system sendiri yang terisolasi dari host dan container lainnya. Dalam beberapa kasus, data yang diperlukan oleh container perlu disimpan secara persisten, sehingga tidak hilang saat container dihapus atau dihentikan. Docker Volume memungkinkan untuk membuat penyimpanan data persisten untuk container tersebut, dan memungkinkan container lain atau host untuk mengakses data tersebut.
 
 
-Berikut adalah contoh menerapkan Docker volume pada konfigurasi Docker compose sebelumnya.
+Berikut adalah contoh menerapkan Docker Volume pada konfigurasi Docker Compose sebelumnya.
 
 ```
 version: '3'
@@ -187,15 +209,82 @@ services:
       POSTGRES_PASSWORD: mypassword
       POSTGRES_DB: mydb
 ```
+Pada konfigurasi di atas, ditambahakan sebuah volume dengan nama **`./data`** yang akan diikatkan (bind) ke direktori **`/var/lib/postgresql/data`** di dalam container. Artinya, data yang dibuat atau dimodifikasi oleh service database akan disimpan dalam direktori **`./data`** di host. Dengan menambahkan konfigurasi volumes pada Docker Compose, maka data dari database akan tersimpan dan tidak hilang meskipun container dimatikan.
 
-Dengan menambahkan konfigurasi volumes pada Docker compose, maka data dari database akan tersimpan dan tidak hilang meskipun container dimatikan.
+Selain melalui konfigurasi Docker Compose, mengelola Docker Volume dapat dilakukan dengan menggunakan perintah yang telah disediakan oleh Docker yang diantaranya akan dicontohkan sebagai berikut:
 
-- ##### Bind Mount
-Bind mount adalah tipe mount di Docker yang memungkinkan suatu file atau direktori di host machine digunakan oleh container Docker. Dalam bind mount, container dan host machine menggunakan file system yang sama, sehingga jika suatu file diubah dalam container, perubahannya juga akan terlihat di host machine, dan sebaliknya.
+- ##### Membuat Docker Volume
 
-Dalam penggunaannya, bind mount dapat digunakan untuk mengakses file-file atau direktori dari host machine dan menggunakan data tersebut dalam container. Misalnya, jika ingin menjalankan sebuah aplikasi web di dalam container, tetapi ingin menggunakan file konfigurasi yang ada di host machine, maka dapat dilakukan bind mount dari direktori yang berisi file konfigurasi tersebut ke dalam direktori di dalam container.
+Untuk membuat Docker Volume dapat menggunakan perintah **`docker volume create`**. Contoh sintaks perintahnya adalah sebagai berikut: **`docker volume create <nama_volume>`**
+```
+docker volume create test-volume
+```
+![Membuat docker volume](img/docker-create-volume.png)
 
-Berikut adalah contoh implementasi dari Bind Mount.
+
+- ##### Melihat Daftar Docker Volume
+Untuk melihat daftar Docker Volume yang sudah dibuat, gunakan perintah **`docker volume ls`**. Contoh sintaks perintahnya adalah sebagai berikut: 
+```
+docker volume ls
+```
+
+![Melihat daftar docker volume](img/docker-ls-volume.png)
+
+- ##### Menggunakan Docker Volume pada Container
+Untuk menggunakan Docker Volume pada container dengan menggunakan opsi -v pada perintah **`docker run`**. Contoh sintaks perintahnya adalah sebagai berikut: **`docker run -v <nama_volume>:<lokasi_mount_container> <image_name>`**
+
+```
+docker run -d \
+--name devtest \
+-v test-volume:/app \
+nginx:latest
+
+```
+![Menggunakan docker volume pada container](img/docker-start-container-volume.png)
+
+
+- ##### Meng-Inspect Docker Volume
+Untuk melihat detail dari Docker Volume yang sudah dibuat, gunakan perintah **`docker volume inspect`**. Contoh sintaks perintahnya adalah sebagai berikut: **`docker volume inspect <nama_volume>`**
+```
+docker volumen inspect test-volume
+```
+![Inspect docker volume](img/docker-inspect-volume.png)
+
+- ##### Meng-Copy Data ke dalam Docker Volume
+Untuk dapat meng-copy data ke dalam Docker Volume dengan menggunakan perintah **`docker cp`**. Contoh sintaks perintahnya adalah sebagai berikut: **`docker cp <nama_file> <nama_container>:<lokasi_mount_container>`**
+
+Dimana **`<nama_file>`** adalah nama file yang akan di-copy, **`<nama_container>`** adalah nama dari container yang akan di-copy file tersebut, dan **`<lokasi_mount_container>`** adalah lokasi di dalam container dimana file tersebut akan di-copy.
+
+```
+docker cp target/flag.txt devtest:/app
+```
+![Copy data ke dalam docker volume](img/docker-copy-volume.png)
+
+- ##### Menghapus Data dalam Docker Volume
+Untuk menghapus data dalam Docker Volume, cukup hapus file yang berada di dalam volume tersebut dapat menggunakan perintah **`docker exec`** untuk menjalankan perintah di dalam container. Contoh sintaks perintahnya adalah sebagai berikut: **`docker exec <nama_container> rm <lokasi_file_di_volume>`** Dimana **`<nama_container>`** adalah nama dari container yang akan dihapus file tersebut, dan **`<lokasi_file_di_volume>`** adalah lokasi file yang akan dihapus dalam volume tersebut.
+
+```
+docker exec devtest rm /app/flag.txt 
+```
+![Menghapus data dalam docker volume](img/docker-remove-data-volume.png)
+
+- ##### Menghapus Docker Volume
+Untuk menghapus Docker Volume, gunakan perintah **`docker volume rm`**. Contoh sintaks perintahnya adalah sebagai berikut: **`docker volume rm <nama_volume>`**. Akan tetapi, pastikan tidak ada container yang sedang menggunakan volume tersebut. Jika ada maka volume tidak dapat dihapus.
+
+```
+docker container rm devtest
+docker volume rm test-volume
+```
+![Menghapus volume](img/docker-remove-volume.png)
+
+Itulah beberapa cara untuk mengelola Docker Volume seperti membuat, melihat daftar, menghapus, menggunakan, inspect, copy data ke dalam, dan menghapus data dalam Docker Volume. Dengan Docker Volume pengelolaan data pada container dengan lebih mudah dan efisien.
+
+##### Bind Mount
+Bind mount adalah tipe mount di Docker yang memungkinkan suatu file atau direktori di mesin host digunakan oleh Docker Container. Dalam bind mount, container dan mesin host menggunakan file system yang sama, sehingga jika suatu file diubah dalam container, perubahannya juga akan terlihat di mesin host, dan sebaliknya.
+
+Dalam penggunaannya, bind mount dapat digunakan untuk mengakses file-file atau direktori dari mesin host dan menggunakan data tersebut dalam container. Misalnya, jika ingin menjalankan sebuah aplikasi web di dalam container, tetapi ingin menggunakan file konfigurasi yang ada di mesin host, maka dapat dilakukan bind mount dari direktori yang berisi file konfigurasi tersebut ke dalam direktori di dalam container.
+
+Berikut adalah contoh implementasi dari bind mount.
 
 ```
 docker run -d \
@@ -206,15 +295,15 @@ node:16-alpine
 ``` 
 ![Hasil implementasi bind mount](img/docker-bind-mount-cli.png)
 
-Kode di atas merupakan perintah untuk menjalankan sebuah container dari image `node:16-alpine`, dengan beberapa opsi seperti:
+Kode di atas merupakan perintah untuk menjalankan sebuah container dari image **`node:16-alpine`**, dengan beberapa opsi seperti:
 
-- **`-d`** : menjalankan container di background (detach mode).
-- **`-it`** : mengalihkan interaksi ke terminal container (interactive mode dan attach to container).
-- **`--name`** : memberikan nama `bind-container` container.
-- **`--mount`** : menentukan opsi mount pada container. Pada kasus ini, menggunakan `opsi type=bind` untuk membuat bind mount, di mana direktori lokal pada host `$(pwd)/target` di-mount pada direktori `/app` pada container.
-- **`node:16-alpine`** : image yang akan digunakan untuk menjalankan container.
+- **`-d`**: menjalankan container di background (detach mode).
+- **`-it`**: mengalihkan interaksi ke terminal container (interactive mode dan attach to container).
+- **`--name`**: memberikan nama **`bind-container`** container.
+- **`--mount`**: menentukan opsi mount pada container. Pada kasus ini, menggunakan **`opsi type=bind`** untuk membuat bind mount, di mana direktori lokal pada host **`$(pwd)/target`** di-mount pada direktori **`/app`** pada container.
+- **`node:16-alpine`**: image yang akan digunakan untuk menjalankan container.
 
-Untuk memastikan proses bind mount berjalan dengan baik dapat menggunakan perintah `docker inspect nama_container` dan lihat outputnya pada bagian `Mounts`.
+Untuk memastikan proses bind mount berjalan dengan baik dapat menggunakan perintah **`docker inspect nama_container`** dan lihat outputnya pada bagian **`Mounts`**.
 ```
 docker inspect bind-container
 ```
@@ -223,12 +312,12 @@ docker inspect bind-container
 Untuk memverifikasi kesesuaian antara isi file di directory host dengan directory target dapat dilakukan dengan masuk ke mode shell dari container itu sendiri.
 ![Verifikasi hasil bind mount](img/verifikasi-bind-mount.png)
 
-Keuntungan dari bind mount adalah fleksibilitasnya yang tinggi, karena memungkinkan akses langsung ke file di host machine. Namun, kekurangannya adalah tidak dapat digunakan di seluruh platform, dan konfigurasi harus dilakukan secara manual setiap kali container dijalankan atau dihapus.
+Keuntungan dari bind mount adalah fleksibilitasnya yang tinggi, karena memungkinkan akses langsung ke file di mesin host. Namun, Bind Mount tidak memberikan isolasi penuh antara mesin host dan container. Jika suatu file atau direktori pada host dihapus atau dimodifikasi, maka akan mempengaruhi container yang menggunakan bind mount tersebut.
 
-- ##### tmpfs Mount
+##### tmpfs Mount
 tmpfs mount adalah salah satu jenis mount pada Docker yang memungkinkan untuk menyimpan data secara sementara di dalam memory RAM pada host. Dengan menggunakan tmpfs mount, data akan cepat diakses karena langsung disimpan di dalam memory RAM, namun data tersebut tidak akan persisten karena hanya disimpan di dalam memory dan tidak disimpan ke dalam disk fisik.
 
-Cara penggunaannya yaitu dengan menambahkan opsi --mount pada saat menjalankan container, lalu menentukan tipe mount tmpfs dan ukuran memory yang akan digunakan untuk menyimpan data. Berikut contoh perintah untuk menggunakan tmpfs mount dengan ukuran memory 100 MB pada container:
+Cara penggunaannya yaitu dengan menambahkan opsi **`--mount`** pada saat menjalankan container, lalu menentukan tipe mount tmpfs dan ukuran memory yang akan digunakan untuk menyimpan data. Berikut contoh perintah untuk menggunakan tmpfs mount dengan ukuran memory 100 MB pada container:
 
 ```
 docker run -d \
@@ -240,83 +329,54 @@ node:16-alpine
 
 ![Implementasi tmpfs mount](img/docker-tmpfs-mount.png)
 
-- **`-d`** : menjalankan container di background (detach mode).
-- **`-it`** : mengalihkan interaksi ke terminal container (interactive mode dan attach to container).
-- **`--name`** : memberikan nama `bind-container` container.
-- **`--mount`** digunakan untuk memasang sebuah volume pada container. `type=tmpfs` menentukan jenis volume yang akan digunakan, yaitu tmpfs volume. `destination=/app` menunjukkan direktori tujuan dari volume ini, yaitu `/app`.
-- **`tmpfs-size=100M`** digunakan untuk menentukan ukuran maksimum volume tmpfs dalam container, dalam hal ini sebesar 100 megabyte.
-- **`node:16-alpine`** : image yang akan digunakan untuk menjalankan container.
+- **`-d`**: menjalankan container di background (detach mode).
+- **`-it`**: mengalihkan interaksi ke terminal container (interactive mode dan attach to container).
+- **`--name`**: memberikan nama **`tmpfs-container`** container.
+- **`--mount`**: digunakan untuk memasang sebuah volume pada container. **`type=tmpfs`** menentukan jenis volume yang akan digunakan, yaitu tmpfs volume. **`destination=/app`** menunjukkan direktori tujuan dari volume ini, yaitu **`/app`**.
+- **`tmpfs-size=100M`**: digunakan untuk menentukan ukuran maksimum volume tmpfs dalam container, dalam hal ini sebesar 100 megabyte.
+- **`node:16-alpine`**: image yang akan digunakan untuk menjalankan container.
 
-Untuk memastikan proses tmpfs mount berjalan dengan baik dapat menggunakan perintah
+Untuk memastikan proses tmpfs mount berjalan dengan baik dapat menggunakan perintah docker inspect nama_container dan lihat outputnya pada bagian Mounts.
+```
+docker inspect tmpfs-container
+```
 
 ![Hasil implementasi dari tmpfs mount](img/hasil-tmpfs-mount.png)
 
+
 #### Network File System
-NFS (Network File System) pada Docker adalah cara untuk menghubungkan shared file system yang terpisah di antara beberapa host atau container Docker yang berbeda. NFS memungkinkan container Docker untuk berbagi file dengan mudah di antara satu sama lain, bahkan ketika container berjalan pada host yang berbeda atau pada swarm cluster yang terdiri dari beberapa host.
+> **Catatan**
+Konsep Network File System (NFS) ini akan digunakan pada implementasi Docker Swarm. Untuk detailnya bisa dilihat di [Modul 4](https://github.com/arsitektur-jaringan-komputer/Pelatihan-Docker/tree/master/4.%20Membangun%20Aplikasi%20di%20Docker).
+
+NFS (Network File System) pada Docker adalah cara untuk menghubungkan shared file system yang terpisah di antara beberapa host atau Docker Container yang berbeda. NFS memungkinkan Docker Container untuk berbagi file dengan mudah di antara satu sama lain, bahkan ketika container berjalan pada host yang berbeda atau pada swarm cluster yang terdiri dari beberapa host.
 
 Keuntungan dari menggunakan NFS pada Docker antara lain:
 - Mudah digunakan: NFS dapat dengan mudah diimplementasikan pada Docker, terutama ketika digunakan dalam lingkungan cluster yang besar.
-- Menyederhanakan manajemen file: Dengan menggunakan NFS, file hanya perlu disimpan di satu lokasi, dan semua container Docker dapat mengakses file tersebut tanpa perlu menyimpannya di dalam container itu sendiri. Hal ini menyederhanakan manajemen file dan membuatnya lebih mudah untuk diatur dan dikelola.
-- Skalabilitas: NFS memungkinkan pengguna untuk menambahkan host atau container Docker dengan mudah tanpa perlu menambahkan file atau konfigurasi pada setiap host baru. Ini membuat skala aplikasi menjadi lebih mudah dan cepat.
+- Menyederhanakan manajemen file: Dengan menggunakan NFS, file hanya perlu disimpan di satu lokasi, dan semua Docker Container dapat mengakses file tersebut tanpa perlu menyimpannya di dalam container itu sendiri. Hal ini menyederhanakan manajemen file dan membuatnya lebih mudah untuk diatur dan dikelola.
+- Skalabilitas: NFS memungkinkan pengguna untuk menambahkan host atau Docker Container dengan mudah tanpa perlu menambahkan file atau konfigurasi pada setiap host baru. Ini membuat skala aplikasi menjadi lebih mudah dan cepat.
 - Efisiensi: Dalam beberapa kasus, menggunakan NFS lebih efisien daripada melakukan copy file ke dalam setiap container. Ini dapat meningkatkan kinerja aplikasi dan menghemat ruang penyimpanan pada setiap host.
 
-NFS cocok digunakan pada saat kita ingin menggunakan shared file system pada beberapa host atau container Docker yang berbeda. Contoh penggunaannya adalah ketika kita ingin membagikan file konfigurasi, data atau aplikasi di antara beberapa container Docker, bahkan ketika container berjalan pada host yang berbeda atau pada cluster Docker Swarm. Namun, NFS tidak cocok digunakan jika Anda hanya perlu berbagi file antara beberapa container di host yang sama.
-
-Konsep dari Network File System (NFS) ini akan digunakan pada implementasi docker swarm di [Modul 4](https://github.com/arsitektur-jaringan-komputer/Pelatihan-Docker/tree/master/4.%20Membangun%20Aplikasi%20di%20Docker).
-
-#### Mengelola Docker Volume
-- ##### Membuat Docker Volume
-  Untuk membuat Docker Volume dapat menggunakan perintah docker volume create. Contoh sintaks perintahnya adalah sebagai berikut: `docker volume create <nama_volume>`
-  ![Membuat docker volume](img/docker-create-volume.png)
-
-
-- ##### Melihat Daftar Docker Volume
-  Untuk melihat daftar Docker Volume yang sudah dibuat, gunakan perintah `docker volume ls`. Contoh sintaks perintahnya adalah sebagai berikut: `docker volume ls`
-  ![Melihat daftar docker volume](img/docker-ls-volume.png)
-
-- ##### Menggunakan Docker Volume pada Container
-  Untuk menggunakan Docker Volume pada container dengan menggunakan opsi -v pada perintah `docker run`. Contoh sintaks perintahnya adalah sebagai berikut: `docker run -v <nama_volume>:<lokasi_mount_container> <image_name>`
-  ![Menggunakan docker volume pada container](img/docker-start-container-volume.png)
-
-
-- ##### Meng-Inspect Docker Volume
-  Untuk melihat detail dari Docker Volume yang sudah dibuat, gunakan perintah docker volume inspect. Contoh sintaks perintahnya adalah sebagai berikut: `docker volume inspect <nama_volume>`
-  ![Inspect docker volume](img/docker-inspect-volume.png)
-
-- ##### Meng-Copy Data ke dalam Docker Volume
-  Untuk dapat meng-copy data ke dalam Docker Volume dengan menggunakan perintah `docker cp`. Contoh sintaks perintahnya adalah sebagai berikut: `docker cp <nama_file> <nama_container>:<lokasi_mount_container>`
-  Dimana `<nama_file>` adalah nama file yang akan di-copy, `<nama_container>` adalah nama dari container yang akan di-copy file tersebut, dan `<lokasi_mount_container>` adalah lokasi di dalam container dimana file tersebut akan di-copy.
-  ![Copy data ke dalam docker volume](img/docker-copy-volume.png)
-
-- ##### Menghapus Data dalam Docker Volume
-  Untuk menghapus data dalam Docker Volume, cukup hapus file yang berada di dalam volume tersebut dapat menggunakan perintah `docker exec` untuk menjalankan perintah di dalam container. Contoh sintaks perintahnya adalah sebagai berikut: `docker exec <nama_container> rm <lokasi_file_di_volume>` Dimana `<nama_container>` adalah nama dari container yang akan dihapus file tersebut, dan `<lokasi_file_di_volume>` adalah lokasi file yang akan dihapus dalam volume tersebut.
-  ![Menghapus data dalam docker volume](img/docker-remove-data-volume.png)
-
-- ##### Menghapus Docker Volume
-  Untuk menghapus Docker Volume, gunakan perintah docker volume rm. Contoh sintaks perintahnya adalah sebagai berikut: `docker volume rm <nama_volume>`
-  ![Menghapus volume](img/docker-remove-volume.png)
-
-Itulah beberapa cara untuk mengelola Docker Volume seperti membuat, melihat daftar, menghapus, menggunakan, inspect, copy data ke dalam, dan menghapus data dalam Docker Volume. Dengan Docker Volume pengelolaan data pada container dengan lebih mudah dan efisien.
+NFS cocok digunakan pada saat ingin menggunakan shared file system pada beberapa host atau Docker Container yang berbeda. Contoh penggunaannya adalah ketika ingin membagikan file konfigurasi, data atau aplikasi di antara beberapa Docker Container, bahkan ketika container berjalan pada host yang berbeda atau pada cluster Docker Swarm. Namun, NFS tidak cocok digunakan jika hanya perlu berbagi file antara beberapa container di host yang sama.
 
 ### Docker Networking
-#### Pengertian Docker Networking
+#### Pengenalan Docker Networking
 Dalam pengembangan dan implementasi aplikasi modern yang kompleks, penggunaan teknologi kontainer seperti Docker telah menjadi semakin umum. Docker memungkinkan para pengembang untuk memisahkan aplikasi dari lingkungan host dan infrastruktur di mana mereka dijalankan, sehingga memungkinkan lebih banyak fleksibilitas dan portabilitas.
 
 Namun, ketika menjalankan beberapa container pada satu host, perlu untuk memungkinkan container untuk berkomunikasi satu sama lain, dan juga terhubung ke sumber daya di luar container seperti jaringan host atau jaringan eksternal. Disinilah Docker Networking berperan.
 
-Docker Networking adalah cara untuk menghubungkan antara container Docker yang berbeda sehingga mereka dapat berkomunikasi satu sama lain. Saat menjalankan beberapa container di Docker, setiap container memiliki alamat IP yang berbeda dan terisolasi satu sama lain. Oleh karena itu, Docker Networking memungkinkan container Docker untuk terhubung ke jaringan yang sama atau subnet dan berkomunikasi satu sama lain, serta dapat terhubung dengan host mesin fisik atau jaringan eksternal.
+Docker Networking adalah cara untuk menghubungkan antara Docker Container yang berbeda sehingga mereka dapat berkomunikasi satu sama lain. Saat menjalankan beberapa container di Docker, setiap container memiliki alamat IP yang berbeda dan terisolasi satu sama lain. Oleh karena itu, Docker Networking memungkinkan Docker Container untuk terhubung ke jaringan yang sama atau subnet dan berkomunikasi satu sama lain, serta dapat terhubung dengan host mesin fisik atau jaringan eksternal.
 
-Tanpa Docker Networking, setiap container berjalan pada subnet yang terisolasi, yang berarti mereka tidak dapat berkomunikasi satu sama lain atau dengan sumber daya di luar subnet tersebut. Dengan menggunakan Docker Networking, container Docker dapat terhubung ke jaringan yang sama atau subnet, dan dapat berkomunikasi dengan container lain dan sumber daya di luar container, seperti basis data atau layanan web yang terpisah.
+Tanpa Docker Networking, setiap container berjalan pada subnet yang terisolasi, yang berarti mereka tidak dapat berkomunikasi satu sama lain atau dengan sumber daya di luar subnet tersebut. Dengan menggunakan Docker Networking, Docker Container dapat terhubung ke jaringan yang sama atau subnet, dan dapat berkomunikasi dengan container lain dan sumber daya di luar container, seperti basis data atau layanan web yang terpisah.
 
 Selain itu, Docker Networking memungkinkan pengguna untuk membuat lingkungan jaringan yang aman dan terisolasi di mana setiap container dapat berinteraksi satu sama lain, tetapi tetap terpisah dari lingkungan jaringan host. Ini memungkinkan para pengembang untuk menciptakan aplikasi yang lebih aman dan lebih mudah untuk dikelola, serta memfasilitasi pengembangan dan implementasi skala besar.
 
-Oleh karena itu, Docker Networking adalah komponen kunci dalam penggunaan Docker Container. Dengan memungkinkan container untuk berkomunikasi satu sama lain dan terhubung ke sumber daya di luar container, Docker Networking memungkinkan para pengembang untuk menciptakan aplikasi yang lebih fleksibel, portabel, aman, dan mudah dielola.
+Oleh karena itu, Docker Networking adalah komponen kunci dalam penggunaan Docker Container dengan memungkinkan container untuk berkomunikasi satu sama lain dan terhubung ke sumber daya di luar container. Docker Networking memungkinkan para pengembang untuk menciptakan aplikasi yang lebih fleksibel, portabel, aman, dan mudah dielola.
 
 #### Konsep Dasar di Docker Networking
 ##### Docker Network Driver
-Docker Network Driver adalah komponen utama yang memungkinkan container Docker terhubung ke jaringan. Network Driver adalah plug-in yang diinstal pada host Docker dan mengatur bagaimana container terhubung ke jaringan.
+Docker Network Driver adalah komponen utama yang memungkinkan Docker Container terhubung ke jaringan. Network Driver adalah plug-in yang diinstal pada host Docker dan mengatur bagaimana container terhubung ke jaringan.
 
-Docker menyediakan beberapa jenis Network Driver yang berbeda, masing-masing dengan karakteristik yang unik, dan memungkinkan pengguna untuk memilih Network Driver yang tepat untuk kebutuhan aplikasi mereka. Berikut adalah beberapa jenis Network Driver yang tersedia di Docker: `bridge network`, `host network`, `overlay network`, `ipvlan`, `macvlan network`, `network plugins`. Detail pembahasan akan dijelaskan pada sub materi [Jenis-Jenis Docker Network Driver](https://github.com/arsitektur-jaringan-komputer/Pelatihan-Docker/tree/master/3.%20Docker%20Service%20Lanjutan#jenis-jenis-docker-network-driver)
+Docker menyediakan beberapa jenis Network Driver yang berbeda, masing-masing dengan karakteristik yang unik, dan memungkinkan pengguna untuk memilih Network Driver yang tepat untuk kebutuhan aplikasi mereka. Berikut adalah beberapa jenis Network Driver yang tersedia di Docker: **`bridge network`**, **`host network`**, **`overlay network`**, **`ipvlan`**, **`macvlan network`**, **`network plugins`**. Detail pembahasan akan dijelaskan pada sub materi [Jenis-Jenis Docker Network Driver](https://github.com/arsitektur-jaringan-komputer/Pelatihan-Docker/tree/master/3.%20Docker%20Service%20Lanjutan#jenis-jenis-docker-network-driver)
 
 Dengan pemilihan Network Driver yang tepat, pengguna dapat memaksimalkan fleksibilitas, portabilitas, dan keamanan aplikas di dalam container.
 
@@ -326,7 +386,7 @@ IP Address Management (IPAM) adalah proses manajemen alamat IP di dalam jaringan
 
 Dalam Docker, setiap container dapat memiliki alamat IP unik pada jaringan tertentu. IPAM memastikan bahwa alamat IP yang diberikan pada container tidak bertabrakan dengan alamat IP yang sudah ada di jaringan, sehingga mencegah masalah komunikasi dan konflik alamat IP.
 
-Untuk melihat ip address yang digunakan oleh sebuah Docker container dapat menggunakan perintah `docker container inspect <container_id>`. Informasi seputar IP Address biasanya terdapat di `NetworkSettings`.
+Untuk melihat ip address yang digunakan oleh sebuah Docker container dapat menggunakan perintah **`docker container inspect <container_id>`**. Informasi seputar IP Address biasanya terdapat di **`NetworkSettings`**.
 
 ![Network setting di docker container](img/docker-network-setting.png)
 
@@ -355,12 +415,12 @@ Port mapping adalah proses untuk menghubungkan antara port yang digunakan oleh s
 
 Misalnya, jika sebuah container menjalankan sebuah layanan web pada port 8080, namun port 8080 tidak terbuka pada host, maka layanan tersebut tidak dapat diakses dari luar. Namun, dengan melakukan port mapping dapat menghubungkan port 8080 pada container dengan port yang tersedia pada host, seperti port 8000. Dengan demikian, layanan web pada container dapat diakses melalui port 8000 pada host.
 
-Port mapping dapat dilakukan pada saat menjalankan container dengan menggunakan perintah `docker run`. Untuk melakukan port mapping dapat menentukan port pada host dengan opsi `-p` dan port pada container dengan format `port_container`. Contohnya, jika ingin menghubungkan port 8080 pada container dengan port 8000 pada host dapat menjalankan perintah berikut:
+Port mapping dapat dilakukan pada saat menjalankan container dengan menggunakan perintah **`docker run`**. Untuk melakukan port mapping dapat menentukan port pada host dengan opsi **`-p`** dan port pada container dengan format **`port_container`**. Contohnya, jika ingin menghubungkan port 8080 pada container dengan port 8000 pada host dapat menjalankan perintah berikut:
 
 ```
 docker run -p <port_host>:<port_container> <nama_container>
 ```
-atau dengan menambahkan konfigurasi port mapping di Docker compose pada contohkan sebelumnya.
+atau dengan menambahkan konfigurasi port mapping di Docker Compose pada contohkan sebelumnya.
 
 #### Jenis-Jenis Docker Network Driver
 ##### bridge Network
@@ -370,11 +430,11 @@ Bridge network pada Docker merupakan default network yang dibuat oleh Docker ket
 
 Dalam bridge network pada Docker, container dapat diakses menggunakan alamat IP dari jaringan yang sama, atau menggunakan nama container yang diberikan pada saat pembuatan container. Container juga dapat dihubungkan dengan network lainnya melalui fitur bridge network yang disediakan oleh Docker. Dalam hal ini, sebuah container dapat terhubung dengan beberapa network secara bersamaan untuk memungkinkan interaksi dengan container lain yang berada pada jaringan yang berbeda.
 
-Bridge network pada Docker dapat diatur secara manual dengan cara membuat jaringan baru atau mengatur konfigurasi dari jaringan yang sudah ada. Untuk membuat bridge network di Docker dapat menggunakan perintah: `docker network create <nama_network>`  atau dengan menulis driver network secara eksplisit `docker network create --driver bridge <nama_network>`.
+Bridge network pada Docker dapat diatur secara manual dengan cara membuat jaringan baru atau mengatur konfigurasi dari jaringan yang sudah ada. Untuk membuat bridge network di Docker dapat menggunakan perintah: **`docker network create <nama_network>`**  atau dengan menulis driver network secara eksplisit **`docker network create --driver bridge <nama_network>`**.
 
 ![Membuat docker bridge network](img/docker-bridge-network.png)
 
-Untuk memasang bridge network ke Docker container baru dapat menggunakan perintah `docker run --name <nama_container> --network <nama_network>` atau ke container yang sudah ada dengan perintah `docker network connect <nama_network> <nama_container>`.
+Untuk memasang bridge network ke Docker container baru dapat menggunakan perintah **`docker run --name <nama_container> --network <nama_network>`** atau ke container yang sudah ada dengan perintah **`docker network connect <nama_network> <nama_container>`**.
 
 ![Memasang docker bridge network ke Docker container](img/docker-bridge-network-setting.png)
 
@@ -387,17 +447,20 @@ Perbedaan utama antara host network dan bridge network adalah pada tingkat isola
 
 Keuntungan menggunakan host network adalah performa yang lebih baik karena container tidak melalui jaringan virtual yang terisolasi. Namun, kelemahan dari host network adalah kurangnya isolasi yang menyebabkan potensi masalah keamanan dan tidak fleksibel dalam hal port mapping.
 
-Untuk membuat host network di Docker dapat dilakukan dengan perintah `docker network create --driver=host <nama-network>` dengan memberikan jenis driver secara eksplisit. Akan tetapi perlu diperhatikan kalau host network hanya diperbolehkan satu karena host network memberikan akses langsung ke semua port dan service pada host, sehingga dapat menimbulkan masalah keamanan jika lebih dari satu container menggunakan host network pada saat yang bersamaan. Selain itu, karena host network tidak memiliki isolasi seperti yang dimiliki oleh bridge network, maka ketika dua container menggunakan host network yang sama, mereka akan saling bersaing untuk menggunakan port yang sama, yang dapat menyebabkan konflik dan kegagalan dalam menjalankan container. Oleh karena itu, disarankan untuk menggunakan host network dengan hati-hati dan hanya jika memang benar-benar diperlukan.
+Untuk membuat host network di Docker dapat dilakukan dengan perintah **`docker network create --driver=host <nama-network>`** dengan memberikan jenis driver secara eksplisit. Akan tetapi perlu diperhatikan kalau host network hanya diperbolehkan satu karena host network memberikan akses langsung ke semua port dan service pada host, sehingga dapat menimbulkan masalah keamanan jika lebih dari satu container menggunakan host network pada saat yang bersamaan. Selain itu, karena host network tidak memiliki isolasi seperti yang dimiliki oleh bridge network, maka ketika dua container menggunakan host network yang sama, mereka akan saling bersaing untuk menggunakan port yang sama, yang dapat menyebabkan konflik dan kegagalan dalam menjalankan container. Oleh karena itu, disarankan untuk menggunakan host network dengan hati-hati dan hanya jika memang benar-benar diperlukan.
 
 Host network paling tepat digunakan ketika performa jaringan menjadi faktor kritis dan isolasi network tidak diperlukan. Contohnya adalah ketika menjalankan aplikasi yang memerlukan koneksi jaringan yang sangat cepat dan membutuhkan akses ke port host yang spesifik, seperti aplikasi game online atau streaming media. Selain itu, host network juga cocok digunakan untuk aplikasi yang sudah teroptimasi untuk dijalankan pada lingkungan host dan tidak memerlukan isolasi network. Misalnya, aplikasi yang hanya digunakan untuk pengujian atau aplikasi yang sifatnya sementara.
 
 ##### overlay Network
+> **Catatan**
+Konsep overlay netowrk ini akan digunakan pada implementasi Docker Swarm. Untuk detailnya bisa dilihat di [Modul 4](https://github.com/arsitektur-jaringan-komputer/Pelatihan-Docker/tree/master/4.%20Membangun%20Aplikasi%20di%20Docker).
+
 Overlay network di Docker adalah jenis jaringan yang memungkinkan beberapa host Docker terhubung dan berkomunikasi satu sama lain melalui jaringan yang sama. Overlay network menggunakan teknologi Virtual Extensible LAN (VXLAN) untuk memungkinkan container di mesin Docker yang berbeda untuk berkomunikasi satu sama lain seakan-akan mereka berada dalam satu jaringan lokal.
 
-Overlay network sangat berguna dalam skenario di mana perlu menjalankan aplikasi yang terdiri dari banyak container pada beberapa mesin Docker yang berbeda, seperti pada cluster atau lingkungan produksi yang terdistribusi. Dalam kasus seperti itu, overlay network memungkinkan container pada mesin yang berbeda untuk berkomunikasi dengan mudah satu sama lain, tanpa perlu memperhatikan topologi jaringan fisik di belakangnya. Karena overlay network digunakan pada sebuah cluster maka implementasi dari overlay network akan dicontohkan pada modul **DOCKER SWARM**
+Overlay network sangat berguna dalam skenario di mana perlu menjalankan aplikasi yang terdiri dari banyak container pada beberapa mesin Docker yang berbeda, seperti pada cluster atau lingkungan produksi yang terdistribusi. Dalam kasus seperti itu, overlay network memungkinkan container pada mesin yang berbeda untuk berkomunikasi dengan mudah satu sama lain, tanpa perlu memperhatikan topologi jaringan fisik di belakangnya.
 
 ##### ipvlan Network
-IPvlan network merupakan salah satu tipe driver network di Docker yang memungkinkan container Docker untuk memiliki satu atau beberapa interface virtual yang terhubung ke jaringan host. Interface virtual ini akan terhubung langsung ke interface fisik host, sehingga dapat digunakan untuk melakukan komunikasi langsung dengan jaringan eksternal.
+IPvlan network merupakan salah satu tipe driver network di Docker yang memungkinkan Docker Container untuk memiliki satu atau beberapa interface virtual yang terhubung ke jaringan host. Interface virtual ini akan terhubung langsung ke interface fisik host, sehingga dapat digunakan untuk melakukan komunikasi langsung dengan jaringan eksternal.
 
 Salah satu kelebihan dari IPvlan network adalah kemampuan untuk mengoptimalkan kinerja aplikasi dan mengurangi latensi dengan menghindari overhead dari proses routing yang terjadi pada driver network lain seperti bridge network. Selain itu, IPvlan network juga mendukung kemampuan untuk melakukan isolasi jaringan dengan menggunakan VLAN ID.
 
@@ -409,9 +472,9 @@ Namun, terdapat juga beberapa kekurangan dari penggunaan IPvlan network, antara 
 Oleh karena itu, sebaiknya melakukan evaluasi terlebih dahulu sebelum memutuskan untuk menggunakan IPvlan network di Docker.
 
 ##### macvlan Network
-Macvlan network adalah jenis jaringan Docker yang memungkinkan container Docker terhubung ke jaringan seperti virtual interface yang terpisah dan dapat memiliki alamat MAC yang berbeda. Dalam konfigurasi ini, setiap container memiliki alamat MAC yang unik, yang memungkinkan untuk terhubung ke jaringan fisik dengan alamat MAC yang sama.
+Macvlan network adalah jenis jaringan Docker yang memungkinkan Docker Container terhubung ke jaringan seperti virtual interface yang terpisah dan dapat memiliki alamat MAC yang berbeda. Dalam konfigurasi ini, setiap container memiliki alamat MAC yang unik, yang memungkinkan untuk terhubung ke jaringan fisik dengan alamat MAC yang sama.
 
-Macvlan network sangat berguna ketika container Docker harus terhubung ke jaringan fisik yang sama dengan host Docker. Sebagai contoh, ketika container Docker harus terhubung ke jaringan yang memiliki protokol broadcast atau multicast, seperti protokol DHCP, NetBIOS, atau mDNS.
+Macvlan network sangat berguna ketika Docker Container harus terhubung ke jaringan fisik yang sama dengan host Docker. Sebagai contoh, ketika Docker Container harus terhubung ke jaringan yang memiliki protokol broadcast atau multicast, seperti protokol DHCP, NetBIOS, atau mDNS.
 
 Namun, sama seperti dengan ipvlan network, konfigurasi macvlan network memerlukan beberapa pengetahuan dan pemahaman tentang jaringan. Selain itu, macvlan network memiliki beberapa batasan, seperti tidak dapat melakukan komunikasi antara container dalam jaringan yang sama, dan tidak dapat melakukan port mapping ke host.
 
@@ -431,7 +494,7 @@ Kekurangan dari menggunakan Docker Network Plugin adalah:
 - Ketergantungan: Penggunaan plugin memerlukan ketergantungan pada plugin yang diinstal, sehingga jika plugin tidak tersedia atau mengalami masalah, maka jaringan Docker tidak dapat digunakan dengan efektif.
 
 #### Mengelola Docker Networking di Docker Compose
-Masih ingatkah dengan konfigurasi Docker compose sebelumnya? Pada konfigurasi sebelumnya masih belum mengimplementasikan docker networking. Pada sub materi ini, akan ditambahkan konfigurasi untuk mengatur docker networking menggunakan network driver `bridge`.
+Masih ingatkah dengan konfigurasi Docker Compose sebelumnya? Pada konfigurasi sebelumnya masih belum mengimplementasikan Docker Networking. Pada sub materi ini, akan ditambahkan konfigurasi untuk mengatur Docker Networking menggunakan network driver **`bridge`**.
 
 ```
 version: '3'
@@ -466,9 +529,9 @@ services:
     mynetwork:
       driver: bridge
 ```
-Pada konfigurasi Docker Compose di atas, ditambahkan sebuah network dengan nama `mynetwork` dengan driver `bridge`. Selain itu, setiap service (backend, frontend, dan database) juga ditambahkan ke dalam network tersebut.
+Pada konfigurasi Docker Compose di atas, ditambahkan sebuah network dengan nama **`mynetwork`** dengan driver **`bridge`**. Selain itu, setiap service (backend, frontend, dan database) juga ditambahkan ke dalam network tersebut.
 
-Penambahan network ini dilakukan agar ketiga service yang ada di dalam Docker Compose dapat saling berkomunikasi melalui network yang sama. Dengan adanya network ini, antar service dapat berkomunikasi dengan menggunakan nama service sebagai host name, misalnya `database` untuk menghubungi service database dari service backend.
+Penambahan network ini dilakukan agar ketiga service yang ada di dalam Docker Compose dapat saling berkomunikasi melalui network yang sama. Dengan adanya network ini, antar service dapat berkomunikasi dengan menggunakan nama service sebagai host name, misalnya **`database`** untuk menghubungi service database dari service backend.
 
 Alasan penambahan network ini adalah untuk mempermudah pengaturan komunikasi antar service dan menghindari masalah yang dapat timbul akibat penggunaan IP address yang berubah-ubah setiap kali melakukan start ulang terhadap container. Selain itu, dengan menggunakan network ini juga dapat dengan mudah menambahkan service baru ke dalam komposisi yang sudah ada tanpa harus memodifikasi ulang konfigurasi setiap service
 
