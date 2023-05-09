@@ -17,8 +17,9 @@
       - [Service](#service)
       - [Task](#task)
       - [Overlay Network](#overlay-network)
+  - [Pengantar Aplikasi Web](#pengantar-aplikasi-web)
   - [Membuat Aplikasi Mikroservice dengan Docker](#membuat-aplikasi-mikroservice-dengan-docker)
-- [**Sumber**](#-sumber)
+- [**Sumber**](#sumber-referensi)
 
 
 ## Glosarium
@@ -238,16 +239,48 @@ docker service create --name <nama_service> --network <nama_network> <nama_image
 ```
 Dengan menggunakan overlay network pada Docker Swarm, tentunya mempermudah dalam membuat dan mengelola jaringan yang terdistribusi pada setiap node dalam klaster, sehingga memudahkan dalam membangun aplikasi yang terdiri dari beberapa service yang berjalan pada beberapa node dalam klaster.
 
+### Pengantar Aplikasi Web
+
+#### 1. Frontend
+
+Frontend adalah bagian dari sebuah aplikasi web yang berhubungan langsung dengan pengguna. Ini mencakup elemen-elemen visual dan interaktif yang dilihat dan digunakan oleh pengguna akhir. Bahasa pemrograman yang umum digunakan untuk mengembangkan frontend adalah HTML, CSS, dan JavaScript.
+
+#### 2. Backend
+
+Backend adalah bagian dari aplikasi web yang berada di sisi server. Ini melibatkan pemrosesan data, logika bisnis, dan interaksi dengan database. Beberapa bahasa pemrograman yang digunakan untuk mengembangkan backend antara lain Python, JavaScript (Node.js), dan Ruby.
+
+#### 3. Web Server
+
+Web server adalah perangkat lunak yang menjalankan aplikasi web dan mengirimkan konten ke pengguna melalui protokol HTTP. Web server bertindak sebagai penghubung antara klien (misalnya, browser web) dan backend aplikasi. Beberapa web server yang populer adalah Apache dan Nginx.
+
+#### 4. Database
+
+Database adalah tempat penyimpanan yang digunakan untuk menyimpan data yang diperlukan oleh aplikasi web. Database memungkinkan penyimpanan, pengambilan, dan pembaruan data dengan cara yang terstruktur. Beberapa jenis database yang umum digunakan adalah MySQL, PostgreSQL, MongoDB, dan SQLite.
+
 ### Membuat Aplikasi Mikroservice dengan Docker
 
- Untuk implementasi mikroservice dengan Docker kali ini, kita akan menggunakan aplikasi yang terdapat dalam folder [berikut](compose/). Selain itu, untuk implementasi kali ini kita juga akan menggunakan Docker Swarm dengan jumlah 4 node (1 manager node dan 3 worker node). Ada 2 opsi dalam penerapan Swarm.
+Ada 2 opsi yang bisa kita lakukan dalam penerapan Swarm.
 
  1. Menggunakan *cloud server* dengan jumlah instance yang sesuai.
  2. Menggunakan *virtual machine* dengan jumlah VM yang sesuai.
 
-Namun, harus ada pertimbangan untuk memilih kedua opsi diatas. Jika menggunakan opsi pertama, kita harus membayar sewa *cloud server*, dan jika kita menggunakan opsi kedua, maka kita harus memiliki device yang mumpuni, karena menjalankan lebih dari 1 VM bukanlah pekerjaan yang ringan. 
+Untuk implementasi mikroservice dengan Docker kali ini, kita akan menggunakan aplikasi yang terdapat dalam folder [berikut](compose/). Selain itu, untuk implementasi kali ini kita juga akan menggunakan Docker Swarm dengan jumlah 4 node (1 manager node dan 3 worker node). Secara umum, gambaran tentang Docker Swarm yang akan digunakan seperti berikut.
 
-Namun tidak perlu khawatir, ada solusi untuk hal ini yaitu menggunakan 1 VM yang digunakan sebagai worker node dan local machine sebagai manager node dengan sedikit penyesuaian di file `docker-compose.yaml` kita.
+![Arsitektur Swarm](img/swarm-arch.png)
+
+Untuk aplikasi yang akan menerapkan mikroservice terdiri dari 5 services, seperti gambar berikut.
+
+![Arsitektur App](img/app-arch.png)
+
+Pada gambar tersebut terdapat 5 services (`nginx-frontend`, `frontend`, `nginx-backend`, `backend`, dan `database`). `nginx-frontend` dan `nginx-backend` sama-sama bertugas sebagai web-server namun juga bisa dapat bertugan untuk mengatur lalu lintas jaringan. Alur aplikasinya sebagai berikut:
+
+1. Pada client side, client akan mengakses aplikasi kita menggunakan web browser masing-masing.
+2. Web browser akan meneruskan permintaan client ke server, selanjutnya akan diurus oleh server (client sudah tidak perlu melakukan apa-apa lagi).
+3. Pada server side, permintaan client akan diterima pertama kali oleh web server untuk `frontend` (`nginx-frontend`).
+4. Permintaan client pada `nginx-frontend`, akan dilanjutkan untuk mendapat resource dari service `frontend`.
+5. Jika halaman yang digunakan tidak memerlukan service dari `backend`, maka perjalanan permintaan client akan dikembalikan ke client. 
+6. Jika memerlukan service `backend` (misal perlu data dari `database`, seperti login dan register), maka permintaan akan diteruskan ke web server untuk `backend` (`nginx-backend`).
+7. Yang terakhir, `backend` akan berkomunikasi dengan `database` untuk memperoleh data dan akan dikembalikan hingga ke client.
 
 #### 1. Inisiasi Docker Swarm
 
@@ -260,8 +293,6 @@ docker swarm init --advertise-addr <ip-address-manager>
 Setelah itu, kita akan mendapatkan token beserta cara mengoneksikan worker node kita pada Docker Swarm yang sudah kita buat.
 
 ![Initiate Docker Swarm](img/docker-swarm-init.png)
-
-> Jika hanya menggunakan 1 node (hanya manager node), maka lewati langkah berikut.
 
 Kemudian masuk ke **worker node** dan jalankan perintah sesuai dengan yang ada pada saat kita menginisiasi Docker Swarm kita. Lakukan pada semua **worker node** yang ingin kita koneksikan.
 
@@ -399,7 +430,9 @@ Untuk mengecek aplikasi telah berjalan dengan sesuai atau tidak, kita dapat menj
 
 ![List running service](img/docker-service-ls.png)
 
-Selain itu, karena aplikasi kita berbasis web, kita juga dapat mengeceknya melalui web browser dengan memasukkan alamat IP manager 
+Selain itu, karena aplikasi kita berbasis web, kita juga dapat mengeceknya melalui web browser dengan memasukkan domain kita atau alamat IP manager.
+
+![Tampilan Aplikasi](img/app-login.png)
 
 ## Sumber Referensi
 - https://datacommcloud.co.id/microservices-adalah-perbedaan-monolithic-architecture/
