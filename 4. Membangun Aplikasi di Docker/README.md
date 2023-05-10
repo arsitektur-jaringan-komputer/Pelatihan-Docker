@@ -1,9 +1,9 @@
 # **Membangun Aplikasi di Docker**
 - [**Glosarium**](#glosarium)
 - [**Materi**](#materi)
-  - [Mikroservice](#mikroservice)
-    - [Pengertian Mikroservice](#pengertian-mikroservice)
-    - [Karakteristik Mikroservice](#karakteristik-mikroservice)
+  - [Microservice](#microservice)
+    - [Pengertian Microservice](#pengertian-microservice)
+    - [Karakteristik Microservice](#karakteristik-microservice)
     - [Inter-container communication](#inter-container-communication)
       - [Sockets](#sockets)
       - [Filesystem](#filesystem)
@@ -18,24 +18,24 @@
       - [Task](#task)
       - [Overlay Network](#overlay-network)
   - [Pengantar Aplikasi Web](#pengantar-aplikasi-web)
-  - [Membuat Aplikasi Mikroservice dengan Docker](#membuat-aplikasi-mikroservice-dengan-docker)
+  - [Membuat Aplikasi Microservice dengan Docker](#membuat-aplikasi-microservice-dengan-docker)
 - [**Sumber**](#sumber-referensi)
 
 
 ## Glosarium
 
 ## Materi
-### Mikroservice
-#### Pengertian Mikroservice
+### Microservice
+#### Pengertian Microservice
 Microservice adalah sebuah pendekatan arsitektur perangkat lunak untuk membangun sebuah aplikasi dengan memecahnya menjadi beberapa komponen kecil yang berdiri sendiri (independen) dan saling berkomunikasi melalui antarmuka yang terstandardisasi. Dalam arsitektur microservice, setiap komponen atau service memiliki tanggung jawab yang spesifik dan dijalankan secara independen dari komponen lainnya.
 
-![Aplikasi mikroservice](img/microservice.png)
+![Aplikasi microservice](img/microservice.png)
 
 Secara umum, arsitektur microservice menawarkan beberapa keuntungan, seperti memudahkan skalabilitas, mempercepat waktu deployment dan pengembangan, serta memudahkan untuk memperbaiki atau meng-upgrade aplikasi. Hal ini disebabkan karena setiap service dapat dikembangkan, di-deploy, dan di-maintain secara terpisah tanpa mempengaruhi service lainnya.
 
 Namun, di sisi lain, menggunakan arsitektur microservice juga memiliki beberapa tantangan, seperti pengelolaan service yang lebih kompleks dan koordinasi antar service yang harus dilakukan secara hati-hati. Oleh karena itu, pemilihan arsitektur yang tepat harus dipertimbangkan berdasarkan kebutuhan bisnis dan teknologi yang digunakan.
 
-#### Karakteristik Mikroservice
+#### Karakteristik Microservice
 
 - Autonomous
 Salah satu karakteristik penting dari aplikasi microservice adalah keberadaan setiap komponen atau layanan yang dapat beroperasi secara independen. Dengan arsitektur microservice, setiap komponen dapat dikembangkan, di-deploy, di-operasikan, dan diskalakan tanpa mempengaruhi komponen atau layanan lain. Dengan kata lain, setiap komponen dapat berjalan seperti sistem yang mandiri, dan jika terjadi masalah pada salah satu komponen, hanya layanan tersebut yang akan terpengaruh.
@@ -87,7 +87,7 @@ Inter-container communication dengan database records mengacu pada kemampuan con
 
 Dalam aplikasi yang terdiri dari beberapa container, terdapat kemungkinan beberapa container memerlukan akses ke data yang sama di database. Misalnya, aplikasi e-commerce dengan container untuk web front-end, container untuk pengelolaan persediaan, dan container untuk pemrosesan pembayaran. Semua container ini perlu akses ke database yang sama untuk mengambil data produk, informasi persediaan, dan transaksi pembayaran.
 
-Untuk mengimplementasikan inter-container communication dengan database records, kita dapat menggunakan berbagai teknologi dan bahasa pemrograman seperti Python, Java, atau Node.js. Salah satu contoh teknologi yang populer dalam inter-container communication dengan database records adalah ORM (Object-Relational Mapping) seperti Hibernate, Sequelize, atau SQLAlchemy. ORM memungkinkan kita untuk memetakan objek dalam aplikasi ke struktur tabel dalam database dan memungkinkan container untuk mengakses data yang sama dari database yang sama.
+Pengimplementasian inter-container communication dengan database records dapat menggunakan berbagai teknologi dan bahasa pemrograman seperti Python, Java, atau Node.js. Salah satu contoh teknologi yang populer dalam inter-container communication dengan database records adalah ORM (Object-Relational Mapping) seperti Hibernate, Sequelize, atau SQLAlchemy. ORM memungkinkan untuk memetakan objek dalam aplikasi ke struktur tabel dalam database dan memungkinkan container untuk mengakses data yang sama dari database yang sama.
 
 Beberapa keunggulan dari mekanisme database record pada inter-container communication pada aplikasi microservice adalah sebagai berikut:
 
@@ -169,7 +169,7 @@ Penggunaan perintah `docker node promote` dan `docker node demote` dapat membant
 
 Dalam konfigurasi default Docker Swarm, semua manager node juga termasuk ke worker node dan setiap node secara otomatis diatur untuk bergabung dengan cluster saat Docker Engine dijalankan dan menghubungkan ke manager node. Dalam Docker Swarm, setiap node dapat diatur untuk berkomunikasi dengan node lainnya melalui jaringan overlay Docker, sehingga container dan layanan yang dijalankan pada node-node tersebut dapat saling berkomunikasi dan berinteraksi dengan lancar.
 
-Untuk melihat semua node yang terdapat dalam Docker Swarm, kita dapat menggunakan perintah `docker node ls`
+Untuk melihat semua node yang terdapat dalam Docker Swarm, dapat menggunakan perintah `docker node ls`
 
 ![Contoh node](img/docker-swarm-ls.png)
 
@@ -186,7 +186,7 @@ Untuk mengubah konfigurasi dari sebuah service yang sedang berjalan dapat menggu
 
 Dalam Docker Swarm, service sangat berguna untuk memudahkan pengelolaan aplikasi yang berjalan dalam klaster. Dengan menggunakan service tidak perlu lagi memikirkan tentang detail teknis dari container-container yang berjalan pada node-node dalam klaster, sehingga dapat fokus pada pengembangan aplikasi dan fungsionalitasnya.
 
-Untuk melihat semua service yang sedang berjalan dalam Docker Swarm, kita dapat menggunakan perintah `docker service ls`
+Untuk melihat semua service yang sedang berjalan dalam Docker Swarm, dapat menggunakan perintah `docker service ls`
 
 ![Contoh service](img/docker-service-ls.png)
 
@@ -257,24 +257,24 @@ Web server adalah perangkat lunak yang menjalankan aplikasi web dan mengirimkan 
 
 Database adalah tempat penyimpanan yang digunakan untuk menyimpan data yang diperlukan oleh aplikasi web. Database memungkinkan penyimpanan, pengambilan, dan pembaruan data dengan cara yang terstruktur. Beberapa jenis database yang umum digunakan adalah MySQL, PostgreSQL, MongoDB, dan SQLite.
 
-### Membuat Aplikasi Mikroservice dengan Docker
+### Membuat Aplikasi Microservice dengan Docker
 
-Ada 2 opsi yang bisa kita lakukan dalam penerapan Swarm.
+Ada 2 opsi yang dilakukan dalam penerapan Docker Swarm.
 
  1. Menggunakan *cloud server* dengan jumlah instance yang sesuai.
  2. Menggunakan *virtual machine* dengan jumlah VM yang sesuai.
 
-Untuk implementasi mikroservice dengan Docker kali ini, kita akan menggunakan aplikasi yang terdapat dalam folder [berikut](compose/). Selain itu, untuk implementasi kali ini kita juga akan menggunakan Docker Swarm dengan jumlah 4 node (1 manager node dan 3 worker node). Secara umum, gambaran tentang Docker Swarm yang akan digunakan seperti berikut.
+Untuk implementasi microservice dengan Docker kali ini akan menggunakan aplikasi yang terdapat dalam folder [berikut](compose/). Selain itu, untuk implementasi kali ini juga akan menggunakan Docker Swarm dengan jumlah 4 node (1 manager node dan 3 worker node). Secara umum, gambaran tentang Docker Swarm yang akan digunakan seperti berikut.
 
 ![Arsitektur Swarm](img/swarm-arch.png)
 
-Untuk aplikasi yang akan menerapkan mikroservice terdiri dari 5 services, seperti gambar berikut.
+Untuk aplikasi yang akan menerapkan microservice terdiri dari 5 services, seperti gambar berikut.
 
 ![Arsitektur App](img/app-arch.png)
 
 Pada gambar tersebut terdapat 5 services (`nginx-frontend`, `frontend`, `nginx-backend`, `backend`, dan `database`). `nginx-frontend` dan `nginx-backend` sama-sama bertugas sebagai web-server namun juga bisa dapat bertugan untuk mengatur lalu lintas jaringan. Alur aplikasinya sebagai berikut:
 
-1. Pada client side, client akan mengakses aplikasi kita menggunakan web browser masing-masing.
+1. Pada client side, client akan mengakses aplikasi menggunakan web browser masing-masing.
 2. Web browser akan meneruskan permintaan client ke server, selanjutnya akan diurus oleh server (client sudah tidak perlu melakukan apa-apa lagi).
 3. Pada server side, permintaan client akan diterima pertama kali oleh web server untuk `frontend` (`nginx-frontend`).
 4. Permintaan client pada `nginx-frontend`, akan dilanjutkan untuk mendapat resource dari service `frontend`.
@@ -290,11 +290,11 @@ Untuk menginisiasi Docker Swarm, pada **manager node** jalankan perintah berikut
 docker swarm init --advertise-addr <ip-address-manager>
 ```
 
-Setelah itu, kita akan mendapatkan token beserta cara mengoneksikan worker node kita pada Docker Swarm yang sudah kita buat.
+Setelah itu, **manager node** akan memberikan token beserta cara mengoneksikan **worker node** pada Docker Swarm yang sudah dibuat.
 
 ![Initiate Docker Swarm](img/docker-swarm-init.png)
 
-Kemudian masuk ke **worker node** dan jalankan perintah sesuai dengan yang ada pada saat kita menginisiasi Docker Swarm kita. Lakukan pada semua **worker node** yang ingin kita koneksikan.
+Kemudian masuk ke **worker node** dan jalankan perintah sesuai dengan yang ada diberikan oleh **manager node**. Lakukan pada semua **worker node** yang ingin dikoneksikan.
 
 ```
 docker swarm join --token <swarm-token> <ip-address-manager>:<port-manager>
@@ -304,38 +304,37 @@ docker swarm join --token <swarm-token> <ip-address-manager>:<port-manager>
 
 #### 2. Download Resource Aplikasi
 
-Kita dapat menggunakan aplikasi yang tersedia pada folder [compose](compose) di repository ini dengan melakukan cloning (hanya perlu melakukan cloning pada **manager node**).
+Implementasi microservice kali ini menggunakan aplikasi yang tersedia pada folder [compose](compose) di repository ini dengan melakukan cloning 
+
+> hanya perlu melakukan cloning pada **manager node**.
 
 ```
 git clone https://github.com/arsitektur-jaringan-komputer/Pelatihan-Docker.git
 ```
 
-Lalu masuk ke directory `Pelatihan Docker/4. Membangun Aplikasi di Docker/compose/` dan kita siap untuk mengimplementasikan Docker.
+Lalu masuk ke directory `Pelatihan Docker/4. Membangun Aplikasi di Docker/compose/` dan aplikasi siap untuk diimplementasikan.
 
 #### 3. Konfigurasi File Nginx
 
 > Jika tidak memiliki domain name atau tidak ingin mengonfigurasikan domain name ke aplikasi, maka langkah ini bisa dilewati dan bisa langsung ke langkah [4. Konfigurasi File Environment](#4-konfigurasi-file-environment)
 
-Pada folder `nginx/` terdapat 2 file, `nginx-frontend.conf` dan `nginx-backend.conf` yang perlu dikonfigurasi. Caranya cukup mudah, yaitu mengganti nilai `server_name` dari `localhost` ke domain name masing-masing
+Pada folder `nginx/` terdapat 2 file, `nginx-frontend.conf` dan `nginx-backend.conf` yang perlu dikonfigurasi. Caranya dengan mengganti nilai `server_name` dari `localhost` ke domain name masing-masing
 
 ![Nginx conf](img/nginx-conf.png)
 
 #### 4. Konfigurasi File Environment
 
-Pada folder `frontend/` kita harus mengonfigurasi file `.env` yang secara default, tidak ada dalam repository ini. Kita dapat memanfaatkaan template yang sudah disediakan pada file `.env.example`. Yang perlu kita lakukan adalah menyalin file tersebut dan mengubah nilai nya sesuai yang kita inginkan. Perintah untuk menyalin file `.env.example` ke file `.env` adalah sebagai berikut.
+> Jika dideploy pada **manager node** yang terdapat pada localhost, maka lewati langkah berikut dan bisa langsung ke langkah [5. Menyiapkan Docker Registry](#5-menyiapkan-docker-registry)
+
+Pada folder `frontend/` terdapat file `.env` yang perlu dikonfigurasi. Yang perlu dilakukan adalah mengubah nilai nya sesuai yang diinginkan.
 
 ```
-cp .env.example .env
-```
-
-Yang perlu kita ubah nilainya adalah `NEXT_PUBLIC_API_ENDPOINT`, sedangkan `NEXT_PUBLIC_APP_NAME` bisa kita biarkan (jika ingin diganti dengan nama aplikasi yang diinginkan juga tidak masalah). 
-
-```
-NEXT_PUBLIC_APP_NAME="Music"
+NEXT_PUBLIC_APP_NAME="<nama-aplikasi>"
 NEXT_PUBLIC_API_ENDPOINT="http://<alamat-nginx-backend>/" 
 ```
 
-> `alamat-nginx-backend` dapat diisi dengan domain name masing-masing atau bisa juga diisi dengan IP public manager node.
+* `NEXT_PUBLIC_APP_NAME`: Nama dari aplikasi yang akan ditampilkan di Frontned
+* `NEXT_PUBLIC_API_ENDPOINT`: Alamat dari web server untuk `backend`, dapat diisi dengan domain name atau IP publick **manager node**
 
 #### 5. Menyiapkan Docker Registry
 
@@ -357,9 +356,9 @@ Setelah itu konfigurasi setiap node agar dapat mengakses registry pada jaringan 
 
 #### 6. Menyiapkan NFS pada Manager Node
 
-Masih ingatkah kalian dengan materi Network File System (NFS) pada [Modul 3](https://github.com/arsitektur-jaringan-komputer/Pelatihan-Docker/tree/master/3.%20Docker%20Service%20Lanjutan). Penggunaan NFS pada docker swarm sangatlah penting, khususnya agar ketika men-deploy ulang aplikasi kita, isi dari database tidak hilang. Selain itu ketika kita memiliki lebih dari 1 sistem database, maka dapat dipastikan bahwa isinya sama.
+Masih ingatkah kalian dengan materi Network File System (NFS) pada [Modul 3](https://github.com/arsitektur-jaringan-komputer/Pelatihan-Docker/tree/master/3.%20Docker%20Service%20Lanjutan). Penggunaan NFS pada docker swarm sangatlah penting, khususnya agar ketika aplikasi dideploy ulang, isi dari database tidak hilang. Selain itu ketika memiliki lebih dari 1 sistem database, maka dapat dipastikan bahwa isinya sama.
 
-Untuk menggunakan NFS, kita perlu menginstall `nfs-kernel-server` dengan menjalankan perintah berikut.
+Untuk menggunakan NFS, perlu menginstall `nfs-kernel-server` dengan menjalankan perintah berikut.
 
 ```
 sudo apt install nfs-kernel-server
@@ -384,13 +383,13 @@ Selanjutnya, jalankan perintah `sudo exportfs -ra` untuk merestart `exportfs`.
 
 #### 7. Melakukan Build dan Push Images ke Registry
 
-Pada file `docker-compose.yaml`, kita harus mengganti `<ip-manager>` menjadi alamat IP manager yang sebenarnya (ex. `localhost`). Selain itu, juga terdapat bagian `build` yang akan kita gunakan untuk mem-*build* images dengan `Dockerfile` yang telah disediakan pada masing-masing images. Yang perlu kita lakukan untuk mem-*build* images adalah dengan menjalankan perintah berikut.
+Pada file `docker-compose.yaml`, `<ip-manager>` harus diganti menjadi alamat IP manager yang sebenarnya (ex. `localhost`). Selain itu, juga terdapat bagian `build` yang akan digunakan untuk mem-*build* images dengan `Dockerfile` yang telah disediakan pada masing-masing images. Yang perlu dilakukan untuk mem-*build* images adalah dengan menjalankan perintah berikut.
 
 ```
 docker compose build
 ```
 
-Setelah proses build selesai, kita bisa memastikan bahwa semua images telah ter-*build* dengan menjalankan perintah berikut (total akan ada 5 images untuk service kita dan 1 image registry pada aplikasi ini).
+Setelah proses build selesai, semua images dapat dipastikan telah ter-*build* dengan menjalankan perintah berikut (total akan ada 5 images untuk service dan 1 image registry pada aplikasi ini).
 
 ```
 docker images
@@ -398,7 +397,7 @@ docker images
 
 ![Docker images](img/docker-images.png)
 
-Setelah semua images dipastikan telah ter-*build*, selanjutnya kita akan mem-*push* images kita ke dalam Docker Registry dengan melakukan perintah berikut.
+Setelah semua images dipastikan telah ter-*build*, selanjutnya adalah melakukan *push* images ke dalam Docker Registry dengan melakukan perintah berikut.
 
 ```
 docker push <ip-manager>:4000/frontend
@@ -408,7 +407,7 @@ docker push <ip-manager>:4000/nginx-frontend
 docker push <ip-manager>:4000/nginx-backend
 ```
 
-Untuk melihat images yang ada pada Docker Registry, kita dapat menjalankan perintah berikut.
+Untuk melihat images yang ada pada Docker Registry, dapat menjalankan perintah berikut.
 
 ```
 curl -X GET http://<ip-manager>:4000/v2/_catalog | json_pp
@@ -418,19 +417,19 @@ curl -X GET http://<ip-manager>:4000/v2/_catalog | json_pp
 
 #### 8. Membuat Stack pada Docker Swarm
 
-Apa itu Docker Stack? Docker Stack ada sekelompok machine yang tersebar di seluruh Docker Swarm serta berjalan pada Docker Daemon. Pada implementasi kali ini, kita akan membuat Docker Stack bernama `musicapp` yang akan dideploy menggunakan konfigurasi pada `docker-compose.yaml`. Untuk membuat stack pada Docker, kita dapat menjalankan perintah berikut.
+Apa itu Docker Stack? Docker Stack ada sekelompok machine yang tersebar di seluruh Docker Swarm serta berjalan pada Docker Daemon. Pada implementasi kali ini, akan dibuat Docker Stack bernama `musicapp` yang akan dideploy menggunakan konfigurasi pada `docker-compose.yaml`. Untuk membuat stack pada Docker, dapat menjalankan perintah berikut.
 
 ```
-docker stack deploy -c docker-compose.yaml <nama-stack>
+docker stack deploy -c <path-ke-docker-compose> <nama-stack>
 ```
 
 #### 9. Cek Aplikasi
 
-Untuk mengecek aplikasi telah berjalan dengan sesuai atau tidak, kita dapat menjalankan perintah `docker service ls` lalu pastikan bahwa semua service telah ter-replika dengan sempurna (jumlah replika saat ini sama dengan jumlah replika yang telah kita sesuaikan pada `docker-compose.yaml`)
+Untuk mengecek aplikasi telah berjalan dengan sesuai atau tidak, dapat menjalankan perintah `docker stack services <nama-stack>` lalu pastikan bahwa semua service telah ter-replika dengan sempurna (jumlah replika saat ini sama dengan jumlah replika yang telah disesuaikan pada `docker-compose.yaml`)
 
-![List running service](img/docker-service-ls.png)
+![List running service](img/docker-stack-services.png)
 
-Selain itu, karena aplikasi kita berbasis web, kita juga dapat mengeceknya melalui web browser dengan memasukkan domain kita atau alamat IP manager.
+Selain itu, karena aplikasi ini berbasis web, aplikasi dapat dicek melalui web browser dengan memasukkan domain atau alamat IP manager.
 
 ![Tampilan Aplikasi](img/app-login.png)
 
