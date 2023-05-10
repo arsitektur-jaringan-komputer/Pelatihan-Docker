@@ -513,15 +513,31 @@ Melakukan konfigurasi pada container untuk menggunakan unprivileged user adalah 
 1. Saat runtime, gunakan flag -u pada command docker run :
 
     ```bash
-    docker run -u 4000 alpine
+    docker run -u <user_id>:<group_id> -d -i -t alpine /bin/sh
     ```
 
 2. Saat build time. Tambahkan user baru pada Dockerfile
 
     ```docker
-    FROM alpine
-    RUN groupadd -r myuser && useradd -r -g myuser myuser
-    <HERE DO WHAT YOU HAVE TO DO AS A ROOT USER LIKE INSTALLING PACKAGES ETC.>
+    FROM node:14
+    WORKDIR /usr/src/backend
+
+    COPY package*.json ./
+
+    # add new group mygroup and new user myuser to container
+    RUN groupadd -r mygroup && useradd -r -g mygroup myuser
+
+    RUN npm install --production
+    RUN apt-get update && \
+        apt-get install -y net-tools postgresql-client
+
+    COPY . .
+
+    EXPOSE 5000
+
+    CMD [ "npm", "run", "start-prod", "--", "0.0.0.0" ]
+
+    # Set container user
     USER myuser
     ```
 
