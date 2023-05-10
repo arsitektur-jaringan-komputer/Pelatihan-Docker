@@ -623,11 +623,11 @@ NETWORK ID          NAME                DRIVER              SCOPE
 475a3b8f04de        docker_gwbridge     bridge              local
 f94f673bfe7e        host                host                local
 3ecc06xxyb7d        ingress             overlay             swarm
-xt3jwgsq20ob        net1                overlay             swarm             swarm
+xt3jwgsq20ob        net1                overlay             swarm
 b535831c780f        none                null                local
 ```
 
-1. Jalankan perintah docker network ls pada node2 (worker node)
+2. Jalankan perintah docker network ls pada node2 (worker node)
 
 ```docker
 node2$ docker network ls
@@ -647,7 +647,7 @@ Pada list diatas, network net1 tidak terlihat di node2 (worker node). Ini membuk
 
 ```bash
 $ docker service create --name service1 \
---network=net2 --replicas=4 \
+--network=net1 --replicas=4 \
 alpine:latest sleep 1d
 
 ivfei61h3jvypuj7v0443ow84
@@ -670,11 +670,11 @@ abe97d2963b3        bridge              bridge              local
 42295053cd72        docker_gwbridge     bridge              local
 ad4f60192aa0        host                host                local
 3ecc06xxyb7d        ingress             overlay             swarm
-uaaw8ljwidoc        net2                overlay             swarm
+uaaw8ljwidoc        net1                overlay             swarm
 1a85d1a0721f        none                null                local
 ```
 
-Network net2 sekarang terlihat di node2. Hal ini karena node2 sedang menjalankan task service1 yang menggunakan network net2.
+Network net1 sekarang terlihat di node2. Hal ini karena node2 sedang menjalankan task service1 yang menggunakan network net2.
 
 ## Manajemen Data dan Konfigurasi
 
