@@ -1,40 +1,72 @@
 # **Docker Service Lanjutan**
-- [**Glosarium**](#glosarium)
-- [**Materi**](#materi)
-  - [Docker Compose](#docker-compose)
-    - [Pengertian Docker Compose](#pengertian-docker-compose)
-    - [Contoh Implementasi Docker Compose](#contoh-implementasi-docker-compose)
-    - [Depend On Docker Compose](#depend-on-docker-compose)
-    - [Inheritance di Docker Compose](#inheritance-di-docker-compose)
-    - [Mengelola Docker Compose](#mengelola-docker-compose)
-  - [Docker Data Management](#docker-data-management)
-    - [Pengenalan Docker Data Management](#pengenalan-docker-data-management)
-    - [Jenis-Jenis Docker Mount](#jenis-jenis-docker-mount)
-      - [Volume](#volume)
-      - [Bind Mount](#bind-mount)
-      - [tmpfs Mount](#tmpfs-mount)
-    - [Network File System](#network-file-system)
-  - [Docker Networking](#docker-networking)
-    - [Pengenalan Docker Networking](#pengenalan-docker-networking)
-    - [Konsep Dasar di Docker Networking](#konsep-dasar-di-docker-networking)
-      - [Docker Network Driver](#docker-network-driver)
-      - [IP Address Management](#ip-address-management)
-      - [DNS Name Resolution](#dns-name-resolution)
-      - [Port Mapping](#port-mapping)
-    - [Jenis-Jenis Docker Network Driver](#jenis-jenis-docker-network-driver)
-      - [bridge Network](#bridge-network)
-      - [host Network](#host-network)
-      - [overlay Network](#overlay-network)
-      - [ipvlan Network](#ipvlan-network)
-      - [macvlan Network](#macvlan-network)
-      - [Network plugins](#network-plugins)
-    - [Mengelola Docker Networking di Docker Compose](#mengelola-docker-networking-di-docker-compose)
-  
-- [**Sumber Referensi**](#sumber-referensi)
+
+Di materi sebelumnya, telah dipelajari beberapa *command* dari Docker yang penting untuk diketahui. Sebelum lanjut pada materi yang berfokus pada implementasi, terlebih dahulu kita masuk pada materi ketiga berikut ini.
+
+- [**Docker Service Lanjutan**](#docker-service-lanjutan)
+  - [Glosarium](#glosarium)
+  - [Materi](#materi)
+    - [Docker Compose](#docker-compose)
+      - [Pengertian Docker Compose](#pengertian-docker-compose)
+      - [Contoh Implementasi Docker Compose](#contoh-implementasi-docker-compose)
+      - [Depend On Docker Compose](#depend-on-docker-compose)
+      - [Inheritance di Docker Compose](#inheritance-di-docker-compose)
+      - [Mengelola Docker Compose](#mengelola-docker-compose)
+    - [Docker Data Management](#docker-data-management)
+      - [Pengenalan Docker Data Management](#pengenalan-docker-data-management)
+      - [Jenis-Jenis Docker Mount](#jenis-jenis-docker-mount)
+        - [Volume](#volume)
+        - [Bind Mount](#bind-mount)
+        - [tmpfs Mount](#tmpfs-mount)
+      - [Network File System](#network-file-system)
+    - [Docker Networking](#docker-networking)
+      - [Pengenalan Docker Networking](#pengenalan-docker-networking)
+      - [Konsep Dasar di Docker Networking](#konsep-dasar-di-docker-networking)
+        - [Docker Network Driver](#docker-network-driver)
+        - [IP Address Management](#ip-address-management)
+        - [DNS Name Resolution](#dns-name-resolution)
+        - [Port mapping](#port-mapping)
+      - [Jenis-Jenis Docker Network Driver](#jenis-jenis-docker-network-driver)
+        - [bridge Network](#bridge-network)
+        - [host Network](#host-network)
+        - [overlay Network](#overlay-network)
+        - [ipvlan Network](#ipvlan-network)
+        - [macvlan Network](#macvlan-network)
+        - [Network plugins](#network-plugins)
+      - [Mengelola Docker Networking di Docker Compose](#mengelola-docker-networking-di-docker-compose)
+  - [Sumber Referensi](#sumber-referensi)
 
 
 ## Glosarium
+<details>
+  <summary>Daftar Istilah Glosarium</summary>
 
+| Istilah           | Deskripsi |
+|-------------------|-----------|
+| Alamat MAC       | Alamat MAC merupakan sebuah alamat fisik pada jaringan komputer yang terdiri dari 6 *byte* atau 48 *bit*. Alamat MAC digunakan untuk mengidentifikasi setiap perangkat yang terhubung pada jaringan, sehingga memungkinkan komunikasi antar perangkat. |
+| Alamat IP        | Alamat IP adalah alamat unik yang diberikan pada setiap perangkat yang terhubung ke jaringan komputer. Alamat IP terdiri dari serangkaian angka, yang dibagi menjadi beberapa segmen. Ada dua jenis alamat IP, yaitu IPv4 dan IPv6. |
+| Bridge Network    | Bridge Network adalah sebuah jaringan virtual yang memungkinkan komunikasi antara beberapa *container* atau antara *container* dan *host*. Bridge Network dapat diatur menggunakan *driver* yang berbeda, dan setiap *container* akan memiliki alamat IP sendiri-sendiri pada jaringan tersebut. |
+| Cluster           | *Cluster* adalah kumpulan beberapa host yang bekerja sama untuk menjalankan aplikasi. Dalam konteks Docker, *cluster* dapat digunakan untuk mengelola *container* pada beberapa *host* secara bersamaan. |
+| Compose           | Docker Compose adalah sebuah *tool* yang digunakan untuk mendefinisikan, menjalankan, dan mengelola aplikasi multi-*container* dengan Docker. Compose memungkinkan kita untuk mendefinisikan semua konfigurasi aplikasi dalam sebuah *file* YAML, sehingga memudahkan pengguna untuk mengelola dan melakukan *deployment* aplikasi dengan Docker. |
+| Container         | *Container* adalah sebuah unit perangkat lunak yang berisi semua yang diperlukan untuk menjalankan sebuah aplikasi. *Container* berjalan di atas Docker Engine, dan memiliki sistem file yang terisolasi serta sumber daya (seperti CPU, memori, dan jaringan) yang terisolasi. *Container* sangat ringan dan portabel, sehingga memungkinkan aplikasi dapat dijalankan di mana saja. |
+| Data Management   | Data Management dalam konteks Docker merujuk pada cara pengelolaan data yang digunakan oleh *container*, seperti *persistent* *storage* dan *backup*. Data Management yang baik sangat penting untuk menghindari kehilangan data dan memastikan keandalan dan kesinambungan aplikasi. |
+| Driver            | *Driver* dalam konteks Docker merujuk pada komponen yang digunakan untuk mengatur komunikasi antara Docker Engine dan sistem penyimpanan. *Driver* dapat diatur untuk berbagai jenis sistem penyimpanan, seperti *file* *system* lokal, Amazon S3, dan lain-lain. |                                             
+| Environment       | *Environment* dalam konteks Docker merujuk pada variabel lingkungan yang didefinisikan untuk sebuah *container* atau aplikasi. Variabel lingkungan ini dapat digunakan untuk konfigurasi aplikasi, seperti konfigurasi *database* dan koneksi ke *server* lain. |
+| Host Machine      | *Host* *Machine* adalah mesin fisik di mana Docker Engine di-*instal* dan berjalan. Host Machine dapat berupa laptop, desktop, atau *server*. |
+| Interface Virtual | Virtual *Interface* adalah sebuah *interface* jaringan virtual yang digunakan oleh *container* untuk terhubung ke jaringan *host* atau ke jaringan lain. *Interface* virtual memungkinkan *container* untuk berkomunikasi dengan *host* atau *container* lain, dengan menggunakan alamat IP yang terpisah dari alamat IP host. |
+| Image             | *Image* adalah sebuah *template* atau *blueprints* untuk membuat *container*. Image berisi semua yang diperlukan untuk menjalankan sebuah aplikasi, seperti kode aplikasi, dependensi, dan konfigurasi. *Image* dapat diunduh dari Docker Hub atau dibuat secara lokal menggunakan Dockerfile. |
+| Mount             | *Mount* adalah cara untuk menghubungkan sebuah volume ke dalam sebuah *container*, sehingga memungkinkan *container* untuk mengakses dan memodifikasi data di volume tersebut. *Mount* dapat dilakukan secara *read*-*only* atau *read*-*write*. |
+| Network Host      | Network Host adalah mode jaringan di mana *container* menggunakan jaringan *host* yang sama dengan *host* *machine*. Dalam mode ini, *container* tidak akan memiliki alamat IP sendiri, sehingga dapat mengakses aplikasi yang berjalan pada *host* *machine*. |
+| Overlay Network   | Overlay Network adalah sebuah jaringan virtual yang memungkinkan komunikasi antara beberapa *host*. Overlay Network digunakan untuk menghubungkan beberapa *container* pada beberapa *host* yang berbeda. Setiap *container* pada *overlay* *network* akan memiliki alamat IP yang unik. |
+| Port              | *Port* adalah alamat yang digunakan untuk mengirim dan menerima data melalui jaringan. Setiap aplikasi atau layanan pada sebuah *host* dapat diakses melalui *port* tertentu. |
+| Port Mapping      | Port Mapping adalah proses untuk memetakan *port* pada *host* *machine* ke *port* pada *container*. Port Mapping digunakan untuk mengakses aplikasi yang berjalan di dalam container dari luar *host* *machine*. |
+| Routing           | *Routing* adalah proses mengarahkan lalu lintas jaringan dari satu jaringan ke jaringan lain. Dalam konteks Docker, *routing* digunakan untuk mengarahkan lalu lintas jaringan antara *container* yang berbeda dalam sebuah *overlay* *network*. |
+| Standalone        | *Standalone* adalah sebuah *container* yang berjalan sendiri, tanpa terhubung ke *container* lain atau ke jaringan. *Standalone* *container* dapat diakses melalui *port* yang di-*expose*. |
+| Subnet            | *Subnet* adalah jaringan kecil yang terdiri dari sekelompok alamat IP yang sama. Dalam konteks Docker, *subnet* digunakan untuk mengatur jaringan antara *container* pada sebuah *overlay* *network*. Setiap *subnet* memiliki rentang alamat IP yang unik. |
+| Topologi Jaringan | Topologi Jaringan adalah cara di mana komponen-komponen jaringan saling terhubung dan berinteraksi. Dalam konteks Docker, topologi jaringan digunakan untuk mengatur bagaimana *container* saling terhubung dalam sebuah *overlay* *network*. Topologi jaringan dapat berupa *tree*, *star*, *mesh*, atau jenis topologi jaringan lainnya. |
+| Volume            | Volume adalah tempat untuk menyimpan dan mengelola data di dalam *container*. Volume digunakan untuk menyimpan data yang ingin dijaga persisten dan tidak ingin hilang saat container dihapus atau dimulai ulang. Volume dapat digunakan untuk menghubungkan data di *host* *machine* ke dalam *container* atau antara beberapa *container*. |
+
+</details>
+  
 ## Materi
 ### Docker Compose
 #### Pengertian Docker Compose
@@ -42,6 +74,8 @@
 Docker Compose adalah sebuah alat atau tool untuk mengelola dan menjalankan aplikasi yang terdiri dari satu atau beberapa container. Docker Compose memungkinkan untuk mendefinisikan, mengonfigurasi, dan menjalankan beberapa Docker Container sekaligus dengan menggunakan file konfigurasi YAML yang sederhana.
 
 Docker Compose juga dapat menentukan Docker Image untuk setiap Docker Container, mengatur pengaturan jaringan, menentukan volume yang dibutuhkan, dan melakukan konfigurasi lainnya dalam satu file konfigurasi. Selain itu, Docker Compose juga memudahkan proses pengaturan dan penyebaran aplikasi pada lingkungan produksi atau development yang berbeda dengan cara yang konsisten.
+
+> Baca juga: [***A Docker Analogy***](https://davidtruxall.com/a-docker-analogy/)
 
 Dalam pengembangan perangkat lunak modern, aplikasi terdiri dari banyak komponen yang dapat dijalankan secara terpisah dan berinteraksi satu sama lain melalui jaringan. Dalam hal ini, Docker Compose menjadi alat yang sangat berguna untuk mengatur aplikasi tersebut dengan menggunakan Docker Container, sehingga memudahkan proses pengembangan, pengujian, dan penyebaran aplikasi yang kompleks.
 
