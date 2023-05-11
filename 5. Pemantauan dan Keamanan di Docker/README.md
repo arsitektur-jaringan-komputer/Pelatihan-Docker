@@ -390,7 +390,7 @@ Berikut diagram implementasi Docker Monitoring
     ```
     Dari command diatas **`docker stack`** akan menggunakan file **`docker-compose.yml`** untuk mendeploy service yang telah didefinisikan sebagai sebuah stack.
 
-    ![stack_deploy](img/stack_deploy.png)
+    <img src="img/stack_deploy.png" alt="Deploy Stack" style="width:100%;">
 
 4. Cek semua service
 
@@ -593,7 +593,7 @@ Semua overlay network pada Docker memiliki control plane traffic yang terenkrips
     475a3b8f04de        docker_gwbridge     bridge              local
     f94f673bfe7e        host                host                local
     3ecc06xxyb7d        ingress             overlay             swarm
-    xt3jwgsq20ob        net1                overlay             swarm             swarm
+    xt3jwgsq20ob        net1                overlay             swarm
     b535831c780f        none                null                local
     ```
 
@@ -644,7 +644,7 @@ Pada list diatas, network net1 tidak terlihat di node2 (worker node). Ini membuk
     1a85d1a0721f        none                null                local
     ```
 
-Network net2 sekarang terlihat di node2. Hal ini karena node2 sedang menjalankan task service1 yang menggunakan network net2.
+    Network net2 sekarang terlihat di node2. Hal ini karena node2 sedang menjalankan task service1 yang menggunakan network net2.
 
 #### Manajemen Data dan Konfigurasi
 
@@ -678,7 +678,7 @@ Beberapa cara yang biasanya dilakukan untuk meyimpan secrets :
 
 2. Melakukan embed secret ke Docker Images
 
-    JIka secret dilakukan embed ke Docker Images, hal ini membuat Images tersebut bergantung pada file eksternal sehingga merusak prinsip reusability.
+    Jika secret dilakukan embed ke Docker Images, hal ini membuat Images tersebut bergantung pada file eksternal sehingga merusak prinsip reusability.
 
 3. Menyimpan secret ke Environment Variable.
 
@@ -724,7 +724,7 @@ Beberapa cara diatas memiliki potensi untuk membahayakan kemanan sistem. Docker 
     ```yaml
     version: "3.9"
     services:
-    	db:
+      db:
          image: mysql:latest
          volumes:
            - db_data:/var/lib/mysql
@@ -736,7 +736,7 @@ Beberapa cara diatas memiliki potensi untuk membahayakan kemanan sistem. Docker 
          secrets:
            - my_secret
            - db_password
-    	wordpress:
+      wordpress:
          depends_on:
            - db
          image: wordpress:latest

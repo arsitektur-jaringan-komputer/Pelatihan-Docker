@@ -150,7 +150,7 @@ Berikut adalah beberapa perintah penting untuk mengelola Docker Compose beserta 
 | Perintah | Deskripsi |
 | --- | --- |
 |`up` | Membuat dan memulai container sesuai dengan konfigurasi di dalam file Docker Compose. |
-|`up -d` |	Sama seperti docker-compose up, tetapi menjalankan container di background (detached mode). Sehingga proses docker compose tidak ditampilkan diterminal. |
+|`up -d` |	Sama seperti docker-compose up, tetapi menjalankan container di background (detached mode). Sehingga proses docker compose tidak ditampilkan di terminal. |
 |`down`	| Menghentikan dan menghapus container yang dihasilkan oleh docker-compose up. |
 |`build` |	Membuat image untuk service yang didefinisikan di dalam konfigurasi Docker Compose. |
 |`start` | Menjalankan container yang sudah dibuat. |
@@ -243,7 +243,7 @@ nginx:latest
 - ##### Meng-Inspect Docker Volume
 Untuk melihat detail dari Docker Volume yang sudah dibuat, gunakan perintah **`docker volume inspect`**. Contoh sintaks perintahnya adalah sebagai berikut: **`docker volume inspect <nama_volume>`**
 ```
-docker volumen inspect test-volume
+docker volume inspect test-volume
 ```
 ![Inspect docker volume](img/docker-inspect-volume.png)
 
@@ -454,7 +454,7 @@ Untuk membuat host network di Docker dapat dilakukan dengan perintah **`docker n
 Host network paling tepat digunakan ketika performa jaringan menjadi faktor kritis dan isolasi network tidak diperlukan. Contohnya adalah ketika menjalankan aplikasi yang memerlukan koneksi jaringan yang sangat cepat dan membutuhkan akses ke port host yang spesifik, seperti aplikasi game online atau streaming media. Selain itu, host network juga cocok digunakan untuk aplikasi yang sudah teroptimasi untuk dijalankan pada lingkungan host dan tidak memerlukan isolasi network. Misalnya, aplikasi yang hanya digunakan untuk pengujian atau aplikasi yang sifatnya sementara.
 
 ##### overlay Network
-> **Catatan**<br>Konsep overlay netowrk ini akan digunakan pada implementasi Docker Swarm. Untuk detailnya bisa dilihat di [Modul 4](https://github.com/arsitektur-jaringan-komputer/Pelatihan-Docker/tree/master/4.%20Membangun%20Aplikasi%20di%20Docker).
+> **Catatan**<br>Konsep overlay network ini akan digunakan pada implementasi Docker Swarm. Untuk detailnya bisa dilihat di [Modul 4](https://github.com/arsitektur-jaringan-komputer/Pelatihan-Docker/tree/master/4.%20Membangun%20Aplikasi%20di%20Docker).
 
 Overlay network di Docker adalah jenis jaringan yang memungkinkan beberapa host Docker terhubung dan berkomunikasi satu sama lain melalui jaringan yang sama. Overlay network menggunakan teknologi Virtual Extensible LAN (VXLAN) untuk memungkinkan container di mesin Docker yang berbeda untuk berkomunikasi satu sama lain seakan-akan mereka berada dalam satu jaringan lokal.
 
