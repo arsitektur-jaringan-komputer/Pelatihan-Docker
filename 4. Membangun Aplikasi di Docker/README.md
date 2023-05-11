@@ -17,8 +17,9 @@
       - [Service](#service)
       - [Task](#task)
       - [Overlay Network](#overlay-network)
-  - [Pengantar Aplikasi Web](#pengantar-aplikasi-web)
   - [Membuat Aplikasi Microservice dengan Docker](#membuat-aplikasi-microservice-dengan-docker)
+  - [Tambahan](#tambahan)
+    - [Pengantar Aplikasi Web](#pengantar-aplikasi-web)
 - [**Sumber**](#sumber-referensi)
 
 
@@ -239,24 +240,6 @@ docker service create --name <nama_service> --network <nama_network> <nama_image
 ```
 Dengan menggunakan overlay network pada Docker Swarm, tentunya mempermudah dalam membuat dan mengelola jaringan yang terdistribusi pada setiap node dalam klaster, sehingga memudahkan dalam membangun aplikasi yang terdiri dari beberapa service yang berjalan pada beberapa node dalam klaster.
 
-### Pengantar Aplikasi Web
-
-#### 1. Frontend
-
-Frontend adalah bagian dari sebuah aplikasi web yang berhubungan langsung dengan pengguna. Ini mencakup elemen-elemen visual dan interaktif yang dilihat dan digunakan oleh pengguna akhir. Bahasa pemrograman yang umum digunakan untuk mengembangkan frontend adalah HTML, CSS, dan JavaScript.
-
-#### 2. Backend
-
-Backend adalah bagian dari aplikasi web yang berada di sisi server. Ini melibatkan pemrosesan data, logika bisnis, dan interaksi dengan database. Beberapa bahasa pemrograman yang digunakan untuk mengembangkan backend antara lain Python, JavaScript (Node.js), dan Ruby.
-
-#### 3. Web Server
-
-Web server adalah perangkat lunak yang menjalankan aplikasi web dan mengirimkan konten ke pengguna melalui protokol HTTP. Web server bertindak sebagai penghubung antara klien (misalnya, browser web) dan backend aplikasi. Beberapa web server yang populer adalah Apache dan Nginx.
-
-#### 4. Database
-
-Database adalah tempat penyimpanan yang digunakan untuk menyimpan data yang diperlukan oleh aplikasi web. Database memungkinkan penyimpanan, pengambilan, dan pembaruan data dengan cara yang terstruktur. Beberapa jenis database yang umum digunakan adalah MySQL, PostgreSQL, MongoDB, dan SQLite.
-
 ### Membuat Aplikasi Microservice dengan Docker
 
 Ada 2 opsi yang dilakukan dalam penerapan Docker Swarm.
@@ -272,7 +255,7 @@ Untuk aplikasi yang akan menerapkan microservice terdiri dari 5 services, sepert
 
 ![Arsitektur App](img/app-arch.png)
 
-Pada gambar tersebut terdapat 5 services (`nginx-frontend`, `frontend`, `nginx-backend`, `backend`, dan `database`). `nginx-frontend` dan `nginx-backend` sama-sama bertugas sebagai web-server namun juga bisa dapat bertugan untuk mengatur lalu lintas jaringan. Alur aplikasinya sebagai berikut:
+Pada gambar tersebut terdapat 5 services (`nginx-frontend`, `frontend`, `nginx-backend`, `backend`, dan `database`). `nginx-frontend` dan `nginx-backend` sama-sama bertugas sebagai web-server (penjelasan tentang masing-masing istilah dapat dilihat pada subbab [Pengantar Aplikasi Web](#pengantar-aplikasi-web)). Alur aplikasinya sebagai berikut:
 
 1. Pada client side, client akan mengakses aplikasi menggunakan web browser masing-masing.
 2. Web browser akan meneruskan permintaan client ke server, selanjutnya akan diurus oleh server (client sudah tidak perlu melakukan apa-apa lagi).
@@ -432,6 +415,26 @@ Untuk mengecek aplikasi telah berjalan dengan sesuai atau tidak, dapat menjalank
 Selain itu, karena aplikasi ini berbasis web, aplikasi dapat dicek melalui web browser dengan memasukkan domain atau alamat IP manager.
 
 ![Tampilan Aplikasi](img/app-login.png)
+
+### Tambahan
+
+#### Pengantar Aplikasi Web
+
+1. Frontend
+
+    Frontend adalah bagian dari sebuah aplikasi web yang berhubungan langsung dengan pengguna. Ini mencakup elemen-elemen visual dan interaktif yang dilihat dan digunakan oleh pengguna akhir. Bahasa pemrograman yang umum digunakan untuk mengembangkan frontend adalah HTML, CSS, dan JavaScript.
+
+2. Backend
+
+    Backend adalah bagian dari aplikasi web yang berada di sisi server. Ini melibatkan pemrosesan data, logika bisnis, dan interaksi dengan database. Beberapa bahasa pemrograman yang digunakan untuk mengembangkan backend antara lain Python, JavaScript (Node.js), dan Ruby.
+
+3. Web Server
+
+    Web server adalah perangkat lunak yang menjalankan aplikasi web dan mengirimkan konten ke pengguna melalui protokol HTTP. Web server bertindak sebagai penghubung antara klien (misalnya, browser web) dan backend aplikasi. Beberapa web server yang populer adalah Apache dan Nginx.
+
+4. Database
+
+    Database adalah tempat penyimpanan yang digunakan untuk menyimpan data yang diperlukan oleh aplikasi web. Database memungkinkan penyimpanan, pengambilan, dan pembaruan data dengan cara yang terstruktur. Beberapa jenis database yang umum digunakan adalah MySQL, PostgreSQL, MongoDB, dan SQLite.
 
 ## Sumber Referensi
 - https://datacommcloud.co.id/microservices-adalah-perbedaan-monolithic-architecture/
