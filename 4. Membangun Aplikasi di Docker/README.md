@@ -20,7 +20,7 @@
   - [Membuat Aplikasi Microservice dengan Docker](#membuat-aplikasi-microservice-dengan-docker)
   - [Tambahan](#tambahan)
     - [Pengantar Aplikasi Web](#pengantar-aplikasi-web)
-- [**Sumber**](#sumber-referensi)
+- [**Sumber Referensi**](#sumber-referensi)
 
 
 ## Glosarium
@@ -200,22 +200,69 @@ Dalam sebuah service, Docker Swarm secara otomatis akan menyebar task-task yang 
 
 Setiap task pada Docker Swarm memiliki task states. Task states adalah status dari sebuah task pada suatu service yang dijalankan pada worker node. Terdapat beberapa task states yang dapat terjadi, di antaranya adalah:
 
-| Task State | Deskripsi |
-| --- | ---- |
-| **`NEW`** | Task baru telah dibuat, tetapi belum dimulai. |
-| **`PENDING`** | Task sedang menunggu resource yang diperlukan untuk dimulai, seperti image container atau jaringan.
-| **`ASSIGNED`** | Container untuk task telah dimulai, tetapi task belum dimulai.
-| **`ACCEPTED`** | Task diterima oleh Worker node |
-| **`READY`** | Worker node siap untuk memulai task |
-| **`PREPARING`** |	Task sedang dalam proses persiapan, seperti download image atau mounting volume.
-| **`STARTING`** | Task sedang dalam proses memulai. |
-| **`RUNNING`** |	Task sedang berjalan. |
-| **`COMPLETE`** |	Task telah selesai dijalankan. |
-| **`FAILED`** |	Task gagal karena terjadi error. |
-| **`SHUTDOWN`** | Docker mengirim sebuah permintaan untuk mematikan task |
-| **`REJECTED`** |	Task ditolak oleh Worker node karena ada masalah dengan persyaratan task atau worker node. |
-| **`ORPHANED`** |	Task tidak terikat ke service mana pun karena masalah pada worker node atau task itu sendiri. |
-| **`REMOVE`** | Task dihapus oleh service meskipun belum selesai dijalankan |
+<table>
+  <tr>
+    <th>Task State</th>
+    <th>Deskripsi</th>
+  </tr>
+  <tr>
+    <td><strong><code>NEW</code></strong></td>
+    <td>Task baru telah dibuat, tetapi belum dimulai.</td>
+  </tr>
+  <tr>
+    <td><strong><code>PENDING</code></strong></td>
+    <td>Task sedang menunggu resource yang diperlukan untuk dimulai, seperti image container atau jaringan.</td>
+  </tr>
+  <tr>
+    <td><strong><code>ASSIGNED</code></strong></td>
+    <td>Container untuk task telah dimulai, tetapi task belum dimulai.</td>
+  </tr>
+  <tr>
+    <td><strong><code>ACCEPTED</code></strong></td>
+    <td>Task diterima oleh Worker node</td>
+  </tr>
+  <tr>
+    <td><strong><code>READY</code></strong></td>
+    <td>Worker node siap untuk memulai task</td>
+  </tr>
+  <tr>
+    <td><strong><code>PREPARING</code></strong></td>
+    <td>Task sedang dalam proses persiapan, seperti download image atau mounting volume.</td>
+  </tr>
+  <tr>
+    <td><strong><code>STARTING</code></strong></td>
+    <td>Task sedang dalam proses memulai.</td>
+  </tr>
+  <tr>
+    <td><strong><code>RUNNING</code></strong></td>
+    <td>Task sedang berjalan.</td>
+  </tr>
+  <tr>
+    <td><strong><code>COMPLETE</code></strong></td>
+    <td>Task telah selesai dijalankan.</td>
+  </tr>
+  <tr>
+    <td><strong><code>FAILED</code></strong></td>
+    <td>Task gagal karena terjadi error.</td>
+  </tr>
+  <tr>
+    <td><strong><code>SHUTDOWN</code></strong></td>
+    <td>Docker mengirim sebuah permintaan untuk mematikan task</td>
+  </tr>
+  <tr>
+    <td><strong><code>REJECTED</code></strong></td>
+    <td>Task ditolak oleh Worker node karena ada masalah dengan persyaratan task atau worker node.</td>
+  </tr>
+  <tr>
+    <td><strong><code>ORPHANED</code></strong></td>
+    <td>Task tidak terikat ke service mana pun karena masalah pada worker node atau task itu sendiri.</td>
+  </tr>
+  <tr>
+    <td><strong><code>REMOVE</code></strong></td>
+    <td>Task dihapus oleh service meskipun belum selesai dijalankan</td>
+  </tr>
+</table>
+
 
 Untuk dapat mengakses informasi tentang task dengan menggunakan perintah **`docker service ps <nama_service>`**. Perintah ini dapat untuk melihat informasi tentang task seperti ID, nama task, status, node yang menjalankan task, dan port yang digunakan oleh task tersebut.
 
