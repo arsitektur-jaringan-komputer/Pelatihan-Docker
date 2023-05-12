@@ -200,7 +200,7 @@ Dalam sebuah service, Docker Swarm secara otomatis akan menyebar task-task yang 
 
 Setiap task pada Docker Swarm memiliki task states. Task states adalah status dari sebuah task pada suatu service yang dijalankan pada worker node. Terdapat beberapa task states yang dapat terjadi, di antaranya adalah:
 
-<table>
+<table style="width:100%">
   <tr>
     <th>Task State</th>
     <th>Deskripsi</th>
