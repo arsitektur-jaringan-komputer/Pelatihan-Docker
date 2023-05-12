@@ -159,18 +159,18 @@ Node pada Docker Swarm adalah host atau mesin yang telah diaktifkan untuk bergab
 
 Dalam Docker Swarm, terdapat dua jenis node, yaitu Manager Node dan Worker Node. Manager Node bertanggung jawab untuk mengatur dan mengelola swarm dan menjalankan tugas-tugas manajerial seperti mengelola layanan, mengatur jaringan, serta mengendalikan node dalam klaster. Sementara itu, Worker Node adalah node yang bertanggung jawab untuk menjalankan container Docker dan layanan aplikasi yang diatur oleh Manager Node.
 
-Setiap node memiliki status, status node pada Docker Swarm adalah kondisi dari sebuah node dalam klaster Docker Swarm. Terdapat 2 status node pada Docker Swarm, yaitu `Active` dan `Drain`.
+Setiap node memiliki status, status node pada Docker Swarm adalah kondisi dari sebuah node dalam klaster Docker Swarm. Terdapat 2 status node pada Docker Swarm, yaitu **`Active`** dan ****`Drain`****.
 
-- `Active`: Node dalam status `Active` berarti node tersebut siap untuk menjalankan container dan layanan pada klaster Docker Swarm.
-- `Drain`: Node dalam status `Drain` berarti node tersebut tidak aktif atau tidak dapat diakses, dan tidak dapat menjalankan container atau layanan. Serta node dengan status `Drain` tidak akan menerima task baru.
+- **`Active`**: Node dalam status **`Active`** berarti node tersebut siap untuk menjalankan container dan layanan pada klaster Docker Swarm.
+- **`Drain`**: Node dalam status **`Drain`** berarti node tersebut tidak aktif atau tidak dapat diakses, dan tidak dapat menjalankan container atau layanan. Serta node dengan status **`Drain`** tidak akan menerima task baru.
 
-Selain status node, Docker Swarm juga memiliki konsep role atau peran pada setiap node, yaitu Manager Node dan Worker Node. Namun, setiap node hanya dapat memiliki satu peran pada suatu waktu. Peran node dapat diubah dengan menggunakan perintah `docker node promote` dan `docker node demote`. Perintah `docker node promote` digunakan untuk mempromosikan node dari peran worker menjadi peran manager, sementara `docker node demote` digunakan untuk menurunkan node dari peran manager menjadi peran worker.
+Selain status node, Docker Swarm juga memiliki konsep role atau peran pada setiap node, yaitu Manager Node dan Worker Node. Namun, setiap node hanya dapat memiliki satu peran pada suatu waktu. Peran node dapat diubah dengan menggunakan perintah **`docker node promote`** dan ****`docker node demote`****. Perintah **`docker node promote`** digunakan untuk mempromosikan node dari peran worker menjadi peran manager, sementara ****`docker node demote`**** digunakan untuk menurunkan node dari peran manager menjadi peran worker.
 
-Penggunaan perintah `docker node promote` dan `docker node demote` dapat membantu dalam mengelola peran node dalam klaster Docker Swarm. Misalnya, ketika salah satu manager node mengalami masalah atau kegagalan, worker node yang sehat dapat dipromosikan menjadi manager node untuk menghindari kehilangan ketersediaan aplikasi. Atau, jika terdapat kebutuhan tambahan pada kapasitas dapat mempromosikan worker node menjadi manager node untuk membantu mengelola tugas-tugas manajerial pada klaster Docker Swarm.
+Penggunaan perintah **`docker node promote`** dan ****`docker node demote`**** dapat membantu dalam mengelola peran node dalam klaster Docker Swarm. Misalnya, ketika salah satu manager node mengalami masalah atau kegagalan, worker node yang sehat dapat dipromosikan menjadi manager node untuk menghindari kehilangan ketersediaan aplikasi. Atau, jika terdapat kebutuhan tambahan pada kapasitas dapat mempromosikan worker node menjadi manager node untuk membantu mengelola tugas-tugas manajerial pada klaster Docker Swarm.
 
 Dalam konfigurasi default Docker Swarm, semua manager node juga termasuk ke worker node dan setiap node secara otomatis diatur untuk bergabung dengan cluster saat Docker Engine dijalankan dan menghubungkan ke manager node. Dalam Docker Swarm, setiap node dapat diatur untuk berkomunikasi dengan node lainnya melalui jaringan overlay Docker, sehingga container dan layanan yang dijalankan pada node-node tersebut dapat saling berkomunikasi dan berinteraksi dengan lancar.
 
-Untuk melihat semua node yang terdapat dalam Docker Swarm, dapat menggunakan perintah `docker node ls`
+Untuk melihat semua node yang terdapat dalam Docker Swarm, dapat menggunakan perintah **`docker node ls`**
 
 ![Contoh node](img/docker-swarm-ls.png)
 
@@ -179,15 +179,15 @@ Pada Docker Swarm, service adalah objek yang digunakan untuk mengelola dan menja
 
 ![Service pada Docker Swarm](img/docker-swarm-service.png)
 
-Untuk membuat sebuah service pada Docker Swarm dapat dilakukan menggunakan perintah `docker service create`. Perintah ini menentukan konfigurasi dari service seperti nama, jumlah instance, image container, jaringan, port, dan volume yang akan digunakan oleh container. Selain itu juga dapat menentukan kriteria yang digunakan oleh Docker Swarm untuk menyeimbangkan beban (load balancing) antara container-container yang berjalan pada node-node dalam klaster.
+Untuk membuat sebuah service pada Docker Swarm dapat dilakukan menggunakan perintah **`docker service create`**. Perintah ini menentukan konfigurasi dari service seperti nama, jumlah instance, image container, jaringan, port, dan volume yang akan digunakan oleh container. Selain itu juga dapat menentukan kriteria yang digunakan oleh Docker Swarm untuk menyeimbangkan beban (load balancing) antara container-container yang berjalan pada node-node dalam klaster.
 
 Setelah service dibuat, Docker Swarm akan secara otomatis mengelola container-container yang menjalankan service tersebut pada node-node dalam klaster. Docker Swarm akan memantau kondisi dari container-container, dan jika terdapat container yang berhenti atau mengalami kegagalan, Docker Swarm akan otomatis memulai kembali container tersebut pada node lain dalam klaster.
 
-Untuk mengubah konfigurasi dari sebuah service yang sedang berjalan dapat menggunakan perintah `docker service update`. Perintah ini akan mengubah konfigurasi seperti jumlah instance, image container, jaringan, port, dan volume yang digunakan oleh container-container yang menjalankan service.
+Untuk mengubah konfigurasi dari sebuah service yang sedang berjalan dapat menggunakan perintah **`docker service update`**. Perintah ini akan mengubah konfigurasi seperti jumlah instance, image container, jaringan, port, dan volume yang digunakan oleh container-container yang menjalankan service.
 
 Dalam Docker Swarm, service sangat berguna untuk memudahkan pengelolaan aplikasi yang berjalan dalam klaster. Dengan menggunakan service tidak perlu lagi memikirkan tentang detail teknis dari container-container yang berjalan pada node-node dalam klaster, sehingga dapat fokus pada pengembangan aplikasi dan fungsionalitasnya.
 
-Untuk melihat semua service yang sedang berjalan dalam Docker Swarm, dapat menggunakan perintah `docker service ls`
+Untuk melihat semua service yang sedang berjalan dalam Docker Swarm, dapat menggunakan perintah **`docker service ls`**
 
 ![Contoh service](img/docker-service-ls.png)
 
@@ -202,22 +202,22 @@ Setiap task pada Docker Swarm memiliki task states. Task states adalah status da
 
 | Task State | Deskripsi |
 | --- | ---- |
-| `NEW` | Task baru telah dibuat, tetapi belum dimulai. |
-| `PENDING` | Task sedang menunggu resource yang diperlukan untuk dimulai, seperti image container atau jaringan.
-| `ASSIGNED` | Container untuk task telah dimulai, tetapi task belum dimulai.
-| `ACCEPTED` | Task diterima oleh Worker node |
-| `READY` | Worker node siap untuk memulai task |
-| `PREPARING` |	Task sedang dalam proses persiapan, seperti download image atau mounting volume.
-| `STARTING` | Task sedang dalam proses memulai. |
-| `RUNNING` |	Task sedang berjalan. |
-| `COMPLETE` |	Task telah selesai dijalankan. |
-| `FAILED` |	Task gagal karena terjadi error. |
-| `SHUTDOWN` | Docker mengirim sebuah permintaan untuk mematikan task |
-| `REJECTED` |	Task ditolak oleh Worker node karena ada masalah dengan persyaratan task atau worker node. |
-| `ORPHANED` |	Task tidak terikat ke service mana pun karena masalah pada worker node atau task itu sendiri. |
-| `REMOVE` | Task dihapus oleh service meskipun belum selesai dijalankan |
+| **`NEW`** | Task baru telah dibuat, tetapi belum dimulai. |
+| **`PENDING`** | Task sedang menunggu resource yang diperlukan untuk dimulai, seperti image container atau jaringan.
+| **`ASSIGNED`** | Container untuk task telah dimulai, tetapi task belum dimulai.
+| **`ACCEPTED`** | Task diterima oleh Worker node |
+| **`READY`** | Worker node siap untuk memulai task |
+| **`PREPARING`** |	Task sedang dalam proses persiapan, seperti download image atau mounting volume.
+| **`STARTING`** | Task sedang dalam proses memulai. |
+| **`RUNNING`** |	Task sedang berjalan. |
+| **`COMPLETE`** |	Task telah selesai dijalankan. |
+| **`FAILED`** |	Task gagal karena terjadi error. |
+| **`SHUTDOWN`** | Docker mengirim sebuah permintaan untuk mematikan task |
+| **`REJECTED`** |	Task ditolak oleh Worker node karena ada masalah dengan persyaratan task atau worker node. |
+| **`ORPHANED`** |	Task tidak terikat ke service mana pun karena masalah pada worker node atau task itu sendiri. |
+| **`REMOVE`** | Task dihapus oleh service meskipun belum selesai dijalankan |
 
-Untuk dapat mengakses informasi tentang task dengan menggunakan perintah `docker service ps <nama_service>`. Perintah ini dapat untuk melihat informasi tentang task seperti ID, nama task, status, node yang menjalankan task, dan port yang digunakan oleh task tersebut.
+Untuk dapat mengakses informasi tentang task dengan menggunakan perintah **`docker service ps <nama_service>`**. Perintah ini dapat untuk melihat informasi tentang task seperti ID, nama task, status, node yang menjalankan task, dan port yang digunakan oleh task tersebut.
 
 ![Contoh task](img/docker-service-ps.png)
 
@@ -230,11 +230,11 @@ Masih ingatkah kalian dengan bahasan overlay network pada modul 3? Pada materi i
 
 Overlay network pada Docker Swarm juga mendukung fitur load balancing, yaitu ketika sebuah request masuk ke sebuah service, Docker Swarm akan menyebar request tersebut ke salah satu task yang berjalan pada node yang paling sedikit beban nya. Hal ini membuat service yang dijalankan pada Docker Swarm dapat menangani request secara efisien dan terdistribusi pada setiap node dalam klaster.
 
-Untuk membuat overlay network pada Docker Swarm, dapat menggunakan perintah `docker network create` dengan opsi `--driver overlay`, seperti contoh berikut:
+Untuk membuat overlay network pada Docker Swarm, dapat menggunakan perintah **`docker network create`** dengan opsi **`--driver overlay`**, seperti contoh berikut:
 ```
 docker network create --driver overlay <nama_network>
 ```
-Setelah overlay network dibuat, dapat membuat service dengan menggunakan opsi `-network` untuk menentukan overlay network yang akan digunakan oleh service tersebut. Misalnya, untuk membuat sebuah service yang menggunakan overlay network dapat menggunakan perintah sebagai berikut:
+Setelah overlay network dibuat, dapat membuat service dengan menggunakan opsi **`-network`** untuk menentukan overlay network yang akan digunakan oleh service tersebut. Misalnya, untuk membuat sebuah service yang menggunakan overlay network dapat menggunakan perintah sebagai berikut:
 ```
 docker service create --name <nama_service> --network <nama_network> <nama_image>
 ```
@@ -255,29 +255,29 @@ Untuk aplikasi yang akan menerapkan microservice terdiri dari 5 services, sepert
 
 ![Arsitektur App](img/app-arch.png)
 
-Pada gambar tersebut terdapat 5 services (`nginx-frontend`, `frontend`, `nginx-backend`, `backend`, dan `database`). `nginx-frontend` dan `nginx-backend` sama-sama bertugas sebagai web-server (penjelasan tentang masing-masing istilah dapat dilihat pada subbab [Pengantar Aplikasi Web](#pengantar-aplikasi-web)). Alur aplikasinya sebagai berikut:
+Pada gambar tersebut terdapat 5 services (**`nginx-frontend`**, **`frontend`**, **`nginx-backend`**, **`backend`**, dan **`database`**). **`nginx-frontend`** dan **`nginx-backend`** sama-sama bertugas sebagai web-server (penjelasan tentang masing-masing istilah dapat dilihat pada subbab [Pengantar Aplikasi Web](#pengantar-aplikasi-web)). Alur aplikasinya sebagai berikut:
 
 1. Pada client side, client akan mengakses aplikasi menggunakan web browser masing-masing.
 2. Web browser akan meneruskan permintaan client ke server, selanjutnya akan diurus oleh server (client sudah tidak perlu melakukan apa-apa lagi).
-3. Pada server side, permintaan client akan diterima pertama kali oleh web server untuk `frontend` (`nginx-frontend`).
-4. Permintaan client pada `nginx-frontend`, akan dilanjutkan untuk mendapat resource dari service `frontend`.
-5. Jika halaman yang digunakan tidak memerlukan service dari `backend`, maka perjalanan permintaan client akan dikembalikan ke client. 
-6. Jika memerlukan service `backend` (misal perlu data dari `database`, seperti login dan register), maka permintaan akan diteruskan ke web server untuk `backend` (`nginx-backend`).
-7. Yang terakhir, `backend` akan berkomunikasi dengan `database` untuk memperoleh data dan akan dikembalikan hingga ke client.
+3. Pada server side, permintaan client akan diterima pertama kali oleh web server untuk **`frontend`** (**`nginx-frontend`**).
+4. Permintaan client pada **`nginx-frontend`**, akan dilanjutkan untuk mendapat resource dari service **`frontend`**.
+5. Jika halaman yang digunakan tidak memerlukan service dari **`backend`**, maka perjalanan permintaan client akan dikembalikan ke client. 
+6. Jika memerlukan service **`backend`** (misal perlu data dari **`database`**, seperti login dan register), maka permintaan akan diteruskan ke web server untuk **`backend`** (**`nginx-backend`**).
+7. Yang terakhir, **`backend`** akan berkomunikasi dengan **`database`** untuk memperoleh data dan akan dikembalikan hingga ke client.
 
 #### 1. Inisiasi Docker Swarm
 
-Untuk menginisiasi Docker Swarm, pada **manager node** jalankan perintah berikut.
+Untuk menginisiasi Docker Swarm, pada manager node jalankan perintah berikut.
 
 ```
 docker swarm init --advertise-addr <ip-address-manager>
 ```
 
-Setelah itu, **manager node** akan memberikan token beserta cara mengoneksikan **worker node** pada Docker Swarm yang sudah dibuat.
+Setelah itu, manager node akan memberikan token beserta cara mengoneksikan worker node pada Docker Swarm yang sudah dibuat.
 
 ![Initiate Docker Swarm](img/docker-swarm-init.png)
 
-Kemudian masuk ke **worker node** dan jalankan perintah sesuai dengan yang ada diberikan oleh **manager node**. Lakukan pada semua **worker node** yang ingin dikoneksikan.
+Kemudian masuk ke worker node dan jalankan perintah sesuai dengan yang ada diberikan oleh manager node. Lakukan pada semua worker node yang ingin dikoneksikan.
 
 ```
 docker swarm join --token <swarm-token> <ip-address-manager>:<port-manager>
@@ -289,39 +289,39 @@ docker swarm join --token <swarm-token> <ip-address-manager>:<port-manager>
 
 Implementasi microservice kali ini menggunakan aplikasi yang tersedia pada folder [compose](compose) di repository ini dengan melakukan cloning 
 
-> hanya perlu melakukan cloning pada **manager node**.
+> hanya perlu melakukan cloning pada manager node.
 
 ```
 git clone https://github.com/arsitektur-jaringan-komputer/Pelatihan-Docker.git
 ```
 
-Lalu masuk ke directory `Pelatihan Docker/4. Membangun Aplikasi di Docker/compose/` dan aplikasi siap untuk diimplementasikan.
+Lalu masuk ke directory **`Pelatihan Docker/4. Membangun Aplikasi di Docker/compose/`** dan aplikasi siap untuk diimplementasikan.
 
 #### 3. Konfigurasi File Nginx
 
 > Jika tidak memiliki domain name atau tidak ingin mengonfigurasikan domain name ke aplikasi, maka langkah ini bisa dilewati dan bisa langsung ke langkah [4. Konfigurasi File Environment](#4-konfigurasi-file-environment)
 
-Pada folder `nginx/` terdapat 2 file, `nginx-frontend.conf` dan `nginx-backend.conf` yang perlu dikonfigurasi. Caranya dengan mengganti nilai `server_name` dari `localhost` ke domain name masing-masing
+Pada folder **`nginx/`** terdapat 2 file, **`nginx-frontend.conf`** dan **`nginx-backend.conf`** yang perlu dikonfigurasi. Caranya dengan mengganti nilai **`server_name`** dari **`localhost`** ke domain name masing-masing
 
 ![Nginx conf](img/nginx-conf.png)
 
 #### 4. Konfigurasi File Environment
 
-> Jika dideploy pada **manager node** yang terdapat pada localhost, maka lewati langkah berikut dan bisa langsung ke langkah [5. Menyiapkan Docker Registry](#5-menyiapkan-docker-registry)
+> Jika dideploy pada manager node yang terdapat pada localhost, maka lewati langkah berikut dan bisa langsung ke langkah [5. Menyiapkan Docker Registry](#5-menyiapkan-docker-registry)
 
-Pada folder `frontend/` terdapat file `.env` yang perlu dikonfigurasi. Yang perlu dilakukan adalah mengubah nilai nya sesuai yang diinginkan.
+Pada folder **`frontend/`** terdapat file **`**.env`** yang perlu dikonfigurasi. Yang perlu dilakukan adalah mengubah nilai nya sesuai yang diinginkan.
 
 ```
 NEXT_PUBLIC_APP_NAME="<nama-aplikasi>"
 NEXT_PUBLIC_API_ENDPOINT="http://<alamat-nginx-backend>/" 
 ```
 
-* `NEXT_PUBLIC_APP_NAME`: Nama dari aplikasi yang akan ditampilkan di Frontned
-* `NEXT_PUBLIC_API_ENDPOINT`: Alamat dari web server untuk `backend`, dapat diisi dengan domain name atau IP publick **manager node**
+* **`NEXT_PUBLIC_APP_NAME`**: Nama dari aplikasi yang akan ditampilkan di Frontned
+* **`NEXT_PUBLIC_API_ENDPOINT`**: Alamat dari web server untuk **`backend`**, dapat diisi dengan domain name atau IP publick manager node
 
 #### 5. Menyiapkan Docker Registry
 
-Apa itu Docker Registry? Docker Registry adalah sebuah sistem untuk melakukan versioning, menyimpan, dan mendistribusikan Docker Images. Kita memerkulan Docker Registry untuk mendistribusikan image ke seluruh node yang ada pada Docker Swarm. Cara untuk menyiapkan Docker Registry sebenarnya cukup mudah. Yang perlu dilakukan adalah menjalankan image Docker Registry saja dengan perintah berikut pada **manager node**.
+Apa itu Docker Registry? Docker Registry adalah sebuah sistem untuk melakukan versioning, menyimpan, dan mendistribusikan Docker Images. Kita memerkulan Docker Registry untuk mendistribusikan image ke seluruh node yang ada pada Docker Swarm. Cara untuk menyiapkan Docker Registry sebenarnya cukup mudah. Yang perlu dilakukan adalah menjalankan image Docker Registry saja dengan perintah berikut pada manager node.
 
 ```
 docker run -d -p 4000:5000 --restart=always --name registry registry:2
@@ -329,7 +329,7 @@ docker run -d -p 4000:5000 --restart=always --name registry registry:2
 
 ![Docker Registry](img/docker-registry.png)
 
-Setelah itu konfigurasi setiap node agar dapat mengakses registry pada jaringan http dengan cara menambahkan baris berikut pada file `/etc/docker/daemon.json` (jika file tidak ada, maka buat baru).
+Setelah itu konfigurasi setiap node agar dapat mengakses registry pada jaringan http dengan cara menambahkan baris berikut pada file **`/etc/docker/daemon.json`** (jika file tidak ada, maka buat baru).
 
 ```json
 {
@@ -341,13 +341,13 @@ Setelah itu konfigurasi setiap node agar dapat mengakses registry pada jaringan 
 
 Masih ingatkah kalian dengan materi Network File System (NFS) pada [Modul 3](https://github.com/arsitektur-jaringan-komputer/Pelatihan-Docker/tree/master/3.%20Docker%20Service%20Lanjutan). Penggunaan NFS pada docker swarm sangatlah penting, khususnya agar ketika aplikasi dideploy ulang, isi dari database tidak hilang. Selain itu ketika memiliki lebih dari 1 sistem database, maka dapat dipastikan bahwa isinya sama.
 
-Untuk menggunakan NFS, perlu menginstall `nfs-kernel-server` dengan menjalankan perintah berikut.
+Untuk menggunakan NFS, perlu menginstall **`nfs-kernel-server`** dengan menjalankan perintah berikut.
 
 ```
 sudo apt install nfs-kernel-server
 ```
 
-Setelah itu, buat directory untuk digunakan sebagai directory bersama. Sebagai contoh, `sudo mkdir /etc/db-data`. Kemudian edit file `/etc/exports` dan tambahkan baris berikut.
+Setelah itu, buat directory untuk digunakan sebagai directory bersama. Sebagai contoh, **`sudo mkdir /etc/db-data`**. Kemudian edit file **`/etc/exports`** dan tambahkan baris berikut.
 
 ```
 /etc/db-data *(rw,sync,no_subtree_check,no_root_squash)
@@ -355,18 +355,18 @@ Setelah itu, buat directory untuk digunakan sebagai directory bersama. Sebagai c
 
 Berikut adalah penjelasan dari baris diatas:
 
-* `/etc/db-data`: Directory bersama yang akan dibagikan melalui NFS Server.
-* `*`: Alamat IP yang dapat mengakses NFS Server
-* `rw`: Memberikan akses Read-Write.
-* `sync`: Perubahan yang dilakukan oleh Client (worker node) akan langsung ditulis di NFS Server.
-* `no_subtree_check`: Menonaktifkan subtree checking.
-* `no_root_squash`: Mengizinkan Client dengan root privileges untuk menulis file dengan root permission.
+* **`/etc/db-data`**: Directory bersama yang akan dibagikan melalui NFS Server.
+* **`*`**: Alamat IP yang dapat mengakses NFS Server
+* **`rw`**: Memberikan akses Read-Write.
+* **`sync`**: Perubahan yang dilakukan oleh Client (worker node) akan langsung ditulis di NFS Server.
+* **`no_subtree_check`**: Menonaktifkan subtree checking.
+* **`no_root_squash`**: Mengizinkan Client dengan root privileges untuk menulis file dengan root permission.
 
-Selanjutnya, jalankan perintah `sudo exportfs -ra` untuk merestart `exportfs`.
+Selanjutnya, jalankan perintah **`sudo exportfs -ra`** untuk merestart **`exportfs`**.
 
 #### 7. Melakukan Build dan Push Images ke Registry
 
-Pada file `docker-compose.yaml`, `<ip-manager>` harus diganti menjadi alamat IP manager yang sebenarnya (ex. `localhost`). Selain itu, juga terdapat bagian `build` yang akan digunakan untuk mem-*build* images dengan `Dockerfile` yang telah disediakan pada masing-masing images. Yang perlu dilakukan untuk mem-*build* images adalah dengan menjalankan perintah berikut.
+Pada file **`docker-compose.yaml`**, **`<ip-manager>`** harus diganti menjadi alamat IP manager yang sebenarnya (ex. **`localhost`**). Selain itu, juga terdapat bagian **`build`** yang akan digunakan untuk mem-*build* images dengan **`Dockerfile`** yang telah disediakan pada masing-masing images. Yang perlu dilakukan untuk mem-*build* images adalah dengan menjalankan perintah berikut.
 
 ```
 docker compose build
@@ -400,7 +400,7 @@ curl -X GET http://<ip-manager>:4000/v2/_catalog | json_pp
 
 #### 8. Membuat Stack pada Docker Swarm
 
-Apa itu Docker Stack? Docker Stack ada sekelompok machine yang tersebar di seluruh Docker Swarm serta berjalan pada Docker Daemon. Pada implementasi kali ini, akan dibuat Docker Stack bernama `musicapp` yang akan dideploy menggunakan konfigurasi pada `docker-compose.yaml`. Untuk membuat stack pada Docker, dapat menjalankan perintah berikut.
+Apa itu Docker Stack? Docker Stack ada sekelompok machine yang tersebar di seluruh Docker Swarm serta berjalan pada Docker Daemon. Pada implementasi kali ini, akan dibuat Docker Stack bernama **`musicapp`** yang akan dideploy menggunakan konfigurasi pada **`docker-compose.yaml`**. Untuk membuat stack pada Docker, dapat menjalankan perintah berikut.
 
 ```
 docker stack deploy -c <path-ke-docker-compose> <nama-stack>
@@ -408,7 +408,7 @@ docker stack deploy -c <path-ke-docker-compose> <nama-stack>
 
 #### 9. Cek Aplikasi
 
-Untuk mengecek aplikasi telah berjalan dengan sesuai atau tidak, dapat menjalankan perintah `docker stack services <nama-stack>` lalu pastikan bahwa semua service telah ter-replika dengan sempurna (jumlah replika saat ini sama dengan jumlah replika yang telah disesuaikan pada `docker-compose.yaml`)
+Untuk mengecek aplikasi telah berjalan dengan sesuai atau tidak, dapat menjalankan perintah **`docker stack services <nama-stack>`** lalu pastikan bahwa semua service telah ter-replika dengan sempurna (jumlah replika saat ini sama dengan jumlah replika yang telah disesuaikan pada **`docker-compose.yaml`**)
 
 ![List running service](img/docker-stack-services.png)
 
