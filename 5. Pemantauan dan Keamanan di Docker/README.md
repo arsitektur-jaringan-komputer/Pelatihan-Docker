@@ -595,12 +595,12 @@ Setelah melakukan deploy terhadap monitoring setiap node dan container pada Swar
     ...
     ...
     secrets:
-    	postgres_db:
-    		external: true
+      postgres_db:
+        external: true
       postgres_user:
-    		external: true
+        external: true
       postgres_password:
-    		external: true
+        external: true
     ```
 
     Di sini, keyword "external" digunakan untuk menunjukkan bahwa external secret yang telah dibuat sebelumnya digunakan ketika Docker berada dalam mode Swarm.
@@ -611,14 +611,14 @@ Setelah melakukan deploy terhadap monitoring setiap node dan container pada Swar
     version: '3.8'
     services:
       db:
-    		...
-    		...
+        ...
+        ...
         environment:
           POSTGRES_USER: /run/secrets/postgres_user
           POSTGRES_PASSWORD: /run/secrets/postgres_password
           POSTGRES_DB: /run/secrets/postgres_db
-    		...
-    		...
+        ...
+        ...
         secrets:
           - postgres_user
           - postgres_password
