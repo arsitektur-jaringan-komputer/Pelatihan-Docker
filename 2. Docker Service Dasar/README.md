@@ -150,11 +150,9 @@ Berikut adalah langkah-langkah menggunakan Hello-World Docker Image.
 
 1. Buka terminal atau command prompt dan ketikkan perintah **`docker run hello-world`**. Perintah ini akan mengunduh image "Hello World" dari Docker Hub jika image belum ada di dalam host lokal. Setelah itu, Docker akan menjalankan image tersebut dalam bentuk container dan aplikasi "Hello World" akan berjalan, mencetak kata "Hello from Docker!" pada layar, kemudian menampilkan informasi tambahan tentang Docker.
 ![Menjalankan docker image hello-world](img/run-hello-world.png)
-<br>
 
 2. Setelah container selesai berjalan, untuk melihat log dari container tersebut dengan menjalankan perintah **`docker container logs <id_container>`**. Untuk mendapatkan container ID bisa dengan menjalankan perintah **`docker ps -a`**.
 ![Menjalankan log docker image hello-world](img/hello-world-logs.png)
-<br>
 
 3. Setelah selesai, container yang tidak diperlukan dapat dihapus dengan menjalankan perintah **`docker rm <id_container>`**. Selain container, image "Hello World" dapat dihapus dari host lokal dengan menjalankan perintah **`docker rmi hello-world`**.
 
@@ -166,7 +164,7 @@ Docker Image layer adalah konsep penting dalam Docker yang memungkinkan pengguna
 
 Setiap perubahan yang terjadi pada Docker Image, seperti menambahkan file, memperbarui paket atau mengubah konfigurasi, akan ditambahkan ke layer baru dalam Docker Image. Layer baru ini akan menjadi layer anak dari layer sebelumnya dalam Docker Image, yang berarti bahwa setiap layer akan memiliki layer induk yang berbeda dan akan menambahkan perubahan pada layer sebelumnya.Sehingga, layer image baru hanya menyimpan perubahan yang terjadi pada layer image sebelumnya dan tidak perlu menyimpan seluruh Docker Image. Oleh karena itu, Docker Image terdiri dari beberapa layer yang bersama-sama membentuk sistem file root yang lengkap di dalam container.
 
-Dan nantinya jika dilakukan **`docker run`** pada image akan menambah satu layer, yaitu writable layer yang disebut dengan **`container layer`**. Jadi sebuah image tidak dapat melakukan edit kecuali jika membuild image baru dan hanya dapat melakukan edit saat nanti sudah dalam bentuk container.
+Dan nantinya jika dilakukan **`docker run`** pada image akan menambah satu layer, yaitu writable layer yang disebut dengan container layer. Jadi sebuah image tidak dapat melakukan edit kecuali jika membuild image baru dan hanya dapat melakukan edit saat nanti sudah dalam bentuk container.
 
 ![contoh-layer](img/docker-image-compare.jpg)
 
@@ -287,21 +285,16 @@ Dalam Dockerfile di atas, langkah-langkah yang dilakukan adalah sebagai berikut:
 
 #### Contoh Implementasi Dockerfile
 
-1. Buat direktori baru , dalam direktori tersebut buat Dockerfile dan **`index.html`** sesuaikan dengan [ini](./custom-nginx-image/).
-<img src="img/mkdir.jpg" alt="Make directory" style="width:100%;">
-<br>
+1. Buat direktori baru , dalam direktori tersebut buat Dockerfile dan **`index.html`** sesuaikan dengan [ini](./custom-nginx-image/). 
 
 2. Dalam direktori yang sudah tersebut, jalankan command **`docker build -t <nama image>`** untuk membuat image baru dari Dockerfile yang sudah ada. Isi nama image sesuai dengan yang diinginkan.
 ![Docker-build](img/docker-build.jpg)
-<br>
 
 3. Lalu cek pada **`docker image ls`** , apakah image yang dibuild sudah tersedia.
 ![Docker image ls](img/docker-ls.jpg)
-<br>
 
 4. Selanjutnya image yang sudah ada dapat di gunakan, dengan command **`docker run -d -p 8080:80 <nama image>`** untuk menjalankan sebuah container dari image tersebut. Cek dengan **`docker ps`** apakah container sudah berjalan.
 ![Docker-run](img/run-container.jpg)
-<br>
 
 5. Kunjungi hasil running container pada **`localhost:8080`** maka akan muncul tampilan website 'Welcome to Nginx'.
 
@@ -320,39 +313,39 @@ Docker Repository pada Docker Hub adalah tempat penyimpanan untuk Docker Images 
 Berikut merupakan langkah-langkah untuk meletakkan Docker Image pada Docker Hub:
 
 1. Melakukan login ke Docker
-```
-docker login
-```
-![Docker login](img/docker-login.jpg)
+    ```
+    docker login
+    ```
+    ![Docker login](img/docker-login.jpg)
 
 2. Melakukan build image (jika sudah terdapat Docker Image, maka langkah ini dapat dilewati)
-```
-docker build -t <nama_image>:<version_image> .
-```
-![Docker-build](img/docker-build.jpg)
+    ```
+    docker build -t <nama_image>:<version_image> .
+    ```
+    ![Docker-build](img/docker-build.jpg)
 
 3. Melihat Docker Image yang nantinya akan diletakan pada Docker Hub
-```
-docker image ls
-```
-![Docker image ls](img/docker-ls.jpg)
+    ```
+    docker image ls
+    ```
+    ![Docker image ls](img/docker-ls.jpg)
 
 4. Membuat tag pada Docker Image
-```
-docker tag <nama_image>:<version_image> <nama_repository>/<nama_image>:<version_image>
-```
-![Docker tag](img/docker-tag.jpg)
+    ```
+    docker tag <nama_image>:<version_image> <nama_repository>/<nama_image>:<version_image>
+    ```
+    ![Docker tag](img/docker-tag.jpg)
 
 5. Melakukan **`docker push`** agar image tersimpan dalam Docker Hub
-```
-docker <nama_image>:<version_image>
-```
-![Docker push](img/docker-push.jpg)
+    ```
+    docker <nama_image>:<version_image>
+    ```
+    ![Docker push](img/docker-push.jpg)
 
 6. Melihat image yang telah di push pada Docker Hub
 
-![Dockerhub - web](img/dockerhub-web.jpg)
-Dari gambar diatas, images **`pelatihan-docker23:latest`** telah berhasil di push ke Docker Hub.
+    ![Dockerhub - web](img/dockerhub-web.jpg)
+    Dari gambar diatas, images **`pelatihan-docker23:latest`** telah berhasil di push ke Docker Hub.
 
 ## Sumber Referensi
 

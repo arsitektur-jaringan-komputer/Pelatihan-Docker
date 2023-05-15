@@ -1,7 +1,4 @@
 # **Docker Service Lanjutan**
-
-Di materi sebelumnya, telah dipelajari beberapa *command* dari Docker yang penting untuk diketahui. Sebelum lanjut pada materi yang berfokus pada implementasi, terlebih dahulu kita masuk pada materi ketiga berikut ini.
-
 - [**Docker Service Lanjutan**](#docker-service-lanjutan)
   - [Glosarium](#glosarium)
   - [Materi](#materi)
@@ -17,7 +14,8 @@ Di materi sebelumnya, telah dipelajari beberapa *command* dari Docker yang penti
         - [Volume](#volume)
         - [Bind Mount](#bind-mount)
         - [tmpfs Mount](#tmpfs-mount)
-      - [Network File System](#network-file-system)
+      - [Shared File System](#shared-file-system)
+        - [Network File System](#network-file-system)
     - [Docker Networking](#docker-networking)
       - [Pengenalan Docker Networking](#pengenalan-docker-networking)
       - [Konsep Dasar di Docker Networking](#konsep-dasar-di-docker-networking)
@@ -80,8 +78,7 @@ Docker Compose juga dapat menentukan Docker Image untuk setiap Docker Container,
 Dalam pengembangan perangkat lunak modern, aplikasi terdiri dari banyak komponen yang dapat dijalankan secara terpisah dan berinteraksi satu sama lain melalui jaringan. Dalam hal ini, Docker Compose menjadi alat yang sangat berguna untuk mengatur aplikasi tersebut dengan menggunakan Docker Container, sehingga memudahkan proses pengembangan, pengujian, dan penyebaran aplikasi yang kompleks.
 
 #### Contoh Implementasi Docker Compose
-> **Catatan**
-Implementasi Docker Compose akan dipraktikan bersamaan dengan implementasi membangun aplikasi microservice dengan Docker. Untuk detailnya bisa dilihat di [Modul 4](https://github.com/arsitektur-jaringan-komputer/Pelatihan-Docker/tree/master/4.%20Membangun%20Aplikasi%20di%20Docker).
+> **Catatan**<br>Implementasi Docker Compose akan dipraktikan bersamaan dengan implementasi membangun aplikasi microservice dengan Docker. Untuk detailnya bisa dilihat di [Modul 4](https://github.com/arsitektur-jaringan-komputer/Pelatihan-Docker/tree/master/4.%20Membangun%20Aplikasi%20di%20Docker).
 
 Berikut adalah contoh penerapan Docker Compose untuk membuat sebuah aplikasi web yang terdiri dari tiga service yaitu frontend, backend, dan database.
 ```
@@ -180,13 +177,12 @@ Pada konfigurasi diatas, dilakukan inherintance dari konfigurasi docker-compose.
 
 #### Mengelola Docker Compose
 Berikut adalah beberapa perintah penting untuk mengelola Docker Compose beserta penjelasannya yang tersedia pada **`docker compose COMMAND`**.
-> **Catatan** 
-Apabila installasi Docker Compose dilakukan melalui standalone maka format perintahnya adalah **`docker-compose COMMAND`** 
+> **Catatan**<br>Apabila installasi Docker Compose dilakukan melalui standalone maka format perintahnya adalah **`docker-compose COMMAND`** 
 
 | Perintah | Deskripsi |
 | --- | --- |
 |`up` | Membuat dan memulai container sesuai dengan konfigurasi di dalam file Docker Compose. |
-|`up -d` |	Sama seperti docker-compose up, tetapi menjalankan container di background (detached mode).
+|`up -d` |	Sama seperti docker-compose up, tetapi menjalankan container di background (detached mode). Sehingga proses docker compose tidak ditampilkan di terminal. |
 |`down`	| Menghentikan dan menghapus container yang dihasilkan oleh docker-compose up. |
 |`build` |	Membuat image untuk service yang didefinisikan di dalam konfigurasi Docker Compose. |
 |`start` | Menjalankan container yang sudah dibuat. |
@@ -272,7 +268,6 @@ docker run -d \
 --name devtest \
 -v test-volume:/app \
 nginx:latest
-
 ```
 ![Menggunakan docker volume pada container](img/docker-start-container-volume.png)
 
@@ -280,7 +275,7 @@ nginx:latest
 - ##### Meng-Inspect Docker Volume
 Untuk melihat detail dari Docker Volume yang sudah dibuat, gunakan perintah **`docker volume inspect`**. Contoh sintaks perintahnya adalah sebagai berikut: **`docker volume inspect <nama_volume>`**
 ```
-docker volumen inspect test-volume
+docker volume inspect test-volume
 ```
 ![Inspect docker volume](img/docker-inspect-volume.png)
 
@@ -377,10 +372,15 @@ docker inspect tmpfs-container
 
 ![Hasil implementasi dari tmpfs mount](img/hasil-tmpfs-mount.png)
 
+#### Shared File System
+Shared file system adalah sebuah sistem yang memungkinkan beberapa komputer untuk mengakses dan berbagi file atau direktori yang sama secara bersamaan. Dalam sebuah jaringan komputer, shared file system memungkinkan pengguna untuk saling berbagi informasi atau file tanpa harus melakukan pengiriman file secara terpisah melalui email atau media penyimpanan portabel lainnya.
 
-#### Network File System
-> **Catatan**
-Konsep Network File System (NFS) ini akan digunakan pada implementasi Docker Swarm. Untuk detailnya bisa dilihat di [Modul 4](https://github.com/arsitektur-jaringan-komputer/Pelatihan-Docker/tree/master/4.%20Membangun%20Aplikasi%20di%20Docker).
+Shared file system sering digunakan dalam lingkungan kantor atau organisasi untuk memungkinkan karyawan untuk berbagi file dan dokumen secara efisien dan efektif. Dengan shared file system, pengguna dapat mengakses, membaca, menulis, dan mengedit file yang sama, terlepas dari lokasi mereka di dalam jaringan. Hal ini juga memungkinkan untuk berkolaborasi dalam waktu dan proyek yang sama.
+
+Shared file system dapat digunakan pada berbagai jenis jaringan, termasuk jaringan lokal (LAN) dan jaringan area luas (WAN). Beberapa contoh dari shared file system termasuk Network File System (NFS), Common Internet File System (CIFS), dan Distributed File System (DFS). Keuntungan dari shared file system meliputi efisiensi dan efektivitas dalam berbagi informasi, memudahkan kolaborasi, meningkatkan produktivitas, serta menghemat waktu dan biaya yang diperlukan untuk pengiriman file secara terpisah.
+
+##### Network File System
+> **Catatan**<br>Konsep Network File System (NFS) ini akan digunakan pada implementasi Docker Swarm. Untuk detailnya bisa dilihat di [Modul 4](https://github.com/arsitektur-jaringan-komputer/Pelatihan-Docker/tree/master/4.%20Membangun%20Aplikasi%20di%20Docker).
 
 NFS (Network File System) pada Docker adalah cara untuk menghubungkan shared file system yang terpisah di antara beberapa host atau Docker Container yang berbeda. NFS memungkinkan Docker Container untuk berbagi file dengan mudah di antara satu sama lain, bahkan ketika container berjalan pada host yang berbeda atau pada swarm cluster yang terdiri dari beberapa host.
 
@@ -438,7 +438,7 @@ Pengaturan IPAM pada Docker memungkinkan pengguna untuk lebih mudah mengelola al
 ##### DNS Name Resolution
 DNS name resolution adalah proses mengubah nama domain menjadi alamat IP yang terkait dengannya. Ketika seseorang mengakses sebuah website, misalnya, browser harus mengetahui alamat IP dari server tempat website tersebut dihosting. Namun, manusia tentunya lebih mudah mengingat nama domain daripada alamat IP yang panjang dan sulit diingat.
 
-![Cara DNS name resolution bekerja](img/dns-name-resolution.png)
+<img src="img/dns-name-resolution.png" alt="Cara DNS Name resolution bekerja" style="width:100%;">
 
 Dalam DNS name resolution, nama domain akan dicocokkan dengan alamat IP yang terkait dengannya dalam database DNS (Domain Name System). Database DNS adalah sistem terdistribusi yang memungkinkan pengguna untuk mencari informasi tentang nama domain dan mengembalikan alamat IP yang terkait dengan domain tersebut. Dalam praktiknya, server DNS biasanya memegang informasi tentang beberapa domain dan mungkin perlu meminta informasi dari server DNS lain jika informasi yang diminta tidak tersedia pada server tersebut. Pembahasan lebih lanjut tentang DNS name resolution dapat dilihat di [Jarkom Modul DNS](#https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/tree/master/Modul-2/DNS)
 
@@ -486,8 +486,7 @@ Untuk membuat host network di Docker dapat dilakukan dengan perintah **`docker n
 Host network paling tepat digunakan ketika performa jaringan menjadi faktor kritis dan isolasi network tidak diperlukan. Contohnya adalah ketika menjalankan aplikasi yang memerlukan koneksi jaringan yang sangat cepat dan membutuhkan akses ke port host yang spesifik, seperti aplikasi game online atau streaming media. Selain itu, host network juga cocok digunakan untuk aplikasi yang sudah teroptimasi untuk dijalankan pada lingkungan host dan tidak memerlukan isolasi network. Misalnya, aplikasi yang hanya digunakan untuk pengujian atau aplikasi yang sifatnya sementara.
 
 ##### overlay Network
-> **Catatan**
-Konsep overlay netowrk ini akan digunakan pada implementasi Docker Swarm. Untuk detailnya bisa dilihat di [Modul 4](https://github.com/arsitektur-jaringan-komputer/Pelatihan-Docker/tree/master/4.%20Membangun%20Aplikasi%20di%20Docker).
+> **Catatan**<br>Konsep overlay network ini akan digunakan pada implementasi Docker Swarm. Untuk detailnya bisa dilihat di [Modul 4](https://github.com/arsitektur-jaringan-komputer/Pelatihan-Docker/tree/master/4.%20Membangun%20Aplikasi%20di%20Docker).
 
 Overlay network di Docker adalah jenis jaringan yang memungkinkan beberapa host Docker terhubung dan berkomunikasi satu sama lain melalui jaringan yang sama. Overlay network menggunakan teknologi Virtual Extensible LAN (VXLAN) untuk memungkinkan container di mesin Docker yang berbeda untuk berkomunikasi satu sama lain seakan-akan mereka berada dalam satu jaringan lokal.
 
