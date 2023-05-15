@@ -22,6 +22,7 @@ Sebelum masuk ke materi Docker Mastery Bootcamp: From Zero to Hero, pastikan sud
 3. Jalankan installernya, lalu pencet  ok/ install, lalu tunggu selama sekitar 2 menit
 4. Docker sudah terinstall
 
+> Jika muncul peringatan `WSL 2 requires an update to its kernel component.` ketika aplikasi dijalankan, download link berikut: https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi, jalankan setup wizard yang sudah didownload, kemudian buka kembali aplikasi docker
 
 #### Linux
 ###### Ubuntu
