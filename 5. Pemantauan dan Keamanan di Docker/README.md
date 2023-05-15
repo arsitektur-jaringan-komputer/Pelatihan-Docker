@@ -24,11 +24,7 @@
       - [Container Poisoning](#container-poisoning)
       - [Container Sprawl](#container-sprawl)
       - [Container Hijacking](#container-hijacking)
-    - [Strategi Keamanan di Docker](#strategi-keamanan-di-docker)
-      - [Pengaturan Kontrol Akses](#pengaturan-kontrol-akses)
-      - [Konfigurasi Jaringan](#konfigurasi-jaringan)
-      - [Manajemen Data dan Konfigurasi](#manajemen-data-dan-konfigurasi)
-      - [Memperbarui Docker secara Teratur](#memperbarui-docker-secara-teratur)
+    - [Implementasi docker Security](#implementasi-docker-security)
 - [**Sumber Referensi**](#sumber-referensi)
 
 ## Glosarium
@@ -548,7 +544,7 @@ Setelah melakukan deploy terhadap monitoring setiap node dan container pada Swar
     USER myuser
     ```
 
-    Pada kode diatas, user baru `myuser` dan group baru `mygroup` dibuat sebelum melakukan instalasi package pada container. Setelah perintah `cmd`, Dockerfile akan membaca file untuk menggunakan user `myuser` pada container yang jalan dari image yang akan dibuild (contoh diatas image Backend).
+    Pada kode diatas, user baru **myuser** dan group baru **mygroup** dibuat sebelum melakukan instalasi package pada container. Setelah perintah **cmd**, Dockerfile akan membaca file untuk menggunakan user **myuser** pada container yang jalan dari image yang akan dibuild (contoh diatas image Backend).
 
 2. **Re-build image Push Images ke Registry**
 
@@ -579,7 +575,7 @@ Setelah melakukan deploy terhadap monitoring setiap node dan container pada Swar
     printf "docker" |  docker secret create postgres_password -
     ```
 
-    dimana ***postgres_db, postgres_user, postgres_password*** merupakan nama dari secret.
+    dimana **postgres_db, postgres_user, postgres_password** merupakan nama dari secret.
 
     untuk melihat secret yang telah dibuat dapat menggunakan perintah berikut :
 
@@ -631,7 +627,7 @@ Setelah melakukan deploy terhadap monitoring setiap node dan container pada Swar
     docker stack deploy -c docker-compose.yaml musicapp
     ```
 
-    Selanjutnya, kita dapat mengecek container frontend dan backend pada worker node apakah hak akses container tersebut sudah bukan root dengan perintah berikut :
+   Selanjutnya, dapat dilakukan pemeriksaan apakah hak akses container frontend dan backend pada worker node sudah tidak lagi sebagai root dengan perintah berikut ini: :
 
     ```yaml
     docker exec -it <id-container> sh
