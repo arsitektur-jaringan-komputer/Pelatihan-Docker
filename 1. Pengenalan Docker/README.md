@@ -2,7 +2,7 @@
 - [**Glosarium**](#glosarium)
 - [**Materi**](#materi)
   - [Host Filesystem Pollution Problem](#️host-filesystem-pollution-problem)
-  - [Virtualization vs Containerization](#virtualization-vs-containerization)
+  - [Virtualization vs Containerization](virtualization-vs-containerization)
     - [Pengertian Virtualization dan Containerization](#pengertian-virtualization-dan-containerization)
     - [Perbedaan Virtualization dan Containerization](#perbedaan-virtualization-dan-containerization)
   - [Apa itu Docker?](#apa-itu-docker)
@@ -12,18 +12,16 @@
     - [Docker Objects](#docker-objects)
     - [Docker Registry](#docker-registry)
   - [Kelebihan dan Kekurangan Docker](#kelebihan-dan-kekurangan-docker)
-  - [Tantangan Penggunaan Docker](#tantangan-penggunaan-docker)
 - [**Sumber Referensi**](#sumber-referensi)
 
 
 ## Glosarium
 | Kata | Pengertian |
 | -------- | -------- |
-| Guest operating system  | sistem operasi yang berjalan di virtual mesin  |
-| Host operating system  | sistem operasi yang berjalan di workstation  |
+| Guest operating system  | sistem operasi yang diinstal dan dijalankan di dalam virtual mesin yang berjalan di atas host operating system. |
+| Host operating system  | sistem operasi yang berjalan di workstation. Host operating system ini bertanggung jawab dalam mengontrol dan mengalokasikan sumber daya komputer seperti memori, prosesor, dan penyimpanan kepada virtual mesin yang berjalan di atasnya. |
 
 ## Materi
-
 ### Host Filesystem Pollution Problem
 
 Host Filesystem Pollution Problem merujuk pada akumulasi file, folder, atau perubahan konfigurasi yang terjadi dalam host operating system akibat instalasi perangkat lunak yang berlebihan atau tidak teratur. Dalam lingkungan pengembangan perangkat lunak, seringkali diperlukan pengujian atau penggunaan banyak perangkat lunak dan dependensi yang berbeda. Namun, jika tidak dikelola dengan baik, hal ini dapat menyebabkan host operating system menjadi tidak teratur, berantakan, atau tidak stabil.
@@ -32,13 +30,13 @@ Salah satu contoh kasus Host Filesystem Pollution Problem adalah akumulasi softw
 
 Selain itu, Host Filesystem Pollution Problem juga dapat terjadi ketika pengguna menggunakan beberapa versi perangkat lunak yang sama secara bersamaan pada host operating system. Misalnya, dalam pengembangan perangkat lunak, terkadang diperlukan untuk menguji aplikasi pada beberapa versi perangkat lunak atau dependensi yang berbeda. Namun, jika pengelolaan versi tidak diatur dengan baik, hal ini dapat mengakibatkan banyak versi perangkat lunak yang terinstal pada host operating system, sehingga membingungkan dan mempersulit pengelolaan dan penggunaan software tersebut.
 
-Nah, permasalahan diataslah yang sering kita temui sebagai developer. Masih banyak lagi contoh kasus Host Filesystem Pollution Problem. Lantas bagaimana cara mengatasi permasalahan tersebut? Yuk, kenalan dengan virtualization dan containerization.
+Permasalahan diataslah yang sering ditemui sebagai developer. Masih banyak lagi contoh kasus Host Filesystem Pollution Problem. Lantas bagaimana cara mengatasi permasalahan tersebut? Yuk, berkenalan dengan konsep virtualization dan containerization.
 
 ### Virtualization vs Containerization
 #### Pengertian Virtualization dan Containerization
-**Virtualization** adalah teknologi yang memungkinkan pembuatan mesin virtual di dalam satu fisik server. Dengan menggunakan hypervisor, virtualisasi memungkinkan pengelolaan beberapa sistem operasi atau aplikasi yang berjalan secara mandiri. Konsep dasar virtualisasi melibatkan isolasi sumber daya antara mesin virtual, sehingga setiap mesin virtual dapat beroperasi seolah-olah menjadi mesin fisik yang terpisah.
+Virtualization adalah teknologi yang memungkinkan pembuatan mesin virtual di dalam satu fisik server. Dengan menggunakan hypervisor, virtualisasi memungkinkan pengelolaan beberapa sistem operasi atau aplikasi yang berjalan secara mandiri. Konsep dasar virtualisasi melibatkan isolasi sumber daya antara mesin virtual, sehingga setiap mesin virtual dapat beroperasi seolah-olah menjadi mesin fisik yang terpisah.
 
-Sedangkan **Containerization** adalah teknologi yang memungkinkan pengemasan aplikasi dan dependensinya ke dalam sebuah wadah (container) yang dapat dijalankan secara konsisten di berbagai lingkungan komputasi, tanpa perlu mengubah kode atau konfigurasi aplikasi itu sendiri. Container merupakan unit yang portabel, ringan, dan dapat diisolasi, yang mengemas aplikasi, library, dan konfigurasi menjadi satu entitas yang dapat dijalankan di lingkungan yang berbeda, seperti lokal, cloud, atau pusat data.
+Sedangkan Containerization adalah teknologi yang memungkinkan pengemasan aplikasi dan dependensinya ke dalam sebuah wadah (container) yang dapat dijalankan secara konsisten di berbagai lingkungan komputasi, tanpa perlu mengubah kode atau konfigurasi aplikasi itu sendiri. Container merupakan unit yang portabel, ringan, dan dapat diisolasi, yang mengemas aplikasi, library, dan konfigurasi menjadi satu entitas yang dapat dijalankan di lingkungan yang berbeda, seperti lokal, cloud, atau pusat data.
 
 #### Perbedaan Virtualization dan Containerization
 ![Perbedaan cara kerja virtualization dan containerization](img/virtualization-vs-containerization.jpg)
