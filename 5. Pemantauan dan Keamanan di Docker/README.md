@@ -24,11 +24,7 @@
       - [Container Poisoning](#container-poisoning)
       - [Container Sprawl](#container-sprawl)
       - [Container Hijacking](#container-hijacking)
-    - [Strategi Keamanan di Docker](#strategi-keamanan-di-docker)
-      - [Pengaturan Kontrol Akses](#pengaturan-kontrol-akses)
-      - [Konfigurasi Jaringan](#konfigurasi-jaringan)
-      - [Manajemen Data dan Konfigurasi](#manajemen-data-dan-konfigurasi)
-      - [Memperbarui Docker secara Teratur](#memperbarui-docker-secara-teratur)
+    - [Implementasi docker Security](#implementasi-docker-security)
 - [**Sumber Referensi**](#sumber-referensi)
 
 ## Glosarium
@@ -169,7 +165,7 @@ Berikut diagram implementasi Docker Monitoring
 1. Buat Compose file
 
     Agar memudahkan untuk menginstal tools yang diperlukan untuk melakukan monitoring, maka buat sebuah file **`docker-compose.yml`** pada folder monitoring. File tersebut akan mendifinisikan service prometheus, Node Exporter, cAdvisor, dan Grafana, serta sebuah network bridge. Buat sebuah file **`docker-compose.yml`** pada folder monitoring dan paste kode berikut:
-    
+
     ```yaml
     version: '3.2'
     services:
@@ -375,7 +371,7 @@ Berikut diagram implementasi Docker Monitoring
           labels:
             alias: 'cadvisor'
     ```
-    Berikut adalah penjelasan dari konfigurasi **`prometheus.yml`**: 
+    Berikut adalah penjelasan dari konfigurasi **`prometheus.yml`**:
 
     - **`global`** :  ini ada konfigurasi default Global. Pada contoh, akan diset scrape_interval untuk scraping metrics dari configured jobs sebesar 15 detik.
     - **`scrape_configs`** : mendefinisikan jobs yang akan di scraping metrics nya.
@@ -490,280 +486,160 @@ Beberapa teknik yang dapat digunakan oleh Attacker untuk melakukan container hij
 - Privilege Escalation: Attacker mencoba untuk mendapatkan akses root pada container untuk mendapatkan kontrol penuh atas environment tersebut.
 - Malware Injection: Attacker memasukkan malware ke dalam container untuk mencuri data atau merusak lingkungan.
 
-### Strategi Keamanan di Docker
-#### Pengaturan Kontrol Akses
-##### Set non-root user
+### Implementasi Docker Security
 
-Melakukan konfigurasi pada container untuk menggunakan unprivileged user adalah cara terbaik untuk mencegah serangan privilege escalation. Beberapa cara yang dapat dilakukan adalah
+Setelah melakukan deploy terhadap monitoring setiap node dan container pada Swarm, selanjutnya akan dilakukan implementasi Security. Pada tahap implementasi Security ini akan didasari berdasarkan ancaman keamanan Privilege Escalation dan Container Escape.
 
-1. Saat runtime, gunakan flag -u pada command docker run :
+1. **Set non-root User pada Dockerfile**
 
-    ```bash
-    docker run -u 4000 alpine
-    ```
+    Pada tahap ini akan dilakukan konfigurasi agar container yang berjalan tidak memiliki hak akses root. Hal ini dapat dilakukan dengan menambahkan user baru pada Dockerfile saat akan melakukan build images.
 
-2. Saat build time. Tambahkan user baru pada Dockerfile
+    Berikut konfigurasi Dockerfile pada service backend dan frontend:
 
     ```docker
-    FROM alpine
-    RUN groupadd -r myuser && useradd -r -g myuser myuser
-    <HERE DO WHAT YOU HAVE TO DO AS A ROOT USER LIKE INSTALLING PACKAGES ETC.>
+    FROM node:14
+
+    WORKDIR /usr/src/backend
+
+    COPY package*.json ./
+
+    # add new group 'mygroup' and assign to new user 'myuser'
+    RUN groupadd -r mygroup && useradd -r -g mygroup myuser
+
+    RUN npm install --production
+    RUN apt-get update && \
+        apt-get install -y net-tools postgresql-client
+
+    COPY . .
+
+    EXPOSE 5000
+
+    CMD [ "npm", "run", "start-prod", "--", "0.0.0.0" ]
+
+    # set user for container using this image
     USER myuser
     ```
 
-3. Enable user namespace support(-userns-remap=default) pada Docker daemon.
-
     ```docker
-    dockerd --userns-remap="testuser:testuser"
+    FROM node:14
+
+    WORKDIR /usr/src/frontend
+
+    COPY package*.json ./
+
+    # add new group 'mygroup' and assign to new user 'myuser'
+    RUN groupadd -r mygroup && useradd -r -g mygroup myuser
+
+    RUN npm install --production
+
+    COPY . .
+
+    RUN npm run build
+
+    EXPOSE 3000
+
+    CMD [ "npm", "start" ]
+
+    # set user for container using this image
+    USER myuser
     ```
 
+    Pada kode diatas, user baru **myuser** dan group baru **mygroup** dibuat sebelum melakukan instalasi package pada container. Setelah perintah **cmd**, Dockerfile akan membaca file untuk menggunakan user **myuser** pada container yang jalan dari image yang akan dibuild (contoh diatas image Backend).
 
-##### Batasi kapabilitas
+2. **Re-build image Push Images ke Registry**
 
-[Linux kernel capabilities](https://man7.org/linux/man-pages/man7/capabilities.7.html) adalah kumpulan privileges yang dapat digunakan oleh user yang memiliki privilege. Secara default, Docker berjalan hanya dengan sebagian dari capabilities. Dengan membatasi capabilities, tentu dapat mencegah kerentanan yang mungkin terjadi pada container.
-
-Selain itu juga dapat mengubah dan melakukan drop beberapa capabilities menggunakan flag **`—can-drop`** untuk lebih meningkatkan keamanan container, atau menambah beberapa capabilities **`--cap-add`** jika diperlukan. Pehatikan untuk tidak menjalankan container dengan flag **`--privileged`** karena hal ini akan menambah SEMUA linux kernel capabilities pada container.
-
-Cara setup capabilities yang paling aman dengan melakukan drop semua capabilities **`--can-drop-all`** kemudian tambahkan hanya yang diperlukan.
-
-```docker
-docker run --cap-drop all --cap-add CHOWN alpine
-```
-
-##### Add –no-new-privileges flag
-
-Saat akan menjalankan docker images, selalu gunakan flag -security-opt=no-new-privileges untuk mencegah privilege escalation yang menggunakan binary setuid dan setgid
-
-#### Konfigurasi Jaringan
-
-Docker container sangat bergantung kepada Docker API dan jaringan untuk berkomunikasi satu sama lain. Sangatlah penting untuk memastikan bahwa arsitektur jaringan dirancang dengan aman sehingga dapat dilakukan pemantauan aktivitas jaringan terhadap anomali yang dapat mengindikasikan gangguan.
-
-##### Buat sebuah overlay network yang terenksipsi
-
-Docker swarm menghasilkan dua jenis lalu lintas yang berbeda :
-
-- Control dan management plane traffic
-- Application data plane traffic
-
-Semua overlay network pada Docker memiliki control plane traffic yang terenkripsi secara default. Untuk melakukan enkripsi pada data plane traffic, dapat menggunakan **`--opt encrypted`** flag pada command docker create.
-
-1. Buat overlay network baru bernama net1
+    Selanjutnya akan dilakukan re-build image (backend dan frontend) dari Dockerfile yang sudah dimodifikasi
 
     ```bash
-    docker network create -d overlay --opt encrypted net1
+    docker compose build
     ```
 
-2. Inspect network net1 untuk memeriksa konfigurasi enkripsi
-
-    ```docker
-    $ docker network inspect net1
-    [
-      {
-        "Name": "net1",
-        "Id": "uaaw8ljwidoc5is2qo362hd8n",
-        "Created": "0001-01-01T00:00:00Z",
-        "Scope": "swarm",
-        "Driver": "overlay",
-        "EnableIPv6": false,
-        "IPAM": {
-            "Driver": "default",
-            "Options": null,
-            "Config": []
-        },
-        "Internal": false,
-        "Attachable": false,
-        "Containers": null,
-        "Options": {
-            "com.docker.network.driver.overlay.vxlanid_list": "4098",
-            "encrypted": ""
-        },
-        "Labels": null
-      }
-    ]
-    ```
-
-##### List networks
-
-1. Jalankan perintah docker network ls pada node1 (manager node)
-
-    ```docker
-    node1$ docker network ls
-    NETWORK ID          NAME                DRIVER              SCOPE
-    70bd606f9f81        bridge              bridge              local
-    475a3b8f04de        docker_gwbridge     bridge              local
-    f94f673bfe7e        host                host                local
-    3ecc06xxyb7d        ingress             overlay             swarm
-    xt3jwgsq20ob        net1                overlay             swarm
-    b535831c780f        none                null                local
-    ```
-
-2. Jalankan perintah docker network ls pada node2 (worker node)
-
-    ```docker
-    node2$ docker network ls
-    NETWORK ID          NAME                DRIVER              SCOPE
-    abe97d2963b3        bridge              bridge              local
-    42295053cd72        docker_gwbridge     bridge              local
-    ad4f60192aa0        host                host                local
-    3ecc06xxyb7d        ingress             overlay             swarm
-    1a85d1a0721f        none                null                local
-    ```
-
-Pada list diatas, network net1 tidak terlihat di node2 (worker node). Ini membuktikan bahwa Docker tidak memperluas jaringan yang baru dibuat ke semua worker node di Swarm. Hal ini meningkatkan skalabilitas dan keamanan.
-
-##### Deploy service pada Swarm
-
-1. Deploy service baru di semua nodes pada Swarm. Pastikan untuk menggunakan replica task yang cukup (memadai) sehingga memaksa Docker untuk memperluas network ke semua nodes pada Swarm.
+    Setelah image baru telah ter-build, selanjutnya image baru tersebut akan di push ke Docker Registry.
 
     ```bash
-    $ docker service create --name service1 \
-    --network=net2 --replicas=4 \
-    alpine:latest sleep 1d
-
-    ivfei61h3jvypuj7v0443ow84
+    docker push <ip-manager>:4000/frontend
+    docker push <ip-manager>:4000/backend
     ```
 
-2. Cek apakah service yang baru telah berhasil dideploy
+3. **Konfigurasi Docker Secret pada file Compose**
+
+    Pada Docker, sebuah **`secret`** adalah segala jenis informasi atau data yang tidak boleh disimpan dalam text files biasa yang tidak dienkripsi, seperti password, SSH private keys, certificates, atau API keys. Oleh sebab itu docker memiliki fitur untuk memanajemen sebuah secret yang disebut Docker secrets. Docker secrets merupakan salah satu fitur yang disediakan dari Docker Swarm.
+
+    Pada tahap ini, akan dilakukan implementasi Docker secret pada compose sehingga tidak ada informasi sensitif yang akan disimpan pada file compose.
+
+    Hal pertama yang dapat dilakukan yaitu membuat secret untuk informasi sensitif dari nama, user dan password database yang akan dideploy. Untuk membuat secret dari file yang ada dapat menggunakan perintah berikut :
 
     ```bash
-    $ docker service ls
-    ID            NAME      MODE        REPLICAS  IMAGE
-    ivfei61h3jvy  service1  replicated  4/4       alpine:latest
+    printf "musicapp" | docker secret create postgres_db -
+    printf "docker" |  docker secret create postgres_user -
+    printf "docker" |  docker secret create postgres_password -
     ```
 
-3. Jalankan perintah docker network ls pada node2
+    dimana **postgres_db, postgres_user, postgres_password** merupakan nama dari secret.
+
+    untuk melihat secret yang telah dibuat dapat menggunakan perintah berikut :
 
     ```bash
-    node3$ docker network ls
-    NETWORK ID          NAME                DRIVER              SCOPE
-    abe97d2963b3        bridge              bridge              local
-    42295053cd72        docker_gwbridge     bridge              local
-    ad4f60192aa0        host                host                local
-    3ecc06xxyb7d        ingress             overlay             swarm
-    uaaw8ljwidoc        net2                overlay             swarm
-    1a85d1a0721f        none                null                local
+    docker secret ls
     ```
 
-    Network net2 sekarang terlihat di node2. Hal ini karena node2 sedang menjalankan task service1 yang menggunakan network net2.
-
-#### Manajemen Data dan Konfigurasi
-
-Pada Docker, sebuah **`secret`** adalah segala jenis informasi atau data yang tidak boleh disimpan dalam text files biasa yang tidak dienkripsi, seperti password, SSH private keys, certificates, atau API keys. Oleh sebab itu docker memiliki fitur untuk memanajemen sebuah secret yang disebut Docker secrets. Docker secrets merupakan salah satu fitur yang disediakan dari container orchestration stack (Docker Swarm).
-
-Beberapa cara yang biasanya dilakukan untuk meyimpan secrets :
-
-1. Menyimpan secret pada Docker Compose.
+    Kemudian pada file `docker-compose.yaml` harus ditambahkan top-level entry secrets dan dife
 
     ```yaml
-    version: '3'
-
+    version: '3.8'
     services:
-
-      my_database:
-        container_name: my_database
-        hostname: my_database
-        image: postgres
-        volumes:
-          - ./volume:/var/lib/postgresql
-        environment:
-          - POSTGRES_DB=mydb, mydb_dev
-          - POSTGRES_USER=notsecure
-          - POSTGRES_PASSWORD=aStrongPassword
-        ports:
-          - 54321:5432
-        restart: unless-stopped
-    ```
-
-    Hal berikut merupakan kesalahan umum dimana ini memungkinkan informasi sensitif (seperti DB Password) yang dibutuhkan oleh container akan mudah diakses oleh siapa saja yang memiliki akses ke repositori atau file
-
-2. Melakukan embed secret ke Docker Images
-
-    Jika secret dilakukan embed ke Docker Images, hal ini membuat Images tersebut bergantung pada file eksternal sehingga merusak prinsip reusability.
-
-3. Menyimpan secret ke Environment Variable.
-
-    Secret yang disimpan ke env variable akan lebih rentan terhadap kesalahan yang tidak disengaja seperti melakukan print terhadap semua variabel pada file .env saat proses debugging.
-
-
-Beberapa cara diatas memiliki potensi untuk membahayakan kemanan sistem. Docker secrets memberikan sebuah solusi dengan benefit sebagai berikut :
-
-- Secrets selalui terenkripsi
-- Secret sulit untuk dibocorkan secara tidak sengaja oleh service yang menggunakannya.
-- Akses pada secret mengikut the principle of least privilege (POLP)
-
-##### Implementasi Docker secrets pada Compose :
-
-1. Enable Swarm mode
-
-    ```bash
-    docker swarm init
-    ```
-
-2. Tambahkan sebuah secret ke Docker
-
-    ```bash
-    openssl rand -base64 128 | docker secret create my_secret_data -
-    ```
-
-3. Buat sebuah service redis dan beri akses ke secret
-
-    ```bash
-    docker service  create --name redis --secret my_secret_data redis:alpine
-    ```
-
-4. Dapatkan ID dari service redis sehingga dapat terhubung ke container redis dan membaca isi data dari file secret
-
-    ```bash
-    docker ps --filter name=redis -q
-
-    docker container exec $(docker ps --filter name=redis -q) cat /run/secrets/my_secret_data
-    ```
-
-5. Gunakan secret tersebut pada file docker-compsoe.yml
-
-    ```yaml
-    version: "3.9"
-    services:
-      db:
-         image: mysql:latest
-         volumes:
-           - db_data:/var/lib/mysql
-         environment:
-           MYSQL_ROOT_PASSWORD_FILE: /run/secrets/my_secret_data
-           MYSQL_DATABASE: pelatihan_docker
-           MYSQL_USER: pelatihan_docker
-           MYSQL_PASSWORD_FILE: /run/secrets/db_password
-         secrets:
-           - my_secret
-           - db_password
-      wordpress:
-         depends_on:
-           - db
-         image: wordpress:latest
-         ports:
-           - "8000:80"
-         environment:
-           WORDPRESS_DB_HOST: db:3306
-           WORDPRESS_DB_USER: wordpress
-           WORDPRESS_DB_PASSWORD_FILE: /run/secrets/my_secret_data
-         secrets:
-           - my_secret_data
+    ...
+    ...
     secrets:
-      my_secret_data:
-        file: my_secret_data.txt
-      db_password:
+      postgres_db:
+        external: true
+      postgres_user:
+        external: true
+      postgres_password:
         external: true
     ```
 
-    - keyword **`secrets`**: mendefinisikan dua secrets **`my_secret_data:`** dan **`db_password:`**.
-    - Ketika dideploy, Docker membuat dua secrets dan mengisinya dengan konten dari file yang ditentukan pada file compose
-    - db services menggunakan dua secrets, sedangkan wordpress service menggunakan satu.
-    - Saat deploy, Docker melakukan mounting file pada **`/run/secrets/<secret_name>`** di service tersebut. File ini tidak penah disimpan pada disk, tetapi di managed di memory.
+    Di sini, keyword "external" digunakan untuk menunjukkan bahwa external secret yang telah dibuat sebelumnya digunakan ketika Docker berada dalam mode Swarm.
 
-    Dengan metode berikut, ini menjamin bahwa secret hanya tersedia untuk service yang diberikan akses secara eksplisit, dan secret tersebut hanya ada di sebuah in-memory filesystem saat service tersebut dijalankan.
+    Kemudian tambahkan secret pada setiap service yang diperlukan. sebagai contoh berikut pada serrvice `db` :
+
+    ```yaml
+    version: '3.8'
+    services:
+      db:
+        ...
+        ...
+        environment:
+          POSTGRES_USER: /run/secrets/postgres_user
+          POSTGRES_PASSWORD: /run/secrets/postgres_password
+          POSTGRES_DB: /run/secrets/postgres_db
+        ...
+        ...
+        secrets:
+          - postgres_user
+          - postgres_password
+          - postgres_db
+    ```
+
+    Setelah melakukan konfigurasi **non-root user** pada Dockerfile dan **Secret** pada compose, lakukan deploy ulang pada Stack bernama `musicapp` dengan perintah berikut:
+
+    ```yaml
+    docker stack deploy -c docker-compose.yaml musicapp
+    ```
+
+   Selanjutnya, dapat dilakukan pemeriksaan apakah hak akses container frontend dan backend pada worker node sudah tidak lagi sebagai root dengan perintah berikut ini: :
+
+    ```yaml
+    docker exec -it <id-container> sh
+    #
+    whoami
+    # myuser
+    ```
+
+    Selamat. implementasi Docker Security telah berhasil.
 
 
-#### Memperbarui Docker secara Teratur
+**Tambahan (Memperbarui Docker)**
 
 Container tidak seperti virtual machines. Container berbagi kernel yang sama dengan host. Jika sebuah eksploit dijalankan di dalam container, hal tersebut bisa langsung mengenai atau merusak kernel host. Misalnya seperti eksploit kernel privilege escalation ([Dirty COW](https://github.com/scumjr/dirtycow-vdso)) yang saat dieksekusi di dalam container akan menghasilkan hak akses root di host.
 
