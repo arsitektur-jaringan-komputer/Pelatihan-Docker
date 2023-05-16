@@ -32,7 +32,7 @@ Seperti materi sebelumnya, selalulah untuk keep in mind beberapa istilah berikut
 | Alamat IP        | Alamat IP adalah alamat unik yang diberikan pada setiap perangkat yang terhubung ke jaringan komputer. Alamat IP terdiri dari serangkaian angka, yang dibagi menjadi beberapa segmen. Ada dua jenis alamat IP, yaitu IPv4 dan IPv6. |
 | Bridge Network    | Bridge Network adalah sebuah jaringan virtual yang memungkinkan komunikasi antara beberapa container atau antara container dan host. Bridge Network dapat diatur menggunakan driver yang berbeda, dan setiap container akan memiliki alamat IP sendiri-sendiri pada jaringan tersebut. |
 | Cluster           | Cluster adalah kumpulan beberapa host yang bekerja sama untuk menjalankan aplikasi. Dalam konteks Docker, cluster dapat digunakan untuk mengelola container pada beberapa host secara bersamaan. |
-| Compose           | Docker Compose adalah sebuah tool yang digunakan untuk mendefinisikan, menjalankan, dan mengelola aplikasi multi-container dengan Docker. Compose memungkinkan kita untuk mendefinisikan semua konfigurasi aplikasi dalam sebuah file YAML, sehingga memudahkan pengguna untuk mengelola dan melakukan deployment aplikasi dengan Docker. |
+| Compose           | Docker Compose adalah sebuah tool yang digunakan untuk mendefinisikan, menjalankan, dan mengelola aplikasi multi-container dengan Docker. Compose memungkinkan untuk mendefinisikan semua konfigurasi aplikasi dalam sebuah file YAML, sehingga memudahkan pengguna untuk mengelola dan melakukan deployment aplikasi dengan Docker. |
 | Container         | Container adalah sebuah unit perangkat lunak yang berisi semua yang diperlukan untuk menjalankan sebuah aplikasi. Container berjalan di atas Docker Engine, dan memiliki sistem file yang terisolasi serta sumber daya (seperti CPU, memori, dan jaringan) yang terisolasi. Container sangat ringan dan portabel, sehingga memungkinkan aplikasi dapat dijalankan di mana saja. |
 | Data Management   | Data Management dalam konteks Docker merujuk pada cara pengelolaan data yang digunakan oleh container, seperti persistent storage dan backup. Data Management yang baik sangat penting untuk menghindari kehilangan data dan memastikan keandalan dan kesinambungan aplikasi. |
 | Driver            | Driver dalam konteks Docker merujuk pada komponen yang digunakan untuk mengatur komunikasi antara Docker Engine dan sistem penyimpanan. Driver dapat diatur untuk berbagai jenis sistem penyimpanan, seperti file system lokal, Amazon S3, dan lain-lain. |                                             
@@ -99,19 +99,19 @@ Berikut adalah penjelasan dari konfigurasi diatas:
 
 | Properti | Deskripsi |
 | --- | --- |
-| **`version: '3'`** | Versi dari Docker Compose yang digunakan dalam konfigurasi tersebut. |
-| **`services`** | Komponen utama yang mendefinisikan service yang akan dijalankan. Dalam konfigurasi diatas, terdapat 3 service, yaitu frontend, backend, dan database. |
-| **`backend`** | Nama service yang akan dijalankan. |
-| **`build: ./backend`** | Menentukan direktori dimana Docker akan melakukan build image untuk service backend. |
-| **`ports: - "8080:8080"`** | Mendefinisikan port mapping, dimana **`port 8080`** pada container akan di-forward ke **`port 8080`** pada host. |
-| **`environment: DB_HOST: database`** | Mendefinisikan environment variable pada service backend, dimana **`DB_HOST`** akan di-set sebagai database. |
-| **`frontend`** | Nama service yang akan dijalankan. |
-| **`build: ./frontend`** | Menentukan direktori dimana Docker akan melakukan build image untuk service frontend. |
-| **`ports: - "3000:3000"`** | Mendefinisikan port mapping, dimana **`port 3000`** pada container akan di-forward ke **`port 3000`** pada host. |
-| **`environment: REACT_APP_BACKEND_URL: http://backend:8080`** | Mendefinisikan environment variable pada service frontend, dimana **`REACT_APP_BACKEND_URL`** akan di-set sebagai **`http://backend:8080`**. |
-| **`database`** | Nama service yang akan dijalankan. |
+| `version: '3'` | Versi dari Docker Compose yang digunakan dalam konfigurasi tersebut. |
+| `services` | Komponen utama yang mendefinisikan service yang akan dijalankan. Dalam konfigurasi diatas, terdapat 3 service, yaitu frontend, backend, dan database. |
+| `backend` | Nama service yang akan dijalankan. |
+| `build: ./backend` | Menentukan direktori dimana Docker akan melakukan build image untuk service backend. |
+| `ports: - "8080:8080"` | Mendefinisikan port mapping, dimana `port 8080` pada container akan di-forward ke `port 8080` pada host. |
+| `environment: DB_HOST: database` | Mendefinisikan environment variable pada service backend, dimana `DB_HOST` akan di-set sebagai database. |
+| `frontend` | Nama service yang akan dijalankan. |
+| `build: ./frontend` | Menentukan direktori dimana Docker akan melakukan build image untuk service frontend. |
+| `ports: - "3000:3000"` | Mendefinisikan port mapping, dimana `port 3000` pada container akan di-forward ke `port 3000` pada host. |
+| `environment: REACT_APP_BACKEND_URL: http://backend:8080` | Mendefinisikan environment variable pada service frontend, dimana `REACT_APP_BACKEND_URL` akan di-set sebagai `http://backend:8080`. |
+| `database` | Nama service yang akan dijalankan. |
 | image: postgres | Mendefinisikan image yang akan digunakan untuk service database. |
-| **`environment: POSTGRES_USER: myuser POSTGRES_PASSWORD: mypassword POSTGRES_DB: mydb`** | Mendefinisikan environment variable pada service database, dimana **`POSTGRES_USER`** akan di-set sebagai **`myuser`**, **`POSTGRES_PASSWORD`** akan di-set sebagai **`mypassword`**, dan **`POSTGRES_DB`** akan di-set sebagai **`mydb`**. |
+| `environment: POSTGRES_USER: myuser POSTGRES_PASSWORD: mypassword POSTGRES_DB: mydb` | Mendefinisikan environment variable pada service database, dimana `POSTGRES_USER` akan di-set sebagai `myuser`, `POSTGRES_PASSWORD` akan di-set sebagai `mypassword`, dan `POSTGRES_DB` akan di-set sebagai `mydb`. |
 
 Untuk praktik lebih lanjut akan dicontohkan pada [**Modul 4**](https://github.com/arsitektur-jaringan-komputer/Pelatihan-Docker/tree/pd23/4.%20Membangun%20Aplikasi%20di%20Docker) sekaligus sebagai materi selanjutnya. 
 
@@ -183,19 +183,19 @@ Berikut adalah beberapa perintah penting untuk mengelola Docker Compose beserta 
 > **Catatan**<br>Apabila installasi Docker Compose dilakukan melalui standalone maka format perintahnya adalah **`docker-compose COMMAND`** 
 
 | Perintah | Deskripsi |
-| --- | --- |
-|**`up`** | Membuat dan memulai container sesuai dengan konfigurasi di dalam file Docker Compose. |
-|**`up -d`** |	Sama seperti docker-compose up, tetapi menjalankan container di background (detached mode). Sehingga proses docker compose tidak ditampilkan di terminal. |
-|**`down`**	| Menghentikan dan menghapus container yang dihasilkan oleh docker-compose up. |
-|**`build`** |	Membuat image untuk service yang didefinisikan di dalam konfigurasi Docker Compose. |
-|**`start`** | Menjalankan container yang sudah dibuat. |
-|**`stop` **|	Menghentikan container yang sedang berjalan. |
-|**`restart`** |	Menghentikan dan menjalankan kembali container. |
-|**`ps`** |	Menampilkan status dari container yang dijalankan oleh Docker Compose. |
-|**`logs`** |	Menampilkan log dari service yang dijalankan oleh Docker Compose. |
-|**`exec`** |	Menjalankan perintah di dalam container. |
-|**`config`** |	Memvalidasi dan menampilkan konfigurasi dari Docker Compose |
-|**`kill`** |	Memaksa menghentikan container yang sedang berjalan. |
+| ---   | --- |
+|`up` | Membuat dan memulai container sesuai dengan konfigurasi di dalam file Docker Compose. |
+|`up -d`|	Sama seperti `docker-compose up`, tetapi menjalankan container di background (detached mode). Sehingga proses docker compose tidak ditampilkan di terminal. |
+|`down`	| Menghentikan dan menghapus container yang dihasilkan oleh docker-compose up. |
+|`build` |	Membuat image untuk service yang didefinisikan di dalam konfigurasi Docker Compose. |
+|`start` | Menjalankan container yang sudah dibuat. |
+|`stop` |	Menghentikan container yang sedang berjalan. |
+|`restart` |	Menghentikan dan menjalankan kembali container. |
+|`ps` |	Menampilkan status dari container yang dijalankan oleh Docker Compose. |
+|`logs` |	Menampilkan log dari service yang dijalankan oleh Docker Compose. |
+|`exec` |	Menjalankan perintah di dalam container. |
+|`config` |	Memvalidasi dan menampilkan konfigurasi dari Docker Compose |
+|`kill` |	Memaksa menghentikan container yang sedang berjalan. |
 
 ### Docker Data Management
 #### Pengenalan Docker Data Management 
@@ -332,11 +332,11 @@ Terdapat beberapa jenis Docker Mount sebagai berikut.
 
     | Opsi          | Keterangan                                                  |
     | ------------- | ------------------------------------------------------------ |
-    | **`-d`**          | menjalankan container di background (detach mode).          |
-    | **`-it`**         | mengalihkan interaksi ke terminal container (interactive mode dan attach to container). |
-    | **`--name` **     | memberikan nama **`bind-container`** container.                  |
-    | **`--mount`**     | menentukan opsi mount pada container. Pada kasus ini, menggunakan **`opsi type=bind`** untuk membuat bind mount, di mana direktori lokal pada host **`$(pwd)/target`** di-mount pada direktori **`/app`** pada container. |
-    | **`node:16-alpine`** | image yang akan digunakan untuk menjalankan container.        |
+    | `-d`          | menjalankan container di background (detach mode).          |
+    | `-it`         | mengalihkan interaksi ke terminal container (interactive mode dan attach to container). |
+    | `--name`      | memberikan nama `bind-container` container.                  |
+    | `--mount`     | menentukan opsi mount pada container. Pada kasus ini, menggunakan `opsi type=bind` untuk membuat bind mount, di mana direktori lokal pada host `$(pwd)/target` di-mount pada direktori `/app` pada container. |
+    | `node:16-alpine` | image yang akan digunakan untuk menjalankan container.        |
 
     Untuk memastikan proses bind mount berjalan dengan baik dapat menggunakan perintah **`docker inspect nama_container`** dan lihat outputnya pada bagian **`Mounts`**.
     ```bash
@@ -366,12 +366,12 @@ Terdapat beberapa jenis Docker Mount sebagai berikut.
 
     | Opsi | Deskripsi |
     | --- | --- |
-    | **`-d`** | Menjalankan container di background (detach mode). |
-    | **`-it`** | Mengalihkan interaksi ke terminal container (interactive mode dan attach to container). |
-    | **`--name`** | Memberikan nama **`bind-container`** container. |
-    | **`--mount`** | Digunakan untuk memasang sebuah volume pada container. **`type=tmpfs`** menentukan jenis volume yang akan digunakan, yaitu tmpfs volume. **`destination=/app`** menunjukkan direktori tujuan dari volume ini, yaitu **`/app`**. |
-    | **`tmpfs-size=100M`** | Digunakan untuk menentukan ukuran maksimum volume tmpfs dalam container, dalam hal ini sebesar 100 megabyte. |
-    | **`node:16-alpine`** | Image yang akan digunakan untuk menjalankan container. |
+    | `-d` | Menjalankan container di background (detach mode). |
+    | `-it` | Mengalihkan interaksi ke terminal container (interactive mode dan attach to container). |
+    | `--name` | Memberikan nama `bind-container` container. |
+    | `--mount` | Digunakan untuk memasang sebuah volume pada container. `type=tmpfs` menentukan jenis volume yang akan digunakan, yaitu tmpfs volume. `destination=/app` menunjukkan direktori tujuan dari volume ini, yaitu `/app`. |
+    | `tmpfs-size=100M` | Digunakan untuk menentukan ukuran maksimum volume tmpfs dalam container, dalam hal ini sebesar 100 megabyte. |
+    | `node:16-alpine` | Image yang akan digunakan untuk menjalankan container. |
 
     Untuk memastikan proses tmpfs mount berjalan dengan baik dapat menggunakan perintah docker inspect nama_container dan lihat outputnya pada bagian Mounts.
     ```
