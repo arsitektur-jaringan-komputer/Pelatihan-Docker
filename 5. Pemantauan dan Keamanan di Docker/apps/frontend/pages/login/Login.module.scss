@@ -1,0 +1,60 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+
+  main {
+    text-align: center;
+    header {
+      margin-bottom: 32px;
+      h1 {
+        font-size: 42px;
+        font-weight: normal;
+
+        a {
+          color: #000000;
+          font-weight: bold;
+        }
+      }
+
+      p {
+        margin-top: 8px;
+        font-size: 18px;
+      }
+    }
+
+    .input_container {
+      input, button {
+        margin: 8px 0;
+        padding: 8px;
+        width: 100%;
+        display: block;
+        border-radius: 10px;
+        font-family: inherit;
+      }
+
+      button {
+        margin-top: 16px;
+        cursor: pointer;
+        background-color: transparent;
+        border: 2px solid #000000;
+        font-weight: bold;
+        color: #000000;
+      }
+
+      button:active {
+        background-color: #000000;
+        color: white;
+      }
+    }
+
+    .register_link {
+      padding: 12px;
+    }
+  }
+}
+
+
+

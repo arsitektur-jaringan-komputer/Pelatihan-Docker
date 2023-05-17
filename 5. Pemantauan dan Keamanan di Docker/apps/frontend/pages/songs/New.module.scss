@@ -1,0 +1,111 @@
+.add_song {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 2rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  
+  h1 {
+    margin-top: 0;
+  }
+
+  label {
+    display: block;
+    margin-top: 1rem;
+  }
+
+  input[type="text"] {
+    display: block;
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+
+  .select_wrapper {
+    position: relative;
+    margin-bottom: 1.5rem;
+  }
+  
+  .select_wrapper select {
+    display: block;
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    line-height: 1.5;
+    appearance: none;
+    cursor: pointer;
+  }
+  
+  .select_wrapper:after {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 65%;
+    right: 1rem;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0.5rem 0.5rem 0 0.5rem;
+    border-color: #666 transparent transparent transparent;
+    pointer-events: none;
+  }
+  
+  .select_wrapper:before {
+    content: attr(data-placeholder);
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.2rem;
+    color: #666;
+    pointer-events: none;
+    z-index: 1;
+    font-weight: 500;
+  }
+  
+  .select_wrapper select:focus + label,
+  .select_wrapper select:not(:placeholder-shown) + label {
+    top: 0.5rem;
+    font-size: 1rem;
+    color: #1b232e;
+  }
+  
+  .select_wrapper select:focus + label {
+    color: #1b232e;
+  }
+  
+  .select_wrapper select:focus {
+    outline: none;
+  }
+  
+  
+  button[type="submit"] {
+    margin-top: 1rem;
+    padding: 0.5rem 1rem;
+    background-color: #000000;
+    color: #fff;
+    border: 2.5px solid black;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-weight: bold;
+    line-height: 1.5;
+    cursor: pointer;
+  }
+  
+  button[type="submit"]:hover {
+    background-color: #ffffff;
+    color: #000000;
+    box-sizing: content-box;
+  }
+}
+
+.error_message {
+  margin-top: 1rem;
+  color: #dc3545;
+}
