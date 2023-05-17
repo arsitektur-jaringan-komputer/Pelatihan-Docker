@@ -1,0 +1,50 @@
+.edit_album {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 2rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  
+  h1 {
+    margin-top: 0;
+  }
+
+  label {
+    display: block;
+    margin-top: 1rem;
+  }
+
+  input[type="text"] {
+    display: block;
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+
+  button[type="submit"] {
+    margin-top: 1rem;
+    padding: 0.5rem 1rem;
+    background-color: #000000;
+    color: #fff;
+    border: 2.5px solid black;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-weight: bold;
+    line-height: 1.5;
+    cursor: pointer;
+  }
+  
+  button[type="submit"]:hover {
+    background-color: #ffffff;
+    color: #000000;
+    box-sizing: content-box;
+  }
+}
+
+.error_message {
+  margin-top: 1rem;
+  color: #dc3545;
+}
