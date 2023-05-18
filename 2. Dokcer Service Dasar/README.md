@@ -28,15 +28,15 @@
 
 #### Pengertian Docker Container
 
-Docker container adalah sebuah unit terisolasi yang berisi perangkat lunak dan semua dependensinya, yang dijalankan pada lingkungan yang terpisah dari host dan container lainnya. Dalam container, aplikasi dapat berjalan dengan konsisten di berbagai lingkungan meskipun terdapat perbedaan dalam konfigurasi dan infrastruktur.
+Docker Container adalah sebuah unit terisolasi yang berisi perangkat lunak dan semua dependensinya, yang dijalankan pada lingkungan yang terpisah dari host dan container lainnya. Dalam container, aplikasi dapat berjalan dengan konsisten di berbagai lingkungan meskipun terdapat perbedaan dalam konfigurasi dan infrastruktur.
 
-Docker container bisa diibaratkan seperti kotak berisi program dan semua bahan yang dibutuhkan agar program tersebut bisa berjalan dengan baik. Kotak ini dijalankan secara terpisah dari komputer aslinya, sehingga program dalam kotak ini dapat berjalan dengan konsisten pada berbagai lingkungan tanpa terpengaruh oleh konfigurasi dan infrastruktur yang ada pada komputer aslinya. Dengan Docker container, kita bisa dengan mudah mengelola dan menjalankan aplikasi di berbagai lingkungan tanpa harus khawatir dengan masalah konfigurasi dan dependensi.
+Docker Container bisa diibaratkan seperti kotak berisi program dan semua bahan yang dibutuhkan agar program tersebut bisa berjalan dengan baik. Kotak ini dijalankan secara terpisah dari komputer aslinya, sehingga program dalam kotak ini dapat berjalan dengan konsisten pada berbagai lingkungan tanpa terpengaruh oleh konfigurasi dan infrastruktur yang ada pada komputer aslinya. Dengan Docker Container,dapat dengan mudah mengelola dan menjalankan aplikasi di berbagai lingkungan tanpa harus khawatir dengan masalah konfigurasi dan dependensi.
 
 ![Docker-container](img/docker-container.jpeg)
 
 #### Perintah Docker Container
 
-Berikut adalah beberapa perintah penting beserta penjelasannya yang tersedia untuk memanage container pada docker.
+Berikut adalah beberapa perintah penting beserta penjelasannya yang tersedia untuk memanage container pada Docker.
 
 | Perintah  | Deskripsi                                                                                                                         |
 | --------- | --------------------------------------------------------------------------------------------------------------------------------- |
@@ -70,7 +70,7 @@ untuk lebih lengkapnya perintah perintah apa saja yang ada dan serta penjelasann
 
 #### Shell di Docker Container
 
-Ketika sebuah container dijalankan, ia berjalan di dalam lingkungan terisolasi yang terpisah dari lingkungan host. Oleh karena itu, tidak mungkin untuk menjalankan perintah langsung di dalam container menggunakan shell host (terminal local).
+Ketika sebuah container dijalankan, maka akan berjalan di dalam lingkungan terisolasi yang terpisah dari lingkungan host. Oleh karena itu, tidak mungkin untuk menjalankan perintah langsung di dalam container menggunakan shell host (terminal local).
 
 Untuk menggunakan shell di Docker Container bisa dengan menggunakan perintah **`docker exec [OPTIONS] <CONTAINER> <COMMAND> `** :
 
@@ -95,9 +95,9 @@ Contoh penggunaan:
 
 **`docker exec -it my_container /bin/sh`**
 
-Perintah di atas akan membuka shell di dalam container dengan nama **`my_container`**. Dengan ini, kita bisa melakukan perintah-perintah shell seperti biasa setelah masuk ke dalam shell tersebut. Untuk keluar dari shell gunakan perintah **`exit`**.
+Perintah di atas akan membuka shell di dalam container dengan nama **`my_container`**. Dengan ini, maka melakukan perintah-perintah shell seperti biasa bisa dilakukan setelah masuk ke dalam shell tersebut. Untuk keluar dari shell gunakan perintah **`exit`**.
 
-Namun, kita juga bisa melkukan docker exec tanpa harus measuk kedalam shell di dalam container tersebut.
+Namun, juga bisa melakukan Docker Exec tanpa harus masuk kedalam shell di dalam container tersebut.
 Contoh penggunaan :
 
 **`docker exec my_container ls /etc/nginx`**
@@ -110,11 +110,11 @@ Perintah di atas akan menampilkan isi dari direktori **`/etc/nginx`** di dalam c
 
 #### Pengertian Docker Image
 
-Docker images adalah template atau blueprints yang digunakan untuk membuat Docker containers. Image ini berisi sistem operasi dan aplikasi yang sudah dikonfigurasi dengan baik serta siap digunakan. Image dapat dibangun secara manual dengan membuat Dockerfile atau dapat diunduh dari Docker Hub, yaitu repositori publik yang menyediakan banyak image yang sudah siap digunakan.
+Docker Images adalah template atau blueprints yang digunakan untuk membuat Docker Containers. Image ini berisi sistem operasi dan aplikasi yang sudah dikonfigurasi dengan baik serta siap digunakan. Image dapat dibangun secara manual dengan membuat Dockerfile atau dapat diunduh dari Docker Hub, yaitu repositori publik yang menyediakan banyak image yang sudah siap digunakan.
 
-Docker images bersifat immutables, artinya setelah dibuat, image tidak bisa diubah secara langsung. Namun, image dapat dibuat baru dengan melakukan modifikasi pada image sebelumnya dan memberikan nama yang berbeda. Setiap image memiliki nama dan tag untuk mengidentifikasinya secara unik. Dalam Docker Hub, nama image biasanya terdiri dari beberapa bagian, seperti nama pengguna (username), nama image, dan tag, seperti contoh **`username/nama_image:tag`**.
+Docker Images bersifat immutables, artinya setelah dibuat, image tidak bisa diubah secara langsung. Namun, image dapat dibuat baru dengan melakukan modifikasi pada image sebelumnya dan memberikan nama yang berbeda. Setiap image memiliki nama dan tag untuk mengidentifikasinya secara unik. Dalam Docker Hub, nama image biasanya terdiri dari beberapa bagian, seperti nama pengguna (username), nama image, dan tag, seperti contoh **`username/nama_image:tag`**.
 
-Setelah image dibuat, bisa menggunakan perintah docker run untuk membuat instance dari image tersebut dalam bentuk container.
+Setelah image dibuat, bisa menggunakan perintah **`docker run`** untuk membuat instance dari image tersebut dalam bentuk container.
 
 #### Perintah Docker Image
 
@@ -144,7 +144,7 @@ Berikut adalah beberapa perintah penting beserta penjelasannya yang tersedia pad
 
 "Hello World" Docker Image adalah contoh sederhana dari sebuah image yang berisi aplikasi yang sangat sederhana, yaitu hanya mencetak kata "Hello World" pada layar. Image ini digunakan untuk menjelaskan secara singkat tentang bagaimana cara membuat Docker Image, membagikan image ke Docker Hub, serta cara menjalankan Docker Image dalam bentuk container. Image ini juga sering digunakan sebagai langkah awal ketika pertama kali belajar Docker.
 
-Berikut adalah langkah-langkah menggunakan Hello-World docker image.
+Berikut adalah langkah-langkah menggunakan Hello-World Docker image.
 
 1. Buka terminal atau command prompt dan ketikkan perintah **`docker run hello-world`**. Perintah ini akan mengunduh image "Hello World" dari Docker Hub jika image belum ada di dalam host lokal. Setelah itu, Docker akan menjalankan image tersebut dalam bentuk container dan aplikasi "Hello World" akan berjalan, mencetak kata "Hello from Docker!" pada layar, kemudian menampilkan informasi tambahan tentang Docker.
    ![Menjalankan docker image hello-world](img/run-hello-world.png)
@@ -160,23 +160,23 @@ Berikut adalah langkah-langkah menggunakan Hello-World docker image.
 
 ![Docker-image-layer](img/docker-image-layers.webp)
 
-Docker image layer adalah konsep penting dalam Docker yang memungkinkan pengguna untuk membuat, memperbarui, dan membagikan image Docker secara efisien. Image layer pada dasarnya adalah _file system_ baca saja yang menyimpan perubahan pada _file system_ pada suatu tahap dalam proses pembuatan image Docker.
+Docker Image layer adalah konsep penting dalam Docker yang memungkinkan pengguna untuk membuat, memperbarui, dan membagikan image Docker secara efisien. Image layer pada dasarnya adalah _file system_ baca saja yang menyimpan perubahan pada _file system_ pada suatu tahap dalam proses pembuatan image Docker.
 
 Setiap perubahan yang terjadi pada image Docker, seperti menambahkan file, memperbarui paket atau mengubah konfigurasi, akan ditambahkan ke layer baru dalam image Docker. Layer baru ini akan menjadi layer anak dari layer sebelumnya dalam image Docker, yang berarti bahwa setiap layer akan memiliki layer induk yang berbeda dan akan menambahkan perubahan pada layer sebelumnya.Sehingga, layer image baru hanya menyimpan perubahan yang terjadi pada layer image sebelumnya dan tidak perlu menyimpan seluruh image Docker. Oleh karena itu, image Docker terdiri dari beberapa layer yang bersama-sama membentuk sistem file root yang lengkap di dalam kontainer.
 
-Dan nantinya jika dilakukan `run` pada image akan menambah satu layer , yaitu writable layer yang disebut dengan `container layer`. Jadi dalam sebuah image kita tidak dapat melakukan edit `kecuali jika kita membuild image baru` dan hanya dapat melakukan edit saat nanti sudah dalam bentuk container.
+Dan nantinya jika dilakukan `run` pada image akan menambah satu layer , yaitu writable layer yang disebut dengan `container layer`. Jadi dalam sebuah image tidak dapat melakukan edit `kecuali jika melakukan uild image baru` dan hanya dapat melakukan edit saat nanti sudah dalam bentuk container.
 
 ![contoh-layer](img/docker-image-compare.jpg)
 
-Pada contoh diatas, pada saat `run` container pertama docker otomatis melakukan `pull` terlebih dahulu karena image yang dimaksud belum ada, namun ketika `run` untuk kedua kalinya dapat langsung di `run` tanpa melakukan `pull` terlebih dahulu.
+Pada contoh diatas, pada saat `run` container pertama Docker otomatis melakukan `pull` terlebih dahulu karena image yang dimaksud belum ada, namun ketika `run` untuk kedua kalinya dapat langsung di `run` tanpa melakukan `pull` terlebih dahulu.
 
-Hal ini dikarenakan satu image docker dapat digunakan oleh banyak container, sesuai dengan konsep docker image.
+Hal ini dikarenakan satu image Docker dapat digunakan oleh banyak container, sesuai dengan konsep Docker image.
 
 ### Dockerfile
 
 #### Pengertian Dockerfile
 
-Dockerfile adalah file teks yang berisi instruksi untuk membangun sebuah Docker image. Dalam Dockerfile, dapat menentukan berbagai komponen dan konfigurasi yang diperlukan untuk membuat sebuah image, seperti base image yang digunakan, perintah-perintah yang harus dijalankan, file yang harus di-copy, serta variabel lingkungan yang perlu di-set.
+Dockerfile adalah file teks yang berisi instruksi untuk membangun sebuah Docker Image. Dalam Dockerfile, dapat menentukan berbagai komponen dan konfigurasi yang diperlukan untuk membuat sebuah image, seperti base image yang digunakan, perintah-perintah yang harus dijalankan, file yang harus di-copy, serta variabel lingkungan yang perlu di-set.
 
 Dockerfile sangat penting dalam membangun sebuah image karena memungkinkan pengguna untuk membuat image dengan cara yang konsisten dan terdokumentasi dengan baik. Dengan Dockerfile, seorang developer dapat mereplikasi pengaturan dan konfigurasi yang sama setiap kali membangun sebuah image, bahkan pada lingkungan yang berbeda-beda.
 
@@ -259,7 +259,7 @@ sudo systemctl start nginx
 
 Berikut adalah contoh Dockerfile untuk untuk membuat sebuah image untuk mendeploy aplikasi **`index.html`** dengan menggunakan Nginx.
 
-```docker
+```dockerfile
 FROM nginx
 
  RUN apt-get update && apt-get upgrade -y
@@ -285,7 +285,7 @@ Dalam Dockerfile di atas, langkah-langkah yang dilakukan adalah sebagai berikut:
 
 ![mkdir](img/mkdir.jpg)
 
-2. Dalam direktori yang sudah tersebut, jalankan command `docker build -t <nama image>` untuk membuat image baru dari dockerfile yang sudah ada. Isi nama image sesuai dengan yang diinginkan.
+2. Dalam direktori yang sudah tersebut, jalankan command `docker build -t <nama image>` untuk membuat image baru dari Dockerfile yang sudah ada. Isi nama image sesuai dengan yang diinginkan.
 
 ![Docker-build](img/docker-build.jpg)
 
@@ -311,7 +311,7 @@ Docker Repository pada Docker Hub adalah tempat penyimpanan untuk Docker Images 
 
 #### Langkah-Langkah Penggunaan Docker Hub
 
-Berikut merupakan langkah-langkah untuk meletakkan image docker pada Docker Hub:
+Berikut merupakan langkah-langkah untuk meletakkan image Docker pada Docker Hub:
 
 1. Melakukan login docker
 
