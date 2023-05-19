@@ -11,7 +11,7 @@
       - [Sysdig](#sysdig)
     - [Jenis-Jenis Docker Monitoring](#jenis-jenis-docker-monitoring)
       - [Pemantauan Penggunaan CPU](#pemantauan-penggunaan-cpu)
-      - [Pemantauan Penggunaan Memory](#pemantauan-penggunaan-memory)
+      - [Pemantauan Penggunaan Memori](#pemantauan-penggunaan-memori)
       - [Pemantauan Penggunaan Jaringan](#pemantauan-penggunaan-jaringan)
       - [Pemantauan Filesystem](#pemantauan-filesystem)
       - [Pemantauan Log](#pemantauan-log)
@@ -19,12 +19,12 @@
   - [Docker Security](#docker-security)
     - [Pengertian Docker Security](#pengertian-docker-security)
     - [Ancaman Keamanan di Docker](#ancaman-keamanan-di-docker)
-      - [Container xEscape](#container-escape)
+      - [Container Escape](#container-escape)
       - [Container Breakout](#container-breakout)
       - [Container Poisoning](#container-poisoning)
       - [Container Sprawl](#container-sprawl)
       - [Container Hijacking](#container-hijacking)
-    - [Implementasi docker Security](#implementasi-docker-security)
+    - [Implementasi Docker Security](#implementasi-docker-security)
 - [**Sumber Referensi**](#sumber-referensi)
 
 ## Glosarium
@@ -64,7 +64,7 @@ Grafana menyediakan berbagai jenis visualisasi, termasuk grafik garis, grafik ba
 
 Selain itu, Grafana juga menyediakan kemampuan untuk membuat dashboard, yang memungkinkan untuk memperlihatkan informasi metrik yang penting dalam satu tampilan yang terpadu. Dashboard dapat disesuaikan dan dikonfigurasi dengan berbagai jenis panel visualisasi, dan dapat berisi informasi metrik dari berbagai sumber.
 
-Dalam lingkungan Docker monitoring, Grafana biasanya diintegrasikan dengan alat monitoring seperti Prometheus sehingga dapat memanfaatkan data metrik yang telah dikumpulkan. Grafana dapat diintegrasikan dengan mudah dengan platform seperti Docker Compose, Docker Swarm, atau Kubernetes, dan dapat digunakan bersama dengan alat monitoring lainnya seperti Alertmanager untuk menghasilkan alert ketika terjadi perubahan yang signifikan dalam kinerja aplikasi.
+Dalam lingkungan Docker monitoring, Grafana biasanya diintegrasikan dengan alat monitoring seperti Prometheus sehingga dapat memanfaatkan data metrik yang telah dikumpulkan. Grafana dapat diintegrasikan dengan mudah dengan platform seperti Docker Compose, Docker Swarm, atau Kubernetes, dan dapat digunakan bersama dengan alat monitoring lainnya seperti Alert Manager untuk menghasilkan alert ketika terjadi perubahan yang signifikan dalam kinerja aplikasi.
 
 Grafana juga menyediakan banyak plugin dan integrasi dengan berbagai layanan dan platform yang berbeda, sehingga memungkinkan untuk mengintegrasikan dengan berbagai sumber data lainnya, termasuk basis data, layanan cloud, dan alat monitoring lainnya.
 
@@ -103,14 +103,14 @@ Pemantauan Penggunaan CPU dapat dilakukan dengan menggunakan tools atau software
 
 Dalam praktiknya, pemantauan penggunaan CPU dilakukan dengan memantau beberapa parameter kunci, seperti persentase penggunaan CPU, load average, dan CPU utilization. Dengan memantau parameter-parameter ini secara teratur dapat mengidentifikasi kapan terjadi puncak penggunaan CPU, kapan terjadi bottleneck, dan kapan diperlukan untuk menambah kapasitas CPU untuk menjaga kinerja sistem atau aplikasi tetap optimal.
 
-#### Pemantauan Penggunaan Memory
-Memantau penggunaan memory pada Docker sangat penting karena memory adalah sumber daya yang sangat kritis dalam lingkungan Docker. Ketika container berjalan, itu harus mengalokasikan sejumlah memory untuk menjalankan aplikasi di dalamnya. Jika container kekurangan memory, performa aplikasi dapat menurun, dan dalam kasus ekstrim, dapat menyebabkan kegagalan aplikasi atau bahkan crash.
+#### Pemantauan Penggunaan memori
+Memantau penggunaan memori pada Docker sangat penting karena memori adalah sumber daya yang sangat kritis dalam lingkungan Docker. Ketika container berjalan, itu harus mengalokasikan sejumlah memori untuk menjalankan aplikasi di dalamnya. Jika container kekurangan memori, performa aplikasi dapat menurun, dan dalam kasus ekstrim, dapat menyebabkan kegagalan aplikasi atau bahkan crash.
 
-Docker menyediakan alat untuk memantau penggunaan memory pada container dengan menggunakan Docker Stats C ommand. Command ini dapat memberikan informasi terkini mengenai penggunaan CPU, memory, disk I/O, dan jaringan dari Docker Container yang sedang berjalan.
+Docker menyediakan alat untuk memantau penggunaan memori pada Docker Container dengan menggunakan Docker Stats Command. Command ini dapat memberikan informasi terkini mengenai penggunaan CPU, memori, disk I/O, dan jaringan dari Docker Container yang sedang berjalan.
 
-Selain itu, terdapat juga tool pihak ketiga yang dapat digunakan untuk memantau penggunaan memory pada Docker, seperti Prometheus dan Grafana. Kedua tool ini dapat digunakan untuk memantau berbagai aspek dari performa aplikasi Docker, termasuk penggunaan memory.
+Selain itu, terdapat juga tool pihak ketiga yang dapat digunakan untuk memantau penggunaan memori pada Docker, seperti Prometheus dan Grafana. Kedua tool ini dapat digunakan untuk memantau berbagai aspek dari performa aplikasi Docker, termasuk penggunaan memori.
 
-Dalam pemantauan penggunaan memory pada Docker, penting untuk memantau penggunaan memory pada tingkat host dan tingkat container. Memantau penggunaan memory pada tingkat host dapat membantu menentukan seberapa banyak memory yang tersedia untuk menjalankan container, sementara memantau penggunaan memory pada tingkat container dapat membantu menentukan seberapa banyak memory yang digunakan oleh aplikasi di dalam container.
+Dalam pemantauan penggunaan memori pada Docker, penting untuk memantau penggunaan memori pada tingkat host dan tingkat container. Memantau penggunaan memori pada tingkat host dapat membantu menentukan seberapa banyak memori yang tersedia untuk menjalankan container, sementara memantau penggunaan memori pada tingkat container dapat membantu menentukan seberapa banyak memori yang digunakan oleh aplikasi di dalam container.
 
 
 #### Pemantauan Penggunaan Jaringan
@@ -164,14 +164,14 @@ Berikut diagram implementasi Docker Monitoring
 
 1. Buat Compose file
 
-    Agar memudahkan untuk menginstal tools yang diperlukan untuk melakukan monitoring, maka buat sebuah file **`docker-compose.yml`** pada folder monitoring. File tersebut akan mendifinisikan service prometheus, Node Exporter, cAdvisor, dan Grafana, serta sebuah network bridge. Buat sebuah file **`docker-compose.yml`** pada folder monitoring dan paste kode berikut:
+    Agar memudahkan untuk menginstal tools yang diperlukan untuk melakukan monitoring, maka buat sebuah file **`docker-compose.yml`** pada folder monitoring. File tersebut akan mendefinisikan service prometheus, Node Exporter, cAdvisor, dan Grafana, serta sebuah network bridge. Buat sebuah file **`docker-compose.yml`** pada folder monitoring dan paste kode berikut:
 
     ```yaml
     version: '3.2'
     services:
     ######################################
     # Prometheus
-    # - runs on manager ndoe
+    # runs on manager node
     ######################################
     prometheus:
       image: prom/prometheus:latest
@@ -379,7 +379,7 @@ Berikut diagram implementasi Docker Monitoring
 
 3. Melakukan deploy service monitoring
 
-    Setelah melakukan konfigurasi pada file **`docker-compose.yml`** dan **`prometheus.yml`**, akan dilakukan deployment service yang telah di definisikan ke semua node pada cluster dengan menggunakan fitur pada Docker Swarm yaitu **`docker stack`**.
+    Setelah melakukan konfigurasi pada file **`docker-compose.yml`** dan **`prometheus.yml`**, akan dilakukan deployment service yang telah didefinisikan ke semua node pada cluster dengan menggunakan fitur pada Docker Swarm yaitu **`docker stack`**.
 
     ```bash
     docker stack deploy -c <path-to-file-compose> <stack-name>
@@ -437,7 +437,7 @@ Berikut diagram implementasi Docker Monitoring
 
     Grafana telah menyediakan fasilitas untuk bisa membuat berbagai macam dashboard sesuai kebutuhan. Atau melakukan import dashboard dari Grafana community. Pada step ini akan dilakukan pembuatan 2 dashboard masing-masing untuk monitoring container (cAdvisor) dan monitoring node (Node Exporter).
 
-    - Buka web Grafana dashboard, lalu search dashbaord sesuai kebutuhan.
+    - Buka web Grafana dashboard, lalu search dashboard sesuai kebutuhan.
     - Copy ID dashboard, kemudian buka tab dashboard dan load Dashboard Grafana menggunakan ID sebelumnya.
     ![import_Grafana_dashboard](img/import_grafana_dashboard.png)
 
@@ -447,7 +447,7 @@ Berikut diagram implementasi Docker Monitoring
     - Dashboard monitoring node (Node Exporter) sudah tersedia.
     ![dashboard_node](img/dashboard_node.png)
 
-    - Berikut dashboard monitoring container (cAdvisor) dengan mengimport dashbord Docker.
+    - Berikut dashboard monitoring container (cAdvisor) dengan mengimport dashboard Docker.
     ![dashboard_cadvisor](img/dashboard_cadvisor.png)
 
 ## Docker Security
@@ -457,7 +457,7 @@ Docker Security adalah upaya untuk menjaga keamanan pada Docker Container. Docke
 ### Ancaman Keamanan di Docker
 #### Container Escape
 
-Container Escape atau disebut juga Container Breakout merupakan risiko kemanan pada Docker dimana “malicious user” dapat memanfaatkan kerentanan aplikasi dalam container untuk menembus batas isolasi sehingga mendapatkan akses ke sumber daya sistem host.
+Container Escape atau disebut juga Container Breakout merupakan risiko keamanan pada Docker dimana “malicious user” dapat memanfaatkan kerentanan aplikasi dalam container untuk menembus batas isolasi sehingga mendapatkan akses ke sumber daya sistem host.
 
 Attacker yang memiliki akses ke container dapat mengeksploitasi berbagai kerentanan yang dapat menyebabkan Container Escape :
 
@@ -546,15 +546,15 @@ Setelah melakukan deploy terhadap monitoring setiap node dan container pada Swar
 
     Pada kode diatas, user baru **myuser** dan group baru **mygroup** dibuat sebelum melakukan instalasi package pada container. Setelah perintah **cmd**, Dockerfile akan membaca file untuk menggunakan user **myuser** pada container yang jalan dari image yang akan dibuild (contoh diatas image Backend).
 
-2. **Re-build image Push Images ke Registry**
+2. **Rebuild image Push Images ke Registry**
 
-    Selanjutnya akan dilakukan re-build image (backend dan frontend) dari Dockerfile yang sudah dimodifikasi
+    Selanjutnya akan dilakukan rebuild image (backend dan frontend) dari Dockerfile yang sudah dimodifikasi
 
     ```bash
     docker compose build
     ```
 
-    Setelah image baru telah ter-build, selanjutnya image baru tersebut akan di push ke Docker Registry.
+    Setelah image baru telah terbuild, selanjutnya image baru tersebut akan di push ke Docker Registry.
 
     ```bash
     docker push <ip-manager>:4000/frontend
@@ -601,7 +601,7 @@ Setelah melakukan deploy terhadap monitoring setiap node dan container pada Swar
 
     Di sini, keyword "external" digunakan untuk menunjukkan bahwa external secret yang telah dibuat sebelumnya digunakan ketika Docker berada dalam mode Swarm.
 
-    Kemudian tambahkan secret pada setiap service yang diperlukan. sebagai contoh berikut pada serrvice `db` :
+    Kemudian tambahkan secret pada setiap service yang diperlukan. sebagai contoh berikut pada service `db` :
 
     ```yaml
     version: '3.8'

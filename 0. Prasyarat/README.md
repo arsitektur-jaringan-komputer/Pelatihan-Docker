@@ -17,7 +17,7 @@ Sebelum masuk ke materi Docker Mastery Bootcamp: From Zero to Hero, pastikan sud
 
 ## Install Docker
 #### Windows
-1. Pastikan bahwa WSL2 sudah terinstall, jika belum, ikuti langkah-langkah di https://pureinfotech.com/install-windows-subsystem-linux-2-windows-10/ (cek versi win10 anda terlebih dahulu, jika versi 2004 ke atas (termasuk win11), langkah-langkahnya di atas, jika versi 1909 ke bawah, scroll ke bawah)
+1. Pastikan bahwa WSL2 sudah terinstall, jika belum, ikuti langkah-langkah di https://pureinfotech.com/install-windows-subsystem-linux-2-windows-10/ (cek versi win 10 anda terlebih dahulu, jika versi 2004 ke atas (termasuk win11), langkah-langkahnya di atas, jika versi 1909 ke bawah, scroll ke bawah)
 2. Download installer docker desktop di https://www.docker.com/products/docker-desktop (ukuran 490 MB) (docker desktop sudah include docker engine dan docker compose)
 3. Jalankan installernya, lalu pencet  ok/ install, lalu tunggu selama sekitar 2 menit
 4. Docker sudah terinstall
@@ -93,7 +93,7 @@ Sebelum masuk ke materi Docker Mastery Bootcamp: From Zero to Hero, pastikan sud
     ```
 
 ###### Fedora
-Di sini kami berasumsi kalian menggunakan Fedora workstation dan bukan server (jika anda sudah mahir dengan CLI seharusnya anda tidak butuh tutorial). Maka kami akan menyarankan anda menginstall Docker Desktop, yang sudah include Docker Engine dan Docker Compose.
+Disini diasumsikan menggunakan Fedora workstation dan bukan server (jika anda sudah mahir dengan CLI seharusnya anda tidak butuh tutorial). Maka kami akan menyarankan anda menginstall Docker Desktop, yang sudah include Docker Engine dan Docker Compose.
 
 1. Prasyarat
    - Gunakan versi 64-bit dari Docker 36 atau 37 (bukan 38)
@@ -216,7 +216,7 @@ https://www.docker.com/products/docker-desktop
 3. Jalankan aplikasinya dari Launchpad atau folder _Application_
 4. Jika muncul peringatan "Are you sure you want to open it?", tekan open
 5. Baca terms and condition dan tekan accept
-6. Pilih recomended setting dan tekan ok
+6. Pilih recommended setting dan tekan ok
 7. Masukkan password mac dan tunggu hingga proses selesai
 
 ##### Terminal
@@ -238,5 +238,5 @@ https://www.docker.com/products/docker-desktop
     ```
 5. Jika muncul peringatan "Are you sure you want to open it?", tekan open
 6. Baca terms and condition dan tekan accept
-7. Pilih recomended setting dan tekan ok
+7. Pilih recommended setting dan tekan ok
 8. Masukkan password mac dan tunggu hingga proses selesai

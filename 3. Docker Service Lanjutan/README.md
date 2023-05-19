@@ -59,7 +59,7 @@ Materi ketiga ini akan dibagi menjadi tiga topik bahasan, yaitu tentang Docker C
 ### Docker Compose
 #### Pengertian Docker Compose
 <img src="img/docker-compose.jpg" alt="Docker Compose" style="width:100%;">
-Docker Compose adalah sebuah alat atau tool untuk mengelola dan menjalankan aplikasi yang terdiri dari satu atau beberapa container. Docker Compose memungkinkan untuk mendefinisikan, mengonfigurasi, dan menjalankan beberapa Docker Container sekaligus dengan menggunakan file konfigurasi YAML yang sederhana.
+Docker Compose adalah sebuah alat atau tool untuk mengelola dan menjalankan aplikasi yang terdiri dari satu atau beberapa container. Docker Compose memungkinkan untuk mendefinisikan, mengkonfigurasi, dan menjalankan beberapa Docker Container sekaligus dengan menggunakan file konfigurasi YAML yang sederhana.
 
 Docker Compose juga dapat menentukan Docker Image untuk setiap Docker Container, mengatur pengaturan jaringan, menentukan volume yang dibutuhkan, dan melakukan konfigurasi lainnya dalam satu file konfigurasi. Selain itu, Docker Compose juga memudahkan proses pengaturan dan penyebaran aplikasi pada lingkungan produksi atau development yang berbeda dengan cara yang konsisten.
 
@@ -174,13 +174,13 @@ services:
       service: database
     ...
 ```
-Pada konfigurasi diatas, dilakukan inherintance dari konfigurasi docker-compose.yaml pada service **`frontend`** **`backend`** dan **`database`** serta melakukan perubahan pada service **`backend`** yaitu **`DB_HOST`** dan **`DB_PORT`**. 
+Pada konfigurasi diatas, dilakukan inheritance dari konfigurasi docker-compose.yaml pada service **`frontend`** **`backend`** dan **`database`** serta melakukan perubahan pada service **`backend`** yaitu **`DB_HOST`** dan **`DB_PORT`**. 
 
 Dengan cara ini, developer dapat membuat file konfigurasi yang lebih spesifik untuk setiap lingkungan, seperti production, staging, atau development, sementara masih mewarisi konfigurasi yang sama dari file konfigurasi yang lebih umum.
 
 #### Mengelola Docker Compose
 Berikut adalah beberapa perintah penting untuk mengelola Docker Compose beserta penjelasannya yang tersedia pada **`docker compose COMMAND`**.
-> **Catatan**<br>Apabila installasi Docker Compose dilakukan melalui standalone maka format perintahnya adalah **`docker-compose COMMAND`** 
+> **Catatan**<br>Apabila instalasi Docker Compose dilakukan melalui standalone maka format perintahnya adalah **`docker-compose COMMAND`** 
 
 | Perintah | Deskripsi |
 | ---   | --- |
@@ -243,7 +243,7 @@ Terdapat beberapa jenis Docker Mount sebagai berikut.
         POSTGRES_PASSWORD: mypassword
         POSTGRES_DB: mydb
     ```
-    Pada konfigurasi di atas, ditambahakan sebuah volume dengan nama **`./data`** yang akan diikatkan (bind) ke direktori **`/var/lib/postgresql/data`** di dalam container. Artinya, data yang dibuat atau dimodifikasi oleh service database akan disimpan dalam direktori **`./data`** di host. Dengan menambahkan konfigurasi volumes pada Docker Compose, maka data dari database akan tersimpan dan tidak hilang meskipun container dimatikan.
+    Pada konfigurasi di atas, ditambahkan sebuah volume dengan nama **`./data`** yang akan diikatkan (bind) ke direktori **`/var/lib/postgresql/data`** di dalam container. Artinya, data yang dibuat atau dimodifikasi oleh service database akan disimpan dalam direktori **`./data`** di host. Dengan menambahkan konfigurasi volumes pada Docker Compose, maka data dari database akan tersimpan dan tidak hilang meskipun container dimatikan.
 
     Selain melalui konfigurasi Docker Compose, mengelola Docker Volume dapat dilakukan dengan menggunakan perintah yang telah disediakan oleh Docker yang diantaranya akan dicontohkan sebagai berikut:
 
@@ -350,9 +350,9 @@ Terdapat beberapa jenis Docker Mount sebagai berikut.
     Keuntungan dari bind mount adalah fleksibilitasnya yang tinggi, karena memungkinkan akses langsung ke file di mesin host. Namun, Bind Mount tidak memberikan isolasi penuh antara mesin host dan container. Jika suatu file atau direktori pada host dihapus atau dimodifikasi, maka akan mempengaruhi container yang menggunakan bind mount tersebut.
 
 - ##### tmpfs Mount
-    tmpfs mount adalah salah satu jenis mount pada Docker yang memungkinkan untuk menyimpan data secara sementara di dalam memory RAM pada host. Dengan menggunakan tmpfs mount, data akan cepat diakses karena langsung disimpan di dalam memory RAM, namun data tersebut tidak akan persisten karena hanya disimpan di dalam memory dan tidak disimpan ke dalam disk fisik.
+    tmpfs mount adalah salah satu jenis mount pada Docker yang memungkinkan untuk menyimpan data secara sementara di dalam memori RAM pada host. Dengan menggunakan tmpfs mount, data akan cepat diakses karena langsung disimpan di dalam memori RAM, namun data tersebut tidak akan persisten karena hanya disimpan di dalam memori dan tidak disimpan ke dalam disk fisik.
 
-    Cara penggunaannya yaitu dengan menambahkan opsi **`--mount`** pada saat menjalankan container, lalu menentukan tipe mount tmpfs dan ukuran memory yang akan digunakan untuk menyimpan data. Berikut contoh perintah untuk menggunakan tmpfs mount dengan ukuran memory 100 MB pada container:
+    Cara penggunaannya yaitu dengan menambahkan opsi **`--mount`** pada saat menjalankan container, lalu menentukan tipe mount tmpfs dan ukuran memori yang akan digunakan untuk menyimpan data. Berikut contoh perintah untuk menggunakan tmpfs mount dengan ukuran memori 100 MB pada container:
 
     ```bash
     docker run -d \
@@ -402,7 +402,7 @@ Shared file system dapat digunakan pada berbagai jenis jaringan, termasuk jaring
 
 ### Docker Networking
 #### Pengenalan Docker Networking
-Dalam pengembangan dan implementasi aplikasi modern yang kompleks, penggunaan teknologi kontainer seperti Docker telah menjadi semakin umum. Docker memungkinkan para developer untuk memisahkan aplikasi dari lingkungan host dan infrastruktur di mana mereka dijalankan, sehingga memungkinkan lebih banyak fleksibilitas dan portabilitas.
+Dalam pengembangan dan implementasi aplikasi modern yang kompleks, penggunaan teknologi container seperti Docker telah menjadi semakin umum. Docker memungkinkan para developer untuk memisahkan aplikasi dari lingkungan host dan infrastruktur di mana mereka dijalankan, sehingga memungkinkan lebih banyak fleksibilitas dan portabilitas.
 
 Namun, ketika menjalankan beberapa container pada satu host, perlu untuk memungkinkan container untuk berkomunikasi satu sama lain, dan juga terhubung ke sumber daya di luar container seperti jaringan host atau jaringan eksternal. Disinilah Docker Networking berperan.
 
@@ -412,19 +412,19 @@ Tanpa Docker Networking, setiap container berjalan pada subnet yang terisolasi, 
 
 Selain itu, Docker Networking memungkinkan pengguna untuk membuat lingkungan jaringan yang aman dan terisolasi di mana setiap container dapat berinteraksi satu sama lain, tetapi tetap terpisah dari lingkungan jaringan host. Ini memungkinkan para developer untuk menciptakan aplikasi yang lebih aman dan lebih mudah untuk dikelola, serta memfasilitasi pengembangan dan implementasi skala besar.
 
-Oleh karena itu, Docker Networking adalah komponen kunci dalam penggunaan Docker Container dengan memungkinkan container untuk berkomunikasi satu sama lain dan terhubung ke sumber daya di luar container. Docker Networking memungkinkan para developer untuk menciptakan aplikasi yang lebih fleksibel, portabel, aman, dan mudah dielola.
+Oleh karena itu, Docker Networking adalah komponen kunci dalam penggunaan Docker Container dengan memungkinkan container untuk berkomunikasi satu sama lain dan terhubung ke sumber daya di luar container. Docker Networking memungkinkan para developer untuk menciptakan aplikasi yang lebih fleksibel, portabel, aman, dan mudah dikelola.
 
 #### Konsep Dasar di Docker Networking
 - ##### Docker Network Driver
-    Docker Network Driver adalah komponen utama yang memungkinkan Docker Container terhubung ke jaringan. Network Driver adalah plug-in yang diinstal pada host Docker dan mengatur bagaimana container terhubung ke jaringan.
+    Docker Network Driver adalah komponen utama yang memungkinkan Docker Container terhubung ke jaringan. Network Driver adalah plugin yang diinstal pada host Docker dan mengatur bagaimana container terhubung ke jaringan.
 
     Docker menyediakan beberapa jenis Network Driver yang berbeda, masing-masing dengan karakteristik yang unik, dan memungkinkan pengguna untuk memilih Network Driver yang tepat untuk kebutuhan aplikasi mereka. Berikut adalah beberapa jenis Network Driver yang tersedia di Docker: **`bridge network`**, **`host network`**, **`overlay network`**, **`ipvlan`**, **`macvlan network`**, **`network plugins`**. Detail pembahasan akan dijelaskan pada sub materi [Jenis-Jenis Docker Network Driver](https://github.com/arsitektur-jaringan-komputer/Pelatihan-Docker/tree/master/3.%20Docker%20Service%20Lanjutan#jenis-jenis-docker-network-driver)
 
-    Dengan pemilihan Network Driver yang tepat, pengguna dapat memaksimalkan fleksibilitas, portabilitas, dan keamanan aplikas di dalam container.
+    Dengan pemilihan Network Driver yang tepat, pengguna dapat memaksimalkan fleksibilitas, portabilitas, dan keamanan aplikasi di dalam container.
 
 - ##### IP Address Management
 
-    IP Address Management (IPAM) adalah proses manajemen alamat IP di dalam jaringan Docker. Docker memungkinkan pengguna untuk mengontrol pengaturan IP pada setiap jaringan yang dibuat, termasuk pemberian alamat IP secara otomatis atau manual. Penjelasan detail mengenail IP Address dapat dilihat pada [Jarkom Modul 4](#https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/tree/master/Modul-4).
+    IP Address Management (IPAM) adalah proses manajemen alamat IP di dalam jaringan Docker. Docker memungkinkan pengguna untuk mengontrol pengaturan IP pada setiap jaringan yang dibuat, termasuk pemberian alamat IP secara otomatis atau manual. Penjelasan detail mengenai IP Address dapat dilihat pada [Jarkom Modul 4](#https://github.com/arsitektur-jaringan-komputer/Modul-Jarkom/tree/master/Modul-4).
 
     Dalam Docker, setiap container dapat memiliki alamat IP unik pada jaringan tertentu. IPAM memastikan bahwa alamat IP yang diberikan pada container tidak bertabrakan dengan alamat IP yang sudah ada di jaringan, sehingga mencegah masalah komunikasi dan konflik alamat IP.
 
@@ -530,7 +530,7 @@ Oleh karena itu, Docker Networking adalah komponen kunci dalam penggunaan Docker
     - Skalabilitas: Plugin memungkinkan pengguna untuk memperluas kapasitas jaringan Docker ke dalam sistem jaringan yang lebih besar, sehingga memungkinkan pengguna untuk mengelola jaringan Docker dengan lebih efisien.
 
     Kekurangan dari menggunakan Docker Network Plugin adalah:
-    - Kompleksitas: Penggunaan plugin memerlukan pengetahuan yang lebih dalam tentang jaringan dan konfigurasi Docker, sehingga memerlukan waktu dan usaha yang lebih banyak untuk mengonfigurasi dan mengelola jaringan Docker.
+    - Kompleksitas: Penggunaan plugin memerlukan pengetahuan yang lebih dalam tentang jaringan dan konfigurasi Docker, sehingga memerlukan waktu dan usaha yang lebih banyak untuk mengkonfigurasi dan mengelola jaringan Docker.
 
     - Ketergantungan: Penggunaan plugin memerlukan ketergantungan pada plugin yang diinstal, sehingga jika plugin tidak tersedia atau mengalami masalah, maka jaringan Docker tidak dapat digunakan dengan efektif.
 
