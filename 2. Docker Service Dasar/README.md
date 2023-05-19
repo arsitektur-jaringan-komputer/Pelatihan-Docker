@@ -1,5 +1,4 @@
 # **Docker Service Dasar**
-
 - [**Glosarium**](#glosarium)
 - [**Materi**](#materi)
   - [Docker Container](#️docker-container)
@@ -212,7 +211,7 @@ Pada sub materi ini, akan diberikan contoh implementasi Dockerfile untuk sebuah 
 
 Nginx adalah sebuah web server yang dapat digunakan sebagai reverse proxy, load balancer, mail proxy, dan HTTP cache. Nginx dikembangkan oleh Igor Sysoev pada tahun 2002 untuk digunakan pada situs dengan traffic tinggi. Nginx dapat digunakan sebagai pengganti Apache karena memiliki fitur yang lebih ringan dan cepat. Nginx bekerja dengan cara memproses request yang masuk dari client dan mengirimkan response berupa file HTML atau data lainnya.
 
-Untuk dapat menjalankan Nginx di local dapat menginstallnya dengan menggunakan perintah berikut:
+Untuk dapat menjalankan Nginx di local dapat menginstalnya dengan menggunakan perintah berikut:
 
 ```shell
 sudo apt install nginx
@@ -247,9 +246,9 @@ server {
 
 - **`index index.html index.htm index.nginx-debian.html`**: menunjukkan urutan file indeks yang akan dicari oleh Nginx jika permintaan tidak menyebutkan nama file.
 
-- **`server_name _`**: mengonfigurasi server untuk merespons permintaan yang datang ke semua host.
+- **`server_name _`**: mengkonfigurasi server untuk merespons permintaan yang datang ke semua host.
 
-- **`location /`** menentukan bagaimana Nginx akan menangani permintaan yang diterima. Di sini, Nginx akan mencoba mencari file yang diminta dalam direktori root, dan jika tidak ditemukan, akan memberikan respons 404 Not Found.
+- **`location /`** menentukan bagaimana Nginx akan menangani permintaan yang diterima. Di sini, Nginx akan mencoba mencari file yang diminta dalam direktori root, dan jika tidak ditemukan, akan memberikan response **`404 Not Found`**.
 
 Dan jika konfigurasi sudah benar (bisa dicek dengan **`nginx -t`**) maka dapat menjalankan Nginx dengan perintah berikut:
 
@@ -293,7 +292,7 @@ Dalam Dockerfile di atas, langkah-langkah yang dilakukan adalah sebagai berikut:
 3. Lalu cek pada **`docker image ls`** , apakah image yang dibuild sudah tersedia.
 ![Docker image ls](img/docker-ls.jpg)
 
-4. Selanjutnya image yang sudah ada dapat di gunakan, dengan command **`docker run -d -p 8080:80 <nama image>`** untuk menjalankan sebuah container dari image tersebut. Cek dengan **`docker ps`** apakah container sudah berjalan.
+4. Selanjutnya image yang sudah ada dapat digunakan, dengan command **`docker run -d -p 8080:80 <nama image>`** untuk menjalankan sebuah container dari image tersebut. Cek dengan **`docker ps`** apakah container sudah berjalan.
 ![Docker-run](img/run-container.jpg)
 
 5. Kunjungi hasil running container pada **`localhost:8080`** maka akan muncul tampilan website 'Welcome to Nginx'.

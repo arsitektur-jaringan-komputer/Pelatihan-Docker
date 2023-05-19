@@ -28,7 +28,7 @@
 ## Materi
 ### Microservice
 #### Pengertian Microservice
-Microservice adalah sebuah pendekatan arsitektur perangkat lunak untuk membangun sebuah aplikasi dengan memecahnya menjadi beberapa komponen kecil yang berdiri sendiri (independen) dan saling berkomunikasi melalui antarmuka yang terstandardisasi. Dalam arsitektur microservice, setiap komponen atau service memiliki tanggung jawab yang spesifik dan dijalankan secara independen dari komponen lainnya.
+Microservice adalah sebuah pendekatan arsitektur perangkat lunak untuk membangun sebuah aplikasi dengan memecahnya menjadi beberapa komponen kecil yang berdiri sendiri (independen) dan saling berkomunikasi melalui antarmuka yang terstandarisasi. Dalam arsitektur microservice, setiap komponen atau service memiliki tanggung jawab yang spesifik dan dijalankan secara independen dari komponen lainnya.
 
 ![Aplikasi microservice](img/microservice.png)
 
@@ -39,7 +39,7 @@ Namun, di sisi lain, menggunakan arsitektur microservice juga memiliki beberapa 
 #### Karakteristik Microservice
 
 - Autonomous
-Salah satu karakteristik penting dari aplikasi microservice adalah keberadaan setiap komponen atau layanan yang dapat beroperasi secara independen. Dengan arsitektur microservice, setiap komponen dapat dikembangkan, di-deploy, di-operasikan, dan diskalakan tanpa mempengaruhi komponen atau layanan lain. Dengan kata lain, setiap komponen dapat berjalan seperti sistem yang mandiri, dan jika terjadi masalah pada salah satu komponen, hanya layanan tersebut yang akan terpengaruh.
+Salah satu karakteristik penting dari aplikasi microservice adalah keberadaan setiap komponen atau layanan yang dapat beroperasi secara independen. Dengan arsitektur microservice, setiap komponen dapat dikembangkan, di-deploy, dioperasikan, dan diskalakan tanpa mempengaruhi komponen atau layanan lain. Dengan kata lain, setiap komponen dapat berjalan seperti sistem yang mandiri, dan jika terjadi masalah pada salah satu komponen, hanya layanan tersebut yang akan terpengaruh.
 
 - Service-oriented
 Aplikasi microservice dirancang dengan orientasi pada layanan. Setiap komponen aplikasi dirancang untuk melakukan satu tugas atau layanan khusus. Hal ini membuat aplikasi lebih modular dan memudahkan pengembangan dan pemeliharaannya.
@@ -94,7 +94,7 @@ Beberapa keunggulan dari mekanisme database record pada inter-container communic
 
 - Konsistensi data - Inter-container communication dengan database records memastikan bahwa setiap container menggunakan data yang sama dari database yang sama, sehingga menjaga konsistensi data di seluruh aplikasi.
 - Penghematan waktu - Penggunaan inter-container communication dengan database records memungkinkan container untuk berbagi data tanpa harus mengirimkan data melalui jaringan, sehingga dapat menghemat waktu dan meningkatkan kecepatan aplikasi.
-- Skalabilitas - Dengan menggunakan database yang sama untuk semua container, aplikasi dapat dengan mudah ditingkatkan dengan menambahkan atau menghapus container tanpa memengaruhi konsistensi data.
+- Skalabilitas - Dengan menggunakan database yang sama untuk semua container, aplikasi dapat dengan mudah ditingkatkan dengan menambahkan atau menghapus container tanpa mempengaruhi konsistensi data.
 
 Namun, penggunaan mekanisme database record juga memiliki beberapa kelemahan, seperti:
 
@@ -177,7 +177,7 @@ Untuk melihat semua node yang terdapat dalam Docker Swarm, dapat menggunakan per
 ##### Service
 Pada Docker Swarm, service adalah objek yang digunakan untuk mengelola dan menjalankan aplikasi dalam klaster. Sebuah service dapat berjalan pada satu atau lebih container, dan dapat dipasang pada satu atau beberapa node dalam klaster Docker Swarm.
 
-![Service pada Docker Swarm](img/docker-swarm-service.png)
+<img src="img/docker-swarm-service.png" alt="Service pada Docker Swarm" style="width:100%;">
 
 Untuk membuat sebuah service pada Docker Swarm dapat dilakukan menggunakan perintah **`docker service create`**. Perintah ini menentukan konfigurasi dari service seperti nama, jumlah instance, image container, jaringan, port, dan volume yang akan digunakan oleh container. Selain itu juga dapat menentukan kriteria yang digunakan oleh Docker Swarm untuk menyeimbangkan beban (load balancing) antara container-container yang berjalan pada node-node dalam klaster.
 
@@ -202,31 +202,30 @@ Setiap task pada Docker Swarm memiliki task states. Task states adalah status da
 
 | Task State | Deskripsi |
 | --- | ---- |
-| **`NEW`** | Task baru telah dibuat, tetapi belum dimulai. |
-| **`PENDING`** | Task sedang menunggu resource yang diperlukan untuk dimulai, seperti image container atau jaringan.
-| **`ASSIGNED`** | Container untuk task telah dimulai, tetapi task belum dimulai.
-| **`ACCEPTED`** | Task diterima oleh Worker node |
-| **`READY`** | Worker node siap untuk memulai task |
-| **`PREPARING`** |	Task sedang dalam proses persiapan, seperti download image atau mounting volume.
-| **`STARTING`** | Task sedang dalam proses memulai. |
-| **`RUNNING`** |	Task sedang berjalan. |
-| **`COMPLETE`** |	Task telah selesai dijalankan. |
-| **`FAILED`** |	Task gagal karena terjadi error. |
-| **`SHUTDOWN`** | Docker mengirim sebuah permintaan untuk mematikan task |
-| **`REJECTED`** |	Task ditolak oleh Worker node karena ada masalah dengan persyaratan task atau worker node. |
-| **`ORPHANED`** |	Task tidak terikat ke service mana pun karena masalah pada worker node atau task itu sendiri. |
-| **`REMOVE`** | Task dihapus oleh service meskipun belum selesai dijalankan |
+| `NEW` | Task baru telah dibuat, tetapi belum dimulai. |
+| `PENDING` | Task sedang menunggu resource yang diperlukan untuk dimulai, seperti image container atau jaringan.
+| `ASSIGNED` | Container untuk task telah dimulai, tetapi task belum dimulai.
+| `ACCEPTED` | Task diterima oleh Worker node |
+| `READY` | Worker node siap untuk memulai task |
+| `PREPARING` |	Task sedang dalam proses persiapan, seperti download image atau mounting volume.
+| `STARTING` | Task sedang dalam proses memulai. |
+| `RUNNING` |	Task sedang berjalan. |
+| `COMPLETE` |	Task telah selesai dijalankan. |
+| `FAILED` |	Task gagal karena terjadi error. |
+| `SHUTDOWN` | Docker mengirim sebuah permintaan untuk mematikan task |
+| `REJECTED` |	Task ditolak oleh Worker node karena ada masalah dengan persyaratan task atau worker node. |
+| `ORPHANED` |	Task tidak terikat ke service mana pun karena masalah pada worker node atau task itu sendiri. |
+| `REMOVE` | Task dihapus oleh service meskipun belum selesai dijalankan |
 
 Untuk dapat mengakses informasi tentang task dengan menggunakan perintah **`docker service ps <nama_service>`**. Perintah ini dapat untuk melihat informasi tentang task seperti ID, nama task, status, node yang menjalankan task, dan port yang digunakan oleh task tersebut.
 
 ![Contoh task](img/docker-service-ps.png)
 
-Task sangat berguna dalam Docker Swarm karena memungkinkan untuk menjalankan aplikasi pada berbagai node dalam klaster dengan mudah dan otomatis. Dengan menggunakan tast dapat memastikan bahwa aplikasi yang dijalankan pada seluruh node dalam klaster memiliki konfigurasi yang serupa dan konsisten, sehingga memudahkan dalam manajemen dan pengembangan aplikasi.
+Task sangat berguna dalam Docker Swarm karena memungkinkan untuk menjalankan aplikasi pada berbagai node dalam klaster dengan mudah dan otomatis. Dengan menggunakan test dapat memastikan bahwa aplikasi yang dijalankan pada seluruh node dalam klaster memiliki konfigurasi yang serupa dan konsisten, sehingga memudahkan dalam manajemen dan pengembangan aplikasi.
 
 ##### Overlay Network
 Masih ingatkah kalian dengan bahasan overlay network pada modul 3? Pada materi ini akan dibahas tentang overlay network pada Docker Swarm. Overlay network adalah salah satu jenis jaringan pada Docker Swarm yang memungkinkan komunikasi antara container yang dijalankan pada node-node yang berbeda dalam klaster Docker Swarm. Dengan menggunakan overlay network, container-container pada klaster dapat berkomunikasi satu sama lain tanpa perlu mengetahui lokasi fisik masing-masing container.
-
-![Overlay network pada Docker Swarm](img/docker-swarm-overlay-network.png)
+<img src="img/docker-swarm-overlay-network.png" alt="Overlay network pada Docker Swarm" style="width:100%;">
 
 Overlay network pada Docker Swarm juga mendukung fitur load balancing, yaitu ketika sebuah request masuk ke sebuah service, Docker Swarm akan menyebar request tersebut ke salah satu task yang berjalan pada node yang paling sedikit beban nya. Hal ini membuat service yang dijalankan pada Docker Swarm dapat menangani request secara efisien dan terdistribusi pada setiap node dalam klaster.
 
@@ -273,7 +272,7 @@ Untuk menginisiasi Docker Swarm, pada manager node jalankan perintah berikut.
 docker swarm init --advertise-addr <ip-address-manager>
 ```
 
-Setelah itu, manager node akan memberikan token beserta cara mengoneksikan worker node pada Docker Swarm yang sudah dibuat.
+Setelah itu, manager node akan memberikan token beserta cara mengkoneksikan worker node pada Docker Swarm yang sudah dibuat.
 
 ![Initiate Docker Swarm](img/docker-swarm-init.png)
 
@@ -299,7 +298,7 @@ Lalu masuk ke directory **`Pelatihan Docker/4. Membangun Aplikasi di Docker/comp
 
 #### 3. Konfigurasi File Nginx
 
-> Jika tidak memiliki domain name atau tidak ingin mengonfigurasikan domain name ke aplikasi, maka langkah ini bisa dilewati dan bisa langsung ke langkah [4. Konfigurasi File Environment](#4-konfigurasi-file-environment)
+> Jika tidak memiliki domain name atau tidak ingin mengkonfigurasikan domain name ke aplikasi, maka langkah ini bisa dilewati dan bisa langsung ke langkah [4. Konfigurasi File Environment](#4-konfigurasi-file-environment)
 
 Pada folder **`nginx/`** terdapat 2 file, **`nginx-frontend.conf`** dan **`nginx-backend.conf`** yang perlu dikonfigurasi. Caranya dengan mengganti nilai **`server_name`** dari **`localhost`** ke domain name masing-masing
 
@@ -316,8 +315,8 @@ NEXT_PUBLIC_APP_NAME="<nama-aplikasi>"
 NEXT_PUBLIC_API_ENDPOINT="http://<alamat-nginx-backend>/" 
 ```
 
-* **`NEXT_PUBLIC_APP_NAME`**: Nama dari aplikasi yang akan ditampilkan di Frontned
-* **`NEXT_PUBLIC_API_ENDPOINT`**: Alamat dari web server untuk **`backend`**, dapat diisi dengan domain name atau IP publick manager node
+* **`NEXT_PUBLIC_APP_NAME`**: Nama dari aplikasi yang akan ditampilkan di Frontend
+* **`NEXT_PUBLIC_API_ENDPOINT`**: Alamat dari web server untuk **`backend`**, dapat diisi dengan domain name atau IP public manager node
 
 #### 5. Menyiapkan Docker Registry
 
@@ -341,7 +340,7 @@ Setelah itu konfigurasi setiap node agar dapat mengakses registry pada jaringan 
 
 Masih ingatkah kalian dengan materi Network File System (NFS) pada [Modul 3](https://github.com/arsitektur-jaringan-komputer/Pelatihan-Docker/tree/master/3.%20Docker%20Service%20Lanjutan). Penggunaan NFS pada docker swarm sangatlah penting, khususnya agar ketika aplikasi dideploy ulang, isi dari database tidak hilang. Selain itu ketika memiliki lebih dari 1 sistem database, maka dapat dipastikan bahwa isinya sama.
 
-Untuk menggunakan NFS, perlu menginstall **`nfs-kernel-server`** dengan menjalankan perintah berikut.
+Untuk menggunakan NFS, perlu menginstal **`nfs-kernel-server`** dengan menjalankan perintah berikut.
 
 ```
 sudo apt install nfs-kernel-server
